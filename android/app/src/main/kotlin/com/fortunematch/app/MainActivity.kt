@@ -1,4 +1,4 @@
-package com.talkclear.talkclear
+package com.fortunematch.app
 
 import io.flutter.embedding.android.FlutterActivity
 
