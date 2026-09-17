@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
@@ -34,6 +35,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
   void _openTarotFlow() {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: false,
       isScrollControlled: true,
       backgroundColor: const Color(0xFF070A12),
       shape: const RoundedRectangleBorder(
@@ -103,6 +105,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
   void _showBirthInputSheet(FortuneSubMenu menu) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: false,
       isScrollControlled: true,
       backgroundColor: const Color(0xFF0D1224),
       shape: const RoundedRectangleBorder(
@@ -328,9 +331,10 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
 
           // 2. Dopamine Snack Teaser Card
           SnackTeaserCard(
+            currentRegion: widget.currentRegion,
             onTap: () {
               _analyzeFortuneWithAd(
-                title: '오늘의 최적 금전운 타임라인',
+                title: AppI18n.tr('wealth_golden_time', widget.currentRegion),
                 category: '도파민 스낵',
               );
             },
@@ -344,7 +348,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
             children: [
               Flexible(
                 child: Text(
-                  '${widget.currentRegion.label} 맞춤 운세 큐레이션',
+                  '${widget.currentRegion.label} ${AppI18n.tr('curated_fortune_title', widget.currentRegion)}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -419,9 +423,9 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 3),
-                        const Text(
-                          '심층 리포트 >',
-                          style: TextStyle(color: Color(0xFF00E5FF), fontSize: 10),
+                        Text(
+                          AppI18n.tr('deep_report_btn', widget.currentRegion),
+                          style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 10),
                         ),
                       ],
                     ),

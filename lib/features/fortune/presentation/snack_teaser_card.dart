@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../../core/localization/app_i18n.dart';
+import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 
 class SnackTeaserCard extends StatelessWidget {
   final VoidCallback onTap;
+  final SupportedRegion currentRegion;
 
-  const SnackTeaserCard({super.key, required this.onTap});
+  const SnackTeaserCard({
+    super.key,
+    required this.onTap,
+    this.currentRegion = SupportedRegion.korea,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +33,14 @@ class SnackTeaserCard extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.bolt, color: Colors.black, size: 14),
-                    SizedBox(width: 2),
+                    const Icon(Icons.bolt, color: Colors.black, size: 14),
+                    const SizedBox(width: 2),
                     Text(
-                      '오늘의 도파민 시크릿',
-                      style: TextStyle(
+                      AppI18n.tr('today_dopamine_secret', currentRegion),
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
@@ -47,11 +54,11 @@ class SnackTeaserCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          const Text(
-            '오늘 당신에게 금전운이 터지는 최적 시간',
-            style: TextStyle(
+          Text(
+            AppI18n.tr('wealth_golden_time', currentRegion),
+            style: const TextStyle(
               color: SpaceNavyTheme.textPrimary,
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -68,15 +75,18 @@ class SnackTeaserCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Text(
-                  '상세 행동 요령 열기 >',
-                  style: TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    AppI18n.tr('open_action_guide', currentRegion),
+                    style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],
@@ -84,14 +94,14 @@ class SnackTeaserCard extends StatelessWidget {
           const SizedBox(height: 10),
           const Divider(color: Colors.white10),
           const SizedBox(height: 6),
-          const Row(
+          Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: Color(0xFFFF5252), size: 14),
-              SizedBox(width: 6),
+              const Icon(Icons.warning_amber_rounded, color: Color(0xFFFF5252), size: 14),
+              const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  '주의: 오늘 당신의 에너지를 뺏는 사람: 목(木) 기운이 강한 인물',
-                  style: TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                  AppI18n.tr('energy_warning_snack', currentRegion),
+                  style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

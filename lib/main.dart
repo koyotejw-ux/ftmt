@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'core/localization/app_i18n.dart';
 import 'core/localization/geo_detector.dart';
 import 'core/theme/aura_painter.dart';
 import 'core/theme/space_navy_theme.dart';
 import 'features/economy/data/heart_wallet_repository.dart';
 import 'features/fortune/presentation/fortune_hub_screen.dart';
 import 'features/match/presentation/match_hub_screen.dart';
+import 'features/economy/presentation/shop_screen.dart';
 import 'features/economy/presentation/vault_screen.dart';
+import 'features/settings/presentation/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,8 +90,17 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
       MatchHubScreen(
         currentRegion: widget.currentRegion,
       ),
+      ShopScreen(
+        wallet: widget.wallet,
+        currentRegion: widget.currentRegion,
+      ),
       VaultScreen(
         wallet: widget.wallet,
+        currentRegion: widget.currentRegion,
+      ),
+      SettingsScreen(
+        currentRegion: widget.currentRegion,
+        onRegionChanged: widget.onRegionChanged,
       ),
     ];
 
@@ -140,21 +152,31 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
             selectedIndex: _currentIndex,
             indicatorColor: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2),
             onDestinationSelected: (idx) => setState(() => _currentIndex = idx),
-            destinations: const [
+            destinations: [
               NavigationDestination(
-                icon: Icon(Icons.auto_awesome_outlined, color: Colors.white60),
-                selectedIcon: Icon(Icons.auto_awesome, color: SpaceNavyTheme.goldChampagne),
-                label: '운세 (Fortune)',
+                icon: const Icon(Icons.auto_awesome_outlined, color: Colors.white60),
+                selectedIcon: const Icon(Icons.auto_awesome, color: SpaceNavyTheme.goldChampagne),
+                label: AppI18n.tr('nav_fortune', widget.currentRegion),
               ),
               NavigationDestination(
-                icon: Icon(Icons.favorite_border, color: Colors.white60),
-                selectedIcon: Icon(Icons.favorite, color: Colors.pinkAccent),
-                label: '궁합 (Match)',
+                icon: const Icon(Icons.favorite_border, color: Colors.white60),
+                selectedIcon: const Icon(Icons.favorite, color: Colors.pinkAccent),
+                label: AppI18n.tr('nav_match', widget.currentRegion),
               ),
               NavigationDestination(
-                icon: Icon(Icons.folder_shared_outlined, color: Colors.white60),
-                selectedIcon: Icon(Icons.folder_shared, color: Color(0xFF00E5FF)),
-                label: '보관함 (Vault)',
+                icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white60),
+                selectedIcon: const Icon(Icons.shopping_bag, color: SpaceNavyTheme.goldChampagne),
+                label: AppI18n.tr('nav_shop', widget.currentRegion),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.folder_shared_outlined, color: Colors.white60),
+                selectedIcon: const Icon(Icons.folder_shared, color: Color(0xFF00E5FF)),
+                label: AppI18n.tr('nav_vault', widget.currentRegion),
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.settings_outlined, color: Colors.white60),
+                selectedIcon: const Icon(Icons.settings, color: Colors.white),
+                label: AppI18n.tr('nav_settings', widget.currentRegion),
               ),
             ],
           ),

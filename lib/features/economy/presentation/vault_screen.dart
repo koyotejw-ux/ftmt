@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../core/localization/app_i18n.dart';
+import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../../economy/data/heart_wallet_repository.dart';
@@ -6,8 +8,13 @@ import '../../economy/presentation/heart_shop_bottom_sheet.dart';
 
 class VaultScreen extends StatefulWidget {
   final HeartWalletRepository wallet;
+  final SupportedRegion currentRegion;
 
-  const VaultScreen({super.key, required this.wallet});
+  const VaultScreen({
+    super.key,
+    required this.wallet,
+    this.currentRegion = SupportedRegion.korea,
+  });
 
   @override
   State<VaultScreen> createState() => _VaultScreenState();
@@ -125,14 +132,17 @@ class _VaultScreenState extends State<VaultScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                '저장된 인연 보관함 (Vault)',
-                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              Text(
+                AppI18n.tr('vault_title', widget.currentRegion),
+                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
               ),
               TextButton.icon(
                 onPressed: _addNewProfile,
                 icon: const Icon(Icons.person_add_alt_1, color: Color(0xFF00E5FF), size: 16),
-                label: const Text('인연 등록', style: TextStyle(color: Color(0xFF00E5FF), fontSize: 13)),
+                label: Text(
+                  AppI18n.tr('add_person_btn', widget.currentRegion),
+                  style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 13),
+                ),
               ),
             ],
           ),

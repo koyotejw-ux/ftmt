@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
@@ -95,56 +96,59 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
           const SizedBox(height: 18),
 
-          // 1. Dual Aura Collision & Spark Visual
+          // 1. Dual Aura Collision & Spark Visual (Expanded area without clipping)
           GlassBox(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             backgroundColor: const Color(0xFF0D1224).withValues(alpha: 0.8),
             child: Column(
               children: [
                 SizedBox(
-                  height: 140,
+                  height: 170,
+                  width: double.infinity,
                   child: Stack(
                     alignment: Alignment.center,
+                    clipBehavior: Clip.none,
                     children: [
                       // Person A Aura (Neon Violet)
                       Positioned(
-                        left: 40,
+                        left: 45,
                         child: _buildAuraOrb(
                           color: const Color(0xFF8A2BE2),
                           label: _typeA,
-                          subLabel: 'ME',
+                          subLabel: AppI18n.tr('me_label', widget.currentRegion),
                         ),
                       ),
                       // Person B Aura (Neon Cyan)
                       Positioned(
-                        right: 40,
+                        right: 45,
                         child: _buildAuraOrb(
                           color: const Color(0xFF00E5FF),
                           label: _typeB,
-                          subLabel: 'YOU',
+                          subLabel: AppI18n.tr('you_label', widget.currentRegion),
                         ),
                       ),
                       // Center Sparkle
                       AnimatedBuilder(
                         animation: _sparkController,
                         builder: (context, _) {
-                          final scale = 1.0 + 0.25 * sin(_sparkController.value * 2 * pi);
+                          final scale = 1.0 + 0.22 * sin(_sparkController.value * 2 * pi);
                           return Transform.scale(
                             scale: scale,
                             child: Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: const Color(0xFF070A12),
                                 border: Border.all(color: SpaceNavyTheme.goldChampagne, width: 2),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.5),
-                                    blurRadius: 15,
+                                    color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6),
+                                    blurRadius: 18,
+                                    spreadRadius: 2,
                                   ),
                                 ],
                               ),
-                              child: const Icon(Icons.flash_on, color: SpaceNavyTheme.goldChampagne, size: 24),
+                              child: const Icon(Icons.flash_on, color: SpaceNavyTheme.goldChampagne, size: 26),
                             ),
                           );
                         },
@@ -153,14 +157,14 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 16),
 
                 // Match Type Selection Controls
                 Row(
                   children: [
                     Expanded(
                       child: _buildTypeDropdown(
-                        label: '내 성격유형',
+                        label: AppI18n.tr('my_type', widget.currentRegion),
                         currentVal: _typeA,
                         onChanged: (val) {
                           setState(() {
@@ -173,7 +177,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                     const SizedBox(width: 12),
                     Expanded(
                       child: _buildTypeDropdown(
-                        label: '상대방 유형',
+                        label: AppI18n.tr('partner_type', widget.currentRegion),
                         currentVal: _typeB,
                         onChanged: (val) {
                           setState(() {
@@ -203,12 +207,12 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            '케미스트리 지수',
-                            style: TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                          Text(
+                            AppI18n.tr('chemistry_score', widget.currentRegion),
+                            style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
                           ),
                           Text(
-                            '${_matchResult!.score}점',
+                            '${_matchResult!.score}',
                             style: const TextStyle(
                               color: SpaceNavyTheme.goldChampagne,
                               fontSize: 36,
@@ -226,7 +230,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                         onPressed: () {
                           StoryShareDialog.show(
                             context,
-                            title: '16 성격유형 궁합 리포트',
+                            title: '16 Personalities Match',
                             personA: _typeA,
                             personB: _typeB,
                             score: _matchResult!.score,
@@ -241,7 +245,10 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                           );
                         },
                         icon: const Icon(Icons.share, size: 16),
-                        label: const Text('9:16 인스타 공유', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                        label: Text(
+                          AppI18n.tr('share_story_btn', widget.currentRegion),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
                       ),
                     ],
                   ),

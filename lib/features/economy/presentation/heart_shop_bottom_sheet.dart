@@ -12,6 +12,7 @@ class HeartShopBottomSheet extends StatelessWidget {
   static void show(BuildContext context, HeartWalletRepository wallet) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: false,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => HeartShopBottomSheet(wallet: wallet),
