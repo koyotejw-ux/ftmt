@@ -118,10 +118,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                 top: 24,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   Center(
                     child: Container(
                       width: 40,
@@ -239,11 +241,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                   ),
                 ],
               ),
-            );
-          },
-        );
-      },
-    );
+            ),
+          );
+        },
+      );
+    },
+  );
   }
 
   @override
@@ -339,14 +342,18 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '${widget.currentRegion.label} 맞춤 운세 큐레이션',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                child: Text(
+                  '${widget.currentRegion.label} 맞춤 운세 큐레이션',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
@@ -359,58 +366,67 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
           ),
           const SizedBox(height: 12),
 
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1.45,
-            ),
-            itemCount: menus.length,
-            itemBuilder: (context, index) {
-              final menu = menus[index];
-              final isTarot = menu == FortuneSubMenu.tarot ||
-                  menu == FortuneSubMenu.threeCardTarot ||
-                  menu == FortuneSubMenu.tarotMarseille;
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              final crossAxisCount = width > 700 ? 4 : (width > 480 ? 3 : 2);
+              final childAspectRatio = width > 700 ? 1.6 : (width < 360 ? 1.25 : 1.45);
 
-              return GlassBox(
-                onTap: () {
-                  if (isTarot) {
-                    _openTarotFlow();
-                  } else {
-                    _showBirthInputSheet(menu);
-                  }
-                },
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      isTarot ? Icons.style : Icons.auto_awesome,
-                      color: SpaceNavyTheme.goldChampagne,
-                      size: 22,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      menu.localizedTitle(widget.currentRegion),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      '심층 리포트 >',
-                      style: TextStyle(color: Color(0xFF00E5FF), fontSize: 11),
-                    ),
-                  ],
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: childAspectRatio,
                 ),
+                itemCount: menus.length,
+                itemBuilder: (context, index) {
+                  final menu = menus[index];
+                  final isTarot = menu == FortuneSubMenu.tarot ||
+                      menu == FortuneSubMenu.threeCardTarot ||
+                      menu == FortuneSubMenu.tarotMarseille;
+
+                  return GlassBox(
+                    onTap: () {
+                      if (isTarot) {
+                        _openTarotFlow();
+                      } else {
+                        _showBirthInputSheet(menu);
+                      }
+                    },
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          isTarot ? Icons.style : Icons.auto_awesome,
+                          color: SpaceNavyTheme.goldChampagne,
+                          size: 20,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          menu.localizedTitle(widget.currentRegion),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 3),
+                        const Text(
+                          '심층 리포트 >',
+                          style: TextStyle(color: Color(0xFF00E5FF), fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               );
             },
           ),

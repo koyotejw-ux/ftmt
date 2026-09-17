@@ -21,6 +21,9 @@ class HeartShopBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.88,
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       decoration: const BoxDecoration(
         color: Color(0xFF0D1224),
@@ -29,10 +32,12 @@ class HeartShopBottomSheet extends StatelessWidget {
           top: BorderSide(color: SpaceNavyTheme.goldChampagne, width: 1.5),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Center(
             child: Container(
               width: 40,
@@ -218,6 +223,7 @@ class HeartShopBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
         ],
+      ),
       ),
     );
   }

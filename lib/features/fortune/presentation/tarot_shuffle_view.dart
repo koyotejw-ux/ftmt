@@ -77,56 +77,64 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
               final hasCard = index < _selectedCards.length;
               final card = hasCard ? _selectedCards[index] : null;
 
-              return Container(
-                width: 76,
-                height: 110,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: hasCard ? SpaceNavyTheme.goldChampagne : Colors.white24,
-                    width: hasCard ? 1.5 : 1.0,
+              return Flexible(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 88, minWidth: 64),
+                  height: 110,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: hasCard ? SpaceNavyTheme.goldChampagne : Colors.white24,
+                      width: hasCard ? 1.5 : 1.0,
+                    ),
+                    color: hasCard
+                        ? const Color(0xFF141B33)
+                        : Colors.white.withValues(alpha: 0.04),
+                    boxShadow: hasCard
+                        ? [
+                            BoxShadow(
+                              color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.35),
+                              blurRadius: 10,
+                            ),
+                          ]
+                        : [],
                   ),
-                  color: hasCard
-                      ? const Color(0xFF141B33)
-                      : Colors.white.withValues(alpha: 0.04),
-                  boxShadow: hasCard
-                      ? [
-                          BoxShadow(
-                            color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.35),
-                            blurRadius: 10,
+                  child: Center(
+                    child: hasCard
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FittedBox(
+                                child: Text(
+                                  card!.runeSymbol,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    color: SpaceNavyTheme.goldChampagne,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: Text(
+                                  card.nameKo.split(' ')[0],
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
+                            ['과거', '현재', '미래'][index],
+                            style: const TextStyle(color: Colors.white38, fontSize: 12),
                           ),
-                        ]
-                      : [],
-                ),
-                child: Center(
-                  child: hasCard
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              card!.runeSymbol,
-                              style: const TextStyle(
-                                fontSize: 28,
-                                color: SpaceNavyTheme.goldChampagne,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              card.nameKo.split(' ')[0],
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        )
-                      : Text(
-                          ['과거', '현재', '미래'][index],
-                          style: const TextStyle(color: Colors.white38, fontSize: 12),
-                        ),
+                  ),
                 ),
               );
             }),

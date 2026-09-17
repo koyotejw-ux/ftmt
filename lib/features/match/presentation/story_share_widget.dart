@@ -49,211 +49,225 @@ class StoryShareDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // 9:16 Aspect Ratio Viral Card
-        AspectRatio(
-          aspectRatio: 9 / 16,
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF070A12),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6), width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.7),
-                  blurRadius: 25,
-                  spreadRadius: 2,
-                ),
-              ],
-            ),
-            child: Stack(
-              children: [
-                // Mystical background star aura
-                Positioned(
-                  top: -50,
-                  right: -50,
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFF8A2BE2).withValues(alpha: 0.15),
+    final screenHeight = MediaQuery.of(context).size.height;
+    final maxCardHeight = (screenHeight * 0.78).clamp(420.0, 700.0);
+
+    return Center(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Responsive Card
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: maxCardHeight,
+                maxWidth: maxCardHeight * (9 / 16),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF070A12),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6), width: 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.7),
+                      blurRadius: 25,
+                      spreadRadius: 2,
                     ),
-                  ),
+                  ],
                 ),
-                Positioned(
-                  bottom: -50,
-                  left: -50,
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFF00E5FF).withValues(alpha: 0.12),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: -50,
+                      right: -50,
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFF8A2BE2).withValues(alpha: 0.15),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      // Watermark Branding
-                      Row(
+                    Positioned(
+                      bottom: -50,
+                      left: -50,
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFF00E5FF).withValues(alpha: 0.12),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Watermark Branding
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                width: 20,
-                                height: 20,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: SpaceNavyTheme.goldChampagne,
-                                ),
-                                child: const Center(
-                                  child: Text('✦', style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold)),
-                                ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 18,
+                                    height: 18,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: SpaceNavyTheme.goldChampagne,
+                                    ),
+                                    child: const Center(
+                                      child: Text('✦', style: TextStyle(color: Colors.black, fontSize: 11, fontWeight: FontWeight.bold)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  const Text(
+                                    'FortuneMatch',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      letterSpacing: 1.0,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'FortuneMatch',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  letterSpacing: 1.0,
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Text(
+                                  'VERIFIED RESULT',
+                                  style: TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 8, fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
                           ),
+
+                          // Match Pair Tags
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(child: _buildProfileBadge(personA)),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Icon(Icons.favorite, color: Colors.pinkAccent, size: 18),
+                              ),
+                              Flexible(child: _buildProfileBadge(personB)),
+                            ],
+                          ),
+
+                          // Score
+                          Column(
+                            children: [
+                              Text(
+                                '$score',
+                                style: const TextStyle(
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.w900,
+                                  color: SpaceNavyTheme.goldChampagne,
+                                  letterSpacing: -2,
+                                ),
+                              ),
+                              const Text(
+                                'CHEMISTRY SCORE',
+                                style: TextStyle(
+                                  color: SpaceNavyTheme.cyanNeon,
+                                  fontSize: 9,
+                                  letterSpacing: 2.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Text(
+                            headline,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+
+                          // 5-Axis Radar Chart
+                          FittedBox(
+                            child: RadarChartView(
+                              values: radarData,
+                              size: 140,
+                              polygonColor: SpaceNavyTheme.goldChampagne,
+                            ),
+                          ),
+
+                          // Bottom Trust stamp
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.1),
+                              color: Colors.white.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white12),
                             ),
                             child: const Text(
-                              'VERIFIED RESULT',
-                              style: TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 9, fontWeight: FontWeight.bold),
+                              '태양시 경도 보정 및 16 성격 매트릭스 인증',
+                              style: TextStyle(color: Colors.white60, fontSize: 9),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ],
                       ),
-                      const Spacer(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
-                      // Match Pair Tags
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildProfileBadge(personA),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Icon(Icons.favorite, color: Colors.pinkAccent, size: 22),
-                          ),
-                          _buildProfileBadge(personB),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
-                      // Score Circle
-                      Text(
-                        '$score',
-                        style: const TextStyle(
-                          fontSize: 64,
-                          fontWeight: FontWeight.w900,
-                          color: SpaceNavyTheme.goldChampagne,
-                          letterSpacing: -2,
-                        ),
-                      ),
-                      const Text(
-                        'CHEMISTRY SCORE',
-                        style: TextStyle(
-                          color: SpaceNavyTheme.cyanNeon,
-                          fontSize: 10,
-                          letterSpacing: 2.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-
-                      Text(
-                        headline,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // 5-Axis Radar Chart
-                      RadarChartView(
-                        values: radarData,
-                        size: 160,
-                        polygonColor: SpaceNavyTheme.goldChampagne,
-                      ),
-
-                      const Spacer(),
-
-                      // Bottom Trust stamp
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white12),
-                        ),
-                        child: const Text(
-                          '태양시 경도 보정 및 16 성격 다차원 매트릭스 공식 인증',
-                          style: TextStyle(color: Colors.white60, fontSize: 10),
-                        ),
-                      ),
-                    ],
+            // Action Buttons: Instagram Story Share & Close
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFE5C07B),
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   ),
+                  onPressed: () {
+                    SharePlus.instance.share(
+                      ShareParams(
+                        text: '[$title] $personA x $personB 궁합 지수는 무려 $score점! ✨\n#FortuneMatch #포춘매치 #운세궁합',
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.share, size: 16),
+                  label: const Text('스토리 공유하기', style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.white12,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close),
                 ),
               ],
             ),
-          ),
-        ),
-
-        const SizedBox(height: 16),
-
-        // Action Buttons: Instagram Story Share & Close
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE5C07B),
-                foregroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              ),
-              onPressed: () {
-                SharePlus.instance.share(
-                  ShareParams(
-                    text: '[$title] $personA x $personB 궁합 지수는 무려 $score점! ✨\n#FortuneMatch #포춘매치 #운세궁합',
-                  ),
-                );
-              },
-              icon: const Icon(Icons.share, size: 18),
-              label: const Text('스토리 공유하기', style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-            const SizedBox(width: 12),
-            IconButton(
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.white12,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.close),
-            ),
           ],
         ),
-      ],
+      ),
     );
   }
 
