@@ -57,33 +57,139 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
                 ),
                 const SizedBox(height: 14),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.06),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: SpaceNavyTheme.goldBorder),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<SupportedRegion>(
-                      isExpanded: true,
-                      value: widget.currentRegion,
-                      dropdownColor: const Color(0xFF141B33),
-                      icon: const Icon(Icons.expand_more, color: SpaceNavyTheme.goldChampagne),
-                      items: SupportedRegion.values.map((r) {
-                        return DropdownMenuItem(
-                          value: r,
-                          child: Text(
-                            '${r.countryCode} - ${r.label}',
-                            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: const Color(0xFF0D1224),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      ),
+                      builder: (modalCtx) {
+                        return SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.public, color: SpaceNavyTheme.goldChampagne, size: 22),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      AppI18n.tr('language_region_setting', widget.currentRegion),
+                                      style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                ...SupportedRegion.values.map((r) {
+                                  final isSelected = r == widget.currentRegion;
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(14),
+                                        onTap: () {
+                                          Navigator.of(modalCtx).pop();
+                                          widget.onRegionChanged(r);
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? SpaceNavyTheme.goldChampagne.withValues(alpha: 0.15)
+                                                : Colors.white.withValues(alpha: 0.04),
+                                            borderRadius: BorderRadius.circular(14),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? SpaceNavyTheme.goldChampagne
+                                                  : SpaceNavyTheme.goldBorder.withValues(alpha: 0.5),
+                                              width: isSelected ? 1.5 : 1.0,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  color: isSelected
+                                                      ? SpaceNavyTheme.goldChampagne
+                                                      : Colors.white.withValues(alpha: 0.1),
+                                                  borderRadius: BorderRadius.circular(6),
+                                                ),
+                                                child: Text(
+                                                  r.countryCode,
+                                                  style: TextStyle(
+                                                    color: isSelected ? Colors.black : Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 14),
+                                              Expanded(
+                                                child: Text(
+                                                  r.label,
+                                                  style: TextStyle(
+                                                    color: isSelected ? SpaceNavyTheme.goldChampagne : Colors.white,
+                                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (isSelected)
+                                                const Icon(Icons.check_circle, color: SpaceNavyTheme.goldChampagne, size: 20),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
                         );
-                      }).toList(),
-                      onChanged: (SupportedRegion? val) {
-                        if (val != null) {
-                          widget.onRegionChanged(val);
-                        }
                       },
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.06),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: SpaceNavyTheme.goldBorder),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            widget.currentRegion.countryCode,
+                            style: const TextStyle(
+                              color: SpaceNavyTheme.goldChampagne,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            '${widget.currentRegion.countryCode} - ${widget.currentRegion.label}',
+                            style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const Icon(Icons.arrow_forward_ios, color: SpaceNavyTheme.goldChampagne, size: 14),
+                      ],
                     ),
                   ),
                 ),

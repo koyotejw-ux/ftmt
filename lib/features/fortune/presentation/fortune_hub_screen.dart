@@ -258,74 +258,25 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top Bar: Region Flag Selector & Heart Counter
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Region Switcher Chip
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: SpaceNavyTheme.goldBorder),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<SupportedRegion>(
-                    value: widget.currentRegion,
-                    dropdownColor: const Color(0xFF141B33),
-                    icon: const Icon(Icons.expand_more, color: SpaceNavyTheme.goldChampagne, size: 16),
-                    onChanged: (SupportedRegion? val) {
-                      if (val != null) widget.onRegionChanged(val);
-                    },
-                    items: SupportedRegion.values.map((r) {
-                      return DropdownMenuItem(
-                        value: r,
-                        child: Text(
-                          '${r.countryCode} ${r.label}',
-                          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    }).toList(),
+          // 1. Interactive 3D Culturally-Adaptive Astral Wheel
+          AstralWheelWidget(
+            currentRegion: widget.currentRegion,
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    '✦ ${AppI18n.tr('key_visual_${widget.currentRegion.countryCode.toLowerCase()}', widget.currentRegion)}',
                   ),
+                  duration: const Duration(seconds: 2),
                 ),
-              ),
-
-              // Heart Balance Indicator
-              GestureDetector(
-                onTap: () => HeartShopBottomSheet.show(context, widget.wallet),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF141B33),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: SpaceNavyTheme.goldBorder),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.favorite, color: Colors.pinkAccent, size: 16),
-                      const SizedBox(width: 6),
-                      Text(
-                        widget.wallet.hasVipPass ? 'VIP' : '${widget.wallet.hearts}',
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.add_circle, color: SpaceNavyTheme.goldChampagne, size: 14),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              );
+            },
           ),
 
-          const SizedBox(height: 10),
-
-          // 1. Interactive 3D Astral Wheel
-          const AstralWheelWidget(),
 
           const SizedBox(height: 12),
 

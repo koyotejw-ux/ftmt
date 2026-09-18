@@ -89,6 +89,7 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
       ),
       MatchHubScreen(
         currentRegion: widget.currentRegion,
+        wallet: widget.wallet,
       ),
       ShopScreen(
         wallet: widget.wallet,
@@ -110,32 +111,74 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          titleSpacing: 16,
           title: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
                 '✦ FortuneMatch',
                 style: TextStyle(
                   color: SpaceNavyTheme.goldChampagne,
                   fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2,
-                  fontSize: 20,
+                  letterSpacing: 0.8,
+                  fontSize: 17,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   widget.currentRegion.countryCode,
-                  style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 10, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 9, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() => _currentIndex = 2); // Switch to Shop tab directly
+                },
+              child: StreamBuilder<int>(
+                stream: widget.wallet.heartStream,
+                initialData: widget.wallet.hearts,
+                builder: (context, snapshot) {
+                  final heartCount = snapshot.data ?? widget.wallet.hearts;
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF141B33),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: SpaceNavyTheme.goldBorder),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.favorite, color: Colors.pinkAccent, size: 15),
+                        const SizedBox(width: 5),
+                        Text(
+                          widget.wallet.hasVipPass ? 'VIP' : '$heartCount',
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.add_circle, color: SpaceNavyTheme.goldChampagne, size: 13),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              ),
+            ),
+          ],
         ),
+
+
         body: IndexedStack(
           index: _currentIndex,
           children: screens,
