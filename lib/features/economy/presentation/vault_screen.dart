@@ -37,19 +37,25 @@ class _VaultScreenState extends State<VaultScreen> {
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: SpaceNavyTheme.goldChampagne),
         ),
-        title: const Text('새 인연 프로필 추가', style: TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16)),
+        title: Text(
+          AppI18n.tr('vault_add_dialog_title', widget.currentRegion),
+          style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16),
+        ),
         content: TextField(
           controller: nameCtrl,
           style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            hintText: '이름 또는 별칭',
-            hintStyle: TextStyle(color: Colors.white38),
+          decoration: InputDecoration(
+            hintText: AppI18n.tr('vault_name_hint', widget.currentRegion),
+            hintStyle: const TextStyle(color: Colors.white38),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('취소', style: TextStyle(color: Colors.white60)),
+            child: Text(
+              AppI18n.tr('vault_cancel', widget.currentRegion),
+              style: const TextStyle(color: Colors.white60),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: SpaceNavyTheme.goldChampagne),
@@ -68,7 +74,10 @@ class _VaultScreenState extends State<VaultScreen> {
                 Navigator.of(ctx).pop();
               }
             },
-            child: const Text('추가', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            child: Text(
+              AppI18n.tr('vault_add', widget.currentRegion),
+              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

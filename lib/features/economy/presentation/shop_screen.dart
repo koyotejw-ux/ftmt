@@ -264,12 +264,13 @@ class ShopScreen extends StatelessWidget {
               child: const Text('BEST VALUE', style: TextStyle(color: Colors.black, fontSize: 9, fontWeight: FontWeight.bold)),
             ),
           const SizedBox(height: 6),
-          Text(
-            title,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              title,
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(height: 4),
           Text(price, style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11)),

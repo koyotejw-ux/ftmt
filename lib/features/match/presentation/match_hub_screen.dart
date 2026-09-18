@@ -8,6 +8,7 @@ import '../../../core/theme/space_navy_theme.dart';
 import '../../economy/data/heart_wallet_repository.dart';
 import '../../economy/presentation/heart_shop_bottom_sheet.dart';
 import '../domain/sixteen_type_matrix.dart';
+import '../domain/match_item_engine.dart';
 import 'radar_chart_view.dart';
 import 'story_share_widget.dart';
 
@@ -30,23 +31,9 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   late AnimationController _sparkController;
   int _selectedTabIndex = 0;
 
-  String _typeA = 'ENFP';
-  String _typeB = 'INTJ';
-
-  // Alternative options for other tabs
-  String _pillarA = '갑자(甲子)';
-  String _pillarB = '기축(己丑)';
-  static const List<String> _commonPillars = [
-    '갑자(甲子)', '을축(乙丑)', '병인(丙寅)', '정묘(丁卯)', '무진(戊辰)',
-    '기사(己巳)', '경오(庚午)', '신미(辛未)', '임신(壬申)', '계유(癸酉)',
-    '갑술(甲戌)', '을해(乙亥)', '병자(丙子)', '기축(己丑)', '임진(壬辰)'
-  ];
-
-  String _elementA = 'Fire (불/火)';
-  String _elementB = 'Air (바람/風)';
-  static const List<String> _elements = [
-    'Fire (불/火)', 'Earth (흙/土)', 'Air (바람/風)', 'Water (물/水)'
-  ];
+  // Selected item cache per match system to preserve user selections
+  final Map<MatchSubMenu, String> _selectedItemsA = {};
+  final Map<MatchSubMenu, String> _selectedItemsB = {};
 
   MatchResult? _matchResult;
 
@@ -58,13 +45,74 @@ class _MatchHubScreenState extends State<MatchHubScreen>
       duration: const Duration(seconds: 4),
     )..repeat();
 
+    _initDefaultSelections();
     _updateMatchPreview();
+  }
+
+  void _initDefaultSelections() {
+    // 16 Types default
+    _selectedItemsA[MatchSubMenu.sixteenType] = 'ENFP';
+    _selectedItemsB[MatchSubMenu.sixteenType] = 'INTJ';
+
+    // Saju Pillar default
+    _selectedItemsA[MatchSubMenu.sajuIlju] = '갑자(甲子)';
+    _selectedItemsB[MatchSubMenu.sajuIlju] = '기축(己丑)';
+
+    // Zodiac Animal default (동갑 or 삼합)
+    _selectedItemsA[MatchSubMenu.zodiacAnimal] = '자(쥐띠 🐭)';
+    _selectedItemsB[MatchSubMenu.zodiacAnimal] = '진(용띠 🐲)';
+
+    // Blood Type default
+    _selectedItemsA[MatchSubMenu.bloodType] = 'A형';
+    _selectedItemsB[MatchSubMenu.bloodType] = 'O형';
+
+    // Zodiac Element default
+    _selectedItemsA[MatchSubMenu.zodiacElement] = MatchItemEngine.zodiacElements[0]; // Fire
+    _selectedItemsB[MatchSubMenu.zodiacElement] = MatchItemEngine.zodiacElements[2]; // Air
+
+    // Numerology Life Path
+    _selectedItemsA[MatchSubMenu.numerologyLifePath] = MatchItemEngine.lifePathNumbers[0];
+    _selectedItemsB[MatchSubMenu.numerologyLifePath] = MatchItemEngine.lifePathNumbers[1];
+
+    // Hybrid Blood x Zodiac
+    _selectedItemsA[MatchSubMenu.bloodZodiacHybrid] = MatchItemEngine.bloodZodiacHybrids[0];
+    _selectedItemsB[MatchSubMenu.bloodZodiacHybrid] = MatchItemEngine.bloodZodiacHybrids[4];
+
+    // Rokusei
+    _selectedItemsA[MatchSubMenu.rokuseiMatch] = MatchItemEngine.rokuseiStars[0];
+    _selectedItemsB[MatchSubMenu.rokuseiMatch] = MatchItemEngine.rokuseiStars[1];
+
+    // Synastry House
+    _selectedItemsA[MatchSubMenu.zodiacHouse] = MatchItemEngine.synastryHouses[0];
+    _selectedItemsB[MatchSubMenu.zodiacHouse] = MatchItemEngine.synastryHouses[3];
+
+    // Celtic Runes
+    _selectedItemsA[MatchSubMenu.celticRuneMatch] = MatchItemEngine.celticRunes[0];
+    _selectedItemsB[MatchSubMenu.celticRuneMatch] = MatchItemEngine.celticRunes[6];
+  }
+
+  String _getItemA(MatchSubMenu menu) {
+    final available = MatchItemEngine.getAvailableItems(menu);
+    final saved = _selectedItemsA[menu];
+    if (saved != null && available.contains(saved)) return saved;
+    return available.first;
+  }
+
+  String _getItemB(MatchSubMenu menu) {
+    final available = MatchItemEngine.getAvailableItems(menu);
+    final saved = _selectedItemsB[menu];
+    if (saved != null && available.contains(saved)) return saved;
+    return available.length > 1 ? available[1] : available.first;
   }
 
   @override
   void didUpdateWidget(covariant MatchHubScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentRegion != widget.currentRegion) {
+      final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+      if (_selectedTabIndex >= menus.length) {
+        _selectedTabIndex = 0;
+      }
       _updateMatchPreview();
     }
   }
@@ -79,36 +127,15 @@ class _MatchHubScreenState extends State<MatchHubScreen>
     setState(() {
       final menus = GeoDetector.getMatchMenus(widget.currentRegion);
       final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
+      final a = _getItemA(currentMenu);
+      final b = _getItemB(currentMenu);
 
-      if (currentMenu == MatchSubMenu.sixteenType) {
-        _matchResult = SixteenTypeMatrix.calculateChemistry(
-          _typeA,
-          _typeB,
-          region: widget.currentRegion,
-        );
-      } else if (currentMenu == MatchSubMenu.sajuIlju) {
-        _matchResult = MatchResult(
-          score: 95,
-          headline: AppI18n.tr('match_headline_pillar', widget.currentRegion),
-          summary: AppI18n.tr('match_summary_pillar', widget.currentRegion),
-          passion: 92,
-          trust: 96,
-          communication: 88,
-          values: 94,
-          growth: 90,
-        );
-      } else {
-        _matchResult = MatchResult(
-          score: 89,
-          headline: AppI18n.tr('match_headline_element', widget.currentRegion),
-          summary: AppI18n.tr('match_summary_element', widget.currentRegion),
-          passion: 95,
-          trust: 85,
-          communication: 90,
-          values: 82,
-          growth: 92,
-        );
-      }
+      _matchResult = MatchItemEngine.calculateMatch(
+        menu: currentMenu,
+        itemA: a,
+        itemB: b,
+        region: widget.currentRegion,
+      );
     });
   }
 
@@ -137,17 +164,13 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   String get _currentLabelA {
     final menus = GeoDetector.getMatchMenus(widget.currentRegion);
     final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
-    if (currentMenu == MatchSubMenu.sixteenType) return _typeA;
-    if (currentMenu == MatchSubMenu.sajuIlju) return _pillarA.split('(').first;
-    return _elementA.split(' ').first;
+    return MatchItemEngine.getAuraOrbLabel(currentMenu, _getItemA(currentMenu));
   }
 
   String get _currentLabelB {
     final menus = GeoDetector.getMatchMenus(widget.currentRegion);
     final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
-    if (currentMenu == MatchSubMenu.sixteenType) return _typeB;
-    if (currentMenu == MatchSubMenu.sajuIlju) return _pillarB.split('(').first;
-    return _elementB.split(' ').first;
+    return MatchItemEngine.getAuraOrbLabel(currentMenu, _getItemB(currentMenu));
   }
 
   @override
@@ -285,91 +308,38 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
                 const SizedBox(height: 16),
 
-                // Match Selection Controls (Changes according to selected menu)
-                if (currentMenu == MatchSubMenu.sixteenType)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildTypeDropdown(
-                          label: AppI18n.tr('my_type', widget.currentRegion),
-                          currentVal: _typeA,
-                          items: SixteenTypeMatrix.allTypes,
-                          onChanged: (val) {
-                            setState(() => _typeA = val!);
+                // Match Selection Controls (Dynamically rendered for current menu)
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildTypeDropdown(
+                        label: MatchItemEngine.getPickerLabelA(currentMenu, widget.currentRegion),
+                        currentVal: _getItemA(currentMenu),
+                        items: MatchItemEngine.getAvailableItems(currentMenu),
+                        onChanged: (val) {
+                          if (val != null) {
+                            setState(() => _selectedItemsA[currentMenu] = val);
                             _updateMatchPreview();
-                          },
-                        ),
+                          }
+                        },
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _buildTypeDropdown(
-                          label: AppI18n.tr('partner_type', widget.currentRegion),
-                          currentVal: _typeB,
-                          items: SixteenTypeMatrix.allTypes,
-                          onChanged: (val) {
-                            setState(() => _typeB = val!);
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildTypeDropdown(
+                        label: MatchItemEngine.getPickerLabelB(currentMenu, widget.currentRegion),
+                        currentVal: _getItemB(currentMenu),
+                        items: MatchItemEngine.getAvailableItems(currentMenu),
+                        onChanged: (val) {
+                          if (val != null) {
+                            setState(() => _selectedItemsB[currentMenu] = val);
                             _updateMatchPreview();
-                          },
-                        ),
+                          }
+                        },
                       ),
-                    ],
-                  )
-                else if (currentMenu == MatchSubMenu.sajuIlju)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildTypeDropdown(
-                          label: AppI18n.tr('my_pillar_label', widget.currentRegion),
-                          currentVal: _pillarA,
-                          items: _commonPillars,
-                          onChanged: (val) {
-                            setState(() => _pillarA = val!);
-                            _updateMatchPreview();
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _buildTypeDropdown(
-                          label: AppI18n.tr('partner_pillar_label', widget.currentRegion),
-                          currentVal: _pillarB,
-                          items: _commonPillars,
-                          onChanged: (val) {
-                            setState(() => _pillarB = val!);
-                            _updateMatchPreview();
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                else
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildTypeDropdown(
-                          label: AppI18n.tr('my_element_label', widget.currentRegion),
-                          currentVal: _elementA,
-                          items: _elements,
-                          onChanged: (val) {
-                            setState(() => _elementA = val!);
-                            _updateMatchPreview();
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _buildTypeDropdown(
-                          label: AppI18n.tr('partner_element_label', widget.currentRegion),
-                          currentVal: _elementB,
-                          items: _elements,
-                          onChanged: (val) {
-                            setState(() => _elementB = val!);
-                            _updateMatchPreview();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
 
               ],
             ),
@@ -413,9 +383,9 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                         onPressed: () {
                           StoryShareDialog.show(
                             context,
-                            title: '16 Personalities Match',
-                            personA: _typeA,
-                            personB: _typeB,
+                            title: currentMenu.localizedTitle(widget.currentRegion),
+                            personA: _currentLabelA,
+                            personB: _currentLabelB,
                             score: _matchResult!.score,
                             headline: _matchResult!.headline,
                             radarData: {
@@ -425,6 +395,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                               AppI18n.tr('axis_values', widget.currentRegion): _matchResult!.values,
                               AppI18n.tr('axis_growth', widget.currentRegion): _matchResult!.growth,
                             },
+                            region: widget.currentRegion,
                           );
                         },
                         icon: const Icon(Icons.share, size: 16),
@@ -493,12 +464,9 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                         children: [
                           const Icon(Icons.auto_awesome, size: 18),
                           const SizedBox(width: 10),
-                          Flexible(
-                            child: Text(
-                              AppI18n.tr('unlock_match_btn', widget.currentRegion),
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            AppI18n.tr('unlock_match_btn', widget.currentRegion),
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                           ),
                         ],
                       ),

@@ -1,3 +1,5 @@
+import '../../../core/localization/geo_detector.dart';
+
 class TarotCard {
   final int id;
   final String nameKo;
@@ -18,6 +20,13 @@ class TarotCard {
     required this.astrologicalAssociation,
     this.runeSymbol = '✦',
   });
+
+  String localizedName(SupportedRegion region) {
+    if (region == SupportedRegion.korea) {
+      return nameKo;
+    }
+    return nameEn;
+  }
 }
 
 class TarotDeck {

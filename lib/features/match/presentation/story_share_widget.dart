@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../../core/localization/app_i18n.dart';
+import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import 'radar_chart_view.dart';
 
@@ -10,6 +12,7 @@ class StoryShareDialog extends StatelessWidget {
   final int score;
   final String headline;
   final Map<String, double> radarData;
+  final SupportedRegion region;
 
   const StoryShareDialog({
     super.key,
@@ -19,6 +22,7 @@ class StoryShareDialog extends StatelessWidget {
     required this.score,
     required this.headline,
     required this.radarData,
+    this.region = SupportedRegion.korea,
   });
 
   static void show(
@@ -29,6 +33,7 @@ class StoryShareDialog extends StatelessWidget {
     required int score,
     required String headline,
     required Map<String, double> radarData,
+    SupportedRegion region = SupportedRegion.korea,
   }) {
     showDialog(
       context: context,
@@ -42,6 +47,7 @@ class StoryShareDialog extends StatelessWidget {
           score: score,
           headline: headline,
           radarData: radarData,
+          region: region,
         ),
       ),
     );
@@ -195,9 +201,8 @@ class StoryShareDialog extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
+                              height: 1.3,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
 
                           // 5-Axis Radar Chart
@@ -217,9 +222,9 @@ class StoryShareDialog extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: Colors.white12),
                             ),
-                            child: const Text(
-                              '태양시 경도 보정 및 16 성격 매트릭스 인증',
-                              style: TextStyle(color: Colors.white60, fontSize: 9),
+                            child: Text(
+                              AppI18n.tr('share_dialog_certified', region),
+                              style: const TextStyle(color: Colors.white60, fontSize: 9),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -247,12 +252,15 @@ class StoryShareDialog extends StatelessWidget {
                   onPressed: () {
                     SharePlus.instance.share(
                       ShareParams(
-                        text: '[$title] $personA x $personB 궁합 지수는 무려 $score점! ✨\n#FortuneMatch #포춘매치 #운세궁합',
+                        text: '[$title] $personA x $personB : $score! ✨\n#FortuneMatch #포춘매치',
                       ),
                     );
                   },
                   icon: const Icon(Icons.share, size: 16),
-                  label: const Text('스토리 공유하기', style: TextStyle(fontWeight: FontWeight.bold)),
+                  label: Text(
+                    AppI18n.tr('share_dialog_story_btn', region),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 IconButton(

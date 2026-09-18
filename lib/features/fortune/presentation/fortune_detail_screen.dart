@@ -39,12 +39,15 @@ class FortuneDetailScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new, color: SpaceNavyTheme.goldChampagne, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            color: SpaceNavyTheme.goldChampagne,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+        title: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: SpaceNavyTheme.goldChampagne,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
           ),
         ),
         actions: [

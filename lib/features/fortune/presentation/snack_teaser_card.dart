@@ -77,7 +77,7 @@ class SnackTeaserCard extends StatelessWidget {
               const SizedBox(width: 10),
               Flexible(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(6),
@@ -85,7 +85,6 @@ class SnackTeaserCard extends StatelessWidget {
                   child: Text(
                     AppI18n.tr('open_action_guide', currentRegion),
                     style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
@@ -95,15 +94,17 @@ class SnackTeaserCard extends StatelessWidget {
           const Divider(color: Colors.white10),
           const SizedBox(height: 6),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.warning_amber_rounded, color: Color(0xFFFF5252), size: 16),
+              const Padding(
+                padding: EdgeInsets.only(top: 2),
+                child: Icon(Icons.warning_amber_rounded, color: Color(0xFFFF5252), size: 16),
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   AppI18n.tr('energy_warning_snack', currentRegion),
-                  style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12, height: 1.3),
                 ),
               ),
             ],

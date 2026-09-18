@@ -30,7 +30,28 @@ class FortuneHubScreen extends StatefulWidget {
 
 class _FortuneHubScreenState extends State<FortuneHubScreen> {
   DateTime _selectedBirth = DateTime(1995, 8, 15, 14, 30);
-  String _selectedCity = '서울';
+  String? _selectedCity;
+
+  List<String> _getCitiesForRegion(SupportedRegion region) {
+    switch (region) {
+      case SupportedRegion.korea:
+        return ['서울 (Seoul)', '부산 (Busan)', '대구 (Daegu)', '인천 (Incheon)', '광주 (Gwangju)', '대전 (Daejeon)'];
+      case SupportedRegion.unitedStates:
+        return ['New York (EST)', 'Los Angeles (PST)', 'Chicago (CST)', 'Houston (CST)', 'San Francisco (PST)'];
+      case SupportedRegion.japan:
+        return ['東京 (Tokyo)', '大阪 (Osaka)', '京都 (Kyoto)', '福岡 (Fukuoka)', '札幌 (Sapporo)'];
+      case SupportedRegion.europe:
+        return ['Paris (CET)', 'London (GMT)', 'Berlin (CET)', 'Rome (CET)', 'Madrid (CET)'];
+    }
+  }
+
+  String get _currentCity {
+    final cities = _getCitiesForRegion(widget.currentRegion);
+    if (_selectedCity != null && cities.contains(_selectedCity)) {
+      return _selectedCity!;
+    }
+    return cities.first;
+  }
 
   void _openTarotFlow() {
     showModalBottomSheet(
@@ -98,7 +119,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     title: title,
                     category: category,
                     birthTime: _selectedBirth,
-                    selectedCity: _selectedCity,
+                    selectedCity: _currentCity,
                     selectedTarotCards: tarotCards?.cast(),
                     region: widget.currentRegion,
                   ),
@@ -170,7 +191,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     ),
                     const SizedBox(height: 8),
                     DropdownButtonFormField<String>(
-                      initialValue: _selectedCity,
+                      initialValue: _currentCity,
                       dropdownColor: const Color(0xFF141B33),
                       decoration: InputDecoration(
                         filled: true,
@@ -180,7 +201,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           borderSide: const BorderSide(color: SpaceNavyTheme.goldBorder),
                         ),
                       ),
-                      items: ['서울', '부산', '도쿄', '뉴욕', '런던', '파리']
+                      items: _getCitiesForRegion(widget.currentRegion)
                           .map((city) => DropdownMenuItem(value: city, child: Text(city, style: const TextStyle(color: Colors.white))))
                           .toList(),
                       onChanged: (val) {
@@ -253,12 +274,9 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           children: [
                             const Icon(Icons.auto_awesome, size: 18),
                             const SizedBox(width: 10),
-                            Flexible(
-                              child: Text(
-                                AppI18n.tr('start_analysis_btn', widget.currentRegion),
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                            Text(
+                              AppI18n.tr('start_analysis_btn', widget.currentRegion),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                           ],
                         ),
@@ -347,9 +365,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                       const SizedBox(height: 3),
                       Text(
                         AppI18n.tr('daily_checkin_desc', widget.currentRegion),
-                        style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11, height: 1.3),
                       ),
                     ],
                   ),
@@ -409,8 +425,9 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
           // 3. Dynamic Sub-Menu Grid (Auto-rearranged by Region)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
+              Expanded(
                 child: Text(
                   '${widget.currentRegion.label} ${AppI18n.tr('curated_fortune_title', widget.currentRegion)}',
                   style: const TextStyle(
@@ -418,7 +435,6 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(width: 8),
@@ -438,7 +454,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
             builder: (context, constraints) {
               final width = constraints.maxWidth;
               final crossAxisCount = width > 700 ? 4 : (width > 480 ? 3 : 2);
-              final childAspectRatio = width > 700 ? 1.6 : (width < 360 ? 1.25 : 1.45);
+              final childAspectRatio = width > 700 ? 1.5 : (width < 360 ? 1.15 : 1.35);
 
               return GridView.builder(
                 shrinkWrap: true,
@@ -482,9 +498,8 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
+                            height: 1.25,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 3),
                         Text(

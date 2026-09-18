@@ -130,21 +130,26 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
                               const SizedBox(height: 4),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                                child: Text(
-                                  card.nameKo.split(' ')[0],
-                                  style: const TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    card.localizedName(widget.region).split(' ')[0],
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           )
                         : Text(
-                            ['과거', '현재', '미래'][index],
+                            [
+                              AppI18n.tr('tarot_phase_past', widget.region),
+                              AppI18n.tr('tarot_phase_present', widget.region),
+                              AppI18n.tr('tarot_phase_future', widget.region),
+                            ][index],
                             style: const TextStyle(color: Colors.white38, fontSize: 12),
                           ),
                   ),

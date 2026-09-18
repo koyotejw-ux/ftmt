@@ -70,9 +70,10 @@ class GeoDetector {
     switch (region) {
       case SupportedRegion.korea:
         return [
-          MatchSubMenu.sixteenType,
           MatchSubMenu.sajuIlju,
+          MatchSubMenu.zodiacAnimal,
           MatchSubMenu.bloodType,
+          MatchSubMenu.sixteenType,
         ];
       case SupportedRegion.unitedStates:
         return [
@@ -135,6 +136,7 @@ enum FortuneSubMenu {
 enum MatchSubMenu {
   sixteenType('16 성격유형 (MBTI) 케미', '16 Personalities Chemistry', '16タイプ性格相性 (MBTI)', '16 Personalities Match'),
   sajuIlju('사주 일주(日柱) 합·충 궁합', 'Bazi Day Pillar Harmony', '日柱の相性と引き寄せ', 'Bazi Pillar Harmony'),
+  zodiacAnimal('전통 12간지 띠 궁합', '12 Eastern Zodiac Animal Match', '十二支・生まれ年相性', 'Zodiaque Chinois Harmonie'),
   bloodType('혈액형 감성 궁합', 'Blood Type Chemistry', '血液型の惹かれ合い', 'Blood Type Chemistry'),
   zodiacElement('12별자리 4대 원소 궁합', '12 Zodiac Element Match', '12星座エレメント相性', '12 Zodiac Elements'),
   numerologyLifePath('수비학 운명수 조화도', 'Numerology Life Path Chem', '運命数の調和と共鳴', 'Numerology Harmony'),
