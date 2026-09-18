@@ -1,3 +1,6 @@
+import '../../../core/localization/app_i18n.dart';
+import '../../../core/localization/geo_detector.dart';
+
 class SixteenTypeMatrix {
   static const List<String> allTypes = [
     'INTJ', 'INTP', 'ENTJ', 'ENTP',
@@ -7,7 +10,13 @@ class SixteenTypeMatrix {
   ];
 
   /// Chemistry scores (0-100), title, and deep dynamics analysis
-  static MatchResult calculateChemistry(String typeA, String typeB) {
+  static MatchResult calculateChemistry(
+    String typeA,
+    String typeB, {
+    String? headline,
+    String? summary,
+    SupportedRegion region = SupportedRegion.korea,
+  }) {
     typeA = typeA.toUpperCase();
     typeB = typeB.toUpperCase();
 
@@ -32,17 +41,17 @@ class SixteenTypeMatrix {
     };
 
     int score = 70;
-    String dynamicTitle = '상호 보완적인 호기심의 관계';
-    String description = '서로 다른 시각에서 배울 점이 많으며 자극과 성장을 함께 추구하는 조합입니다.';
+    String dynamicTitle = headline ?? AppI18n.tr('match_complementary_title', region);
+    String description = summary ?? AppI18n.tr('match_complementary_desc', region);
 
     if (typeA == typeB) {
       score = 85;
-      dynamicTitle = '거울을 마주한 듯한 깊은 공감';
-      description = '말하지 않아도 서로의 심리와 스트레스 지점을 정확히 꿰뚫어 보는 소울메이트입니다.';
+      dynamicTitle = AppI18n.tr('mirror_pair_title', region);
+      description = AppI18n.tr('mirror_pair_desc', region);
     } else if (goldenPairs[typeA]?.contains(typeB) == true) {
       score = 98;
-      dynamicTitle = '우주가 맺어준 천생연분 (Golden Pair)';
-      description = '서로의 약점을 완벽하게 보완하며, 함께 있을 때 가장 나다워지는 최상의 시너지 케미입니다.';
+      dynamicTitle = AppI18n.tr('golden_pair_title', region);
+      description = AppI18n.tr('golden_pair_desc', region);
     } else {
       // Calculate letter matching balance
       int matchLetters = 0;
@@ -51,12 +60,12 @@ class SixteenTypeMatrix {
       }
       if (matchLetters == 3) {
         score = 88;
-        dynamicTitle = '편안함과 안정감이 가득한 안식처';
-        description = '가치관과 생활 방식의 일치도가 높아 갈등 없이 오랫동안 평온함을 공유할 수 있습니다.';
+        dynamicTitle = AppI18n.tr('match_harmonious_title', region);
+        description = AppI18n.tr('match_harmonious_desc', region);
       } else if (matchLetters == 1) {
         score = 64;
-        dynamicTitle = '강렬한 호기심과 긴장감의 스파크';
-        description = '서로 완전히 다른 별에서 온 듯한 신선한 매력에 이끌리며, 배려를 통해 가장 큰 성장을 이룹니다.';
+        dynamicTitle = AppI18n.tr('match_spark_title', region);
+        description = AppI18n.tr('match_spark_desc', region);
       }
     }
 

@@ -103,24 +103,37 @@ class _VaultScreenState extends State<VaultScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.wallet.hasVipPass ? 'VIP 마스터 멤버십' : '복채(하트) 지갑',
+                        widget.wallet.hasVipPass
+                            ? AppI18n.tr('vault_vip_title', widget.currentRegion)
+                            : AppI18n.tr('vault_wallet_title', widget.currentRegion),
                         style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.wallet.hasVipPass ? '모든 심층 풀이 무제한 패스 적용' : '현재 보유 하트: ${widget.wallet.hearts}개',
+                        widget.wallet.hasVipPass
+                            ? AppI18n.tr('vault_vip_desc', widget.currentRegion)
+                            : AppI18n.tr('vault_hearts_desc', widget.currentRegion)
+                                .replaceAll('{count}', '${widget.wallet.hearts}'),
                         style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 13),
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(width: 8),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: SpaceNavyTheme.goldChampagne,
                     foregroundColor: Colors.black,
                   ),
-                  onPressed: () => HeartShopBottomSheet.show(context, widget.wallet),
-                  child: const Text('충전소', style: TextStyle(fontWeight: FontWeight.bold)),
+                  onPressed: () => HeartShopBottomSheet.show(
+                    context,
+                    widget.wallet,
+                    currentRegion: widget.currentRegion,
+                  ),
+                  child: Text(
+                    AppI18n.tr('nav_shop', widget.currentRegion),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
@@ -200,17 +213,20 @@ class _VaultScreenState extends State<VaultScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.gavel, color: Colors.white60, size: 16),
-                    SizedBox(width: 8),
-                    Text('법률 준수 및 개인정보 정책', style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.bold)),
+                    const Icon(Icons.gavel, color: Colors.white60, size: 16),
+                    const SizedBox(width: 10),
+                    Text(
+                      AppI18n.tr('vault_legal_title', widget.currentRegion),
+                      style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  '본 앱은 100% Local-First 아키텍처로 작동하며, 입력하신 모든 생년월일 및 프로필 데이터는 외부 서버로 전송되지 않고 기기 내 로컬 저장소에만 안전하게 보관됩니다. (GDPR/CCPA 규격 준수)',
-                  style: TextStyle(color: Colors.white38, fontSize: 11, height: 1.4),
+                Text(
+                  AppI18n.tr('vault_legal_desc', widget.currentRegion),
+                  style: const TextStyle(color: Colors.white38, fontSize: 11, height: 1.4),
                 ),
               ],
             ),

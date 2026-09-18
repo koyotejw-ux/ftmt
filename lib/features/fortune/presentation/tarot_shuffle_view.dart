@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../core/localization/app_i18n.dart';
+import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../domain/tarot_deck.dart';
 
 class TarotShuffleView extends StatefulWidget {
   final Function(List<TarotCard> selected) onCardsPicked;
+  final SupportedRegion region;
 
-  const TarotShuffleView({super.key, required this.onCardsPicked});
+  const TarotShuffleView({
+    super.key,
+    required this.onCardsPicked,
+    this.region = SupportedRegion.korea,
+  });
 
   @override
   State<TarotShuffleView> createState() => _TarotShuffleViewState();
@@ -38,6 +45,9 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
 
   @override
   Widget build(BuildContext context) {
+    final pickPrompt = AppI18n.tr('tarot_pick_prompt', widget.region)
+        .replaceAll('{count}', '${_selectedCards.length}');
+
     return Column(
       children: [
         Padding(
@@ -46,7 +56,7 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '운명의 3장을 선택하세요 (${_selectedCards.length}/3)',
+                pickPrompt,
                 style: const TextStyle(
                   color: SpaceNavyTheme.goldChampagne,
                   fontWeight: FontWeight.bold,
@@ -61,7 +71,10 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
                       _deck.shuffle();
                     });
                   },
-                  child: const Text('다시 섞기', style: TextStyle(color: Colors.white60)),
+                  child: Text(
+                    AppI18n.tr('tarot_reshuffle', widget.region),
+                    style: const TextStyle(color: Colors.white60),
+                  ),
                 ),
             ],
           ),
@@ -227,6 +240,7 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
             ),
           ),
         ),
+        SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
       ],
     );
   }

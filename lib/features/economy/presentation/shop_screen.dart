@@ -24,43 +24,50 @@ class ShopScreen extends StatelessWidget {
           GlassBox(
             padding: const EdgeInsets.all(20),
             backgroundColor: const Color(0xFF141B33).withValues(alpha: 0.8),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.pinkAccent.withValues(alpha: 0.15),
-                    border: Border.all(color: Colors.pinkAccent.withValues(alpha: 0.3)),
-                  ),
-                  child: const Icon(Icons.favorite, color: Colors.pinkAccent, size: 32),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        wallet.hasVipPass
-                            ? AppI18n.tr('vip_unlimited', currentRegion)
-                            : AppI18n.tr('current_hearts', currentRegion),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+            child: StreamBuilder<int>(
+              stream: wallet.heartStream,
+              initialData: wallet.hearts,
+              builder: (context, snapshot) {
+                final currentHearts = snapshot.data ?? wallet.hearts;
+                return Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.pinkAccent.withValues(alpha: 0.15),
+                        border: Border.all(color: Colors.pinkAccent.withValues(alpha: 0.3)),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        wallet.hasVipPass
-                            ? AppI18n.tr('vip_master_desc', currentRegion)
-                            : '${wallet.hearts} Hearts Available',
-                        style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 13),
+                      child: const Icon(Icons.favorite, color: Colors.pinkAccent, size: 32),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            wallet.hasVipPass
+                                ? AppI18n.tr('vip_unlimited', currentRegion)
+                                : AppI18n.tr('current_hearts', currentRegion),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            wallet.hasVipPass
+                                ? AppI18n.tr('vip_master_desc', currentRegion)
+                                : '$currentHearts Hearts Available',
+                            style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 13),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
+                    ),
+                  ],
+                );
+              },
             ),
           ),
 
@@ -110,7 +117,11 @@ class ShopScreen extends StatelessWidget {
                       await wallet.addHearts(2);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('✨ +2 Hearts Added!')),
+                          SnackBar(
+                            content: Text(
+                              AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '2'),
+                            ),
+                          ),
                         );
                       }
                     }
@@ -136,7 +147,11 @@ class ShopScreen extends StatelessWidget {
                     await wallet.addHearts(10);
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('🎉 10 Hearts Pack Purchased!')),
+                        SnackBar(
+                          content: Text(
+                            AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '10'),
+                          ),
+                        ),
                       );
                     }
                   },
@@ -153,7 +168,11 @@ class ShopScreen extends StatelessWidget {
                     await wallet.addHearts(30);
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('🎉 30 Hearts Pack Purchased!')),
+                        SnackBar(
+                          content: Text(
+                            AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '30'),
+                          ),
+                        ),
                       );
                     }
                   },

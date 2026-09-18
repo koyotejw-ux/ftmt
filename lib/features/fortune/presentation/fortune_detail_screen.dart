@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../../core/localization/app_i18n.dart';
+import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../../../core/astronomy/ephemeris_math.dart';
@@ -11,6 +13,7 @@ class FortuneDetailScreen extends StatelessWidget {
   final List<TarotCard>? selectedTarotCards;
   final DateTime birthTime;
   final String selectedCity;
+  final SupportedRegion region;
 
   const FortuneDetailScreen({
     super.key,
@@ -19,6 +22,7 @@ class FortuneDetailScreen extends StatelessWidget {
     this.selectedTarotCards,
     required this.birthTime,
     this.selectedCity = '서울',
+    this.region = SupportedRegion.korea,
   });
 
   @override
@@ -72,7 +76,7 @@ class FortuneDetailScreen extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(Icons.verified, color: SpaceNavyTheme.goldChampagne, size: 16),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
                       const Text(
                         'ASTRONOMICAL VERIFIED DATA',
                         style: TextStyle(
@@ -93,8 +97,8 @@ class FortuneDetailScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildDataColumn('정밀 천문 좌표', degreeStr),
-                      _buildDataColumn('표준시 오차', '동경 135° 기준 -32분 보정'),
+                      _buildDataColumn(AppI18n.tr('detail_coords_title', region), degreeStr),
+                      _buildDataColumn(AppI18n.tr('detail_offset_title', region), AppI18n.tr('detail_time_offset', region)),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -106,7 +110,7 @@ class FortuneDetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      '원전 레퍼런스: 적천수(滴天髓) 원리 및 $aspectStr',
+                      AppI18n.tr('detail_reference_label', region).replaceAll('{aspect}', aspectStr),
                       style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11),
                     ),
                   ),
@@ -118,9 +122,9 @@ class FortuneDetailScreen extends StatelessWidget {
 
             // If Tarot Cards reading
             if (selectedTarotCards != null && selectedTarotCards!.isNotEmpty) ...[
-              const Text(
-                '3-Card 타로 심층 리딩 (과거 · 현재 · 미래)',
-                style: TextStyle(
+              Text(
+                AppI18n.tr('tarot_reading_title', region),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -130,7 +134,11 @@ class FortuneDetailScreen extends StatelessWidget {
               ...selectedTarotCards!.asMap().entries.map((entry) {
                 final idx = entry.key;
                 final card = entry.value;
-                final phase = ['과거의 근원 (Past)', '현재의 운명 (Present)', '미래의 결실 (Future)'][idx];
+                final phase = [
+                  AppI18n.tr('tarot_phase_past', region),
+                  AppI18n.tr('tarot_phase_present', region),
+                  AppI18n.tr('tarot_phase_future', region),
+                ][idx];
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -168,7 +176,7 @@ class FortuneDetailScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                card.nameKo,
+                                region == SupportedRegion.korea ? card.nameKo : card.nameEn,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -194,9 +202,9 @@ class FortuneDetailScreen extends StatelessWidget {
               }),
             ] else ...[
               // Saju & Deep Destiny Report
-              const Text(
-                '심층 운명 분석 리포트',
-                style: TextStyle(
+              Text(
+                AppI18n.tr('detail_destiny_report', region),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -207,25 +215,26 @@ class FortuneDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.lightbulb_outline, color: SpaceNavyTheme.goldChampagne, size: 20),
-                        SizedBox(width: 8),
-                        Text(
-                          '타고난 천명과 현재 운의 흐름',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                        const Icon(Icons.lightbulb_outline, color: SpaceNavyTheme.goldChampagne, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            AppI18n.tr('detail_nature_flow', region),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
-                    const Text(
-                      '당신의 일주는 깊은 지하수를 뚫고 솟아오르는 강력한 용출수의 기운을 품고 있습니다. '
-                      '정체된 상황을 돌파하는 직관력과 기획력이 뛰어나며, 타인에게 의존하기보다 스스로 길을 개척할 때 가장 큰 성공운이 따릅니다.',
-                      style: TextStyle(color: Color(0xFFF0F4FC), fontSize: 14, height: 1.6),
+                    Text(
+                      AppI18n.tr('detail_nature_flow_desc', region),
+                      style: const TextStyle(color: Color(0xFFF0F4FC), fontSize: 14, height: 1.6),
                     ),
                     const SizedBox(height: 16),
                     Container(
@@ -234,14 +243,14 @@ class FortuneDetailScreen extends StatelessWidget {
                         color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.shield_outlined, color: Color(0xFF00E5FF), size: 18),
-                          SizedBox(width: 10),
+                          const Icon(Icons.shield_outlined, color: Color(0xFF00E5FF), size: 18),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              '황금빛 개운 처방: 서쪽 방향의 업무 공간에서 골드/화이트 계열의 소품을 가까이 두세요.',
-                              style: TextStyle(color: Colors.white70, fontSize: 12),
+                              AppI18n.tr('detail_remedy_title', region),
+                              style: const TextStyle(color: Colors.white70, fontSize: 12),
                             ),
                           ),
                         ],

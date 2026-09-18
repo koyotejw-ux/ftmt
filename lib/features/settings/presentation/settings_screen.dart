@@ -68,88 +68,96 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       builder: (modalCtx) {
                         return SafeArea(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(Icons.public, color: SpaceNavyTheme.goldChampagne, size: 22),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      AppI18n.tr('language_region_setting', widget.currentRegion),
-                                      style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                ...SupportedRegion.values.map((r) {
-                                  final isSelected = r == widget.currentRegion;
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(14),
-                                        onTap: () {
-                                          Navigator.of(modalCtx).pop();
-                                          widget.onRegionChanged(r);
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                                          decoration: BoxDecoration(
-                                            color: isSelected
-                                                ? SpaceNavyTheme.goldChampagne.withValues(alpha: 0.15)
-                                                : Colors.white.withValues(alpha: 0.04),
-                                            borderRadius: BorderRadius.circular(14),
-                                            border: Border.all(
+                            padding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 20,
+                              bottom: MediaQuery.of(modalCtx).padding.bottom + 24,
+                            ),
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.public, color: SpaceNavyTheme.goldChampagne, size: 22),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        AppI18n.tr('language_region_setting', widget.currentRegion),
+                                        style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  ...SupportedRegion.values.map((r) {
+                                    final isSelected = r == widget.currentRegion;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 10),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(14),
+                                          onTap: () {
+                                            Navigator.of(modalCtx).pop();
+                                            widget.onRegionChanged(r);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                            decoration: BoxDecoration(
                                               color: isSelected
-                                                  ? SpaceNavyTheme.goldChampagne
-                                                  : SpaceNavyTheme.goldBorder.withValues(alpha: 0.5),
-                                              width: isSelected ? 1.5 : 1.0,
+                                                  ? SpaceNavyTheme.goldChampagne.withValues(alpha: 0.15)
+                                                  : Colors.white.withValues(alpha: 0.04),
+                                              borderRadius: BorderRadius.circular(14),
+                                              border: Border.all(
+                                                color: isSelected
+                                                    ? SpaceNavyTheme.goldChampagne
+                                                    : SpaceNavyTheme.goldBorder.withValues(alpha: 0.5),
+                                                width: isSelected ? 1.5 : 1.0,
+                                              ),
                                             ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  color: isSelected
-                                                      ? SpaceNavyTheme.goldChampagne
-                                                      : Colors.white.withValues(alpha: 0.1),
-                                                  borderRadius: BorderRadius.circular(6),
-                                                ),
-                                                child: Text(
-                                                  r.countryCode,
-                                                  style: TextStyle(
-                                                    color: isSelected ? Colors.black : Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12,
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                    color: isSelected
+                                                        ? SpaceNavyTheme.goldChampagne
+                                                        : Colors.white.withValues(alpha: 0.1),
+                                                    borderRadius: BorderRadius.circular(6),
+                                                  ),
+                                                  child: Text(
+                                                    r.countryCode,
+                                                    style: TextStyle(
+                                                      color: isSelected ? Colors.black : Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 12,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(width: 14),
-                                              Expanded(
-                                                child: Text(
-                                                  r.label,
-                                                  style: TextStyle(
-                                                    color: isSelected ? SpaceNavyTheme.goldChampagne : Colors.white,
-                                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                                    fontSize: 15,
+                                                const SizedBox(width: 14),
+                                                Expanded(
+                                                  child: Text(
+                                                    r.label,
+                                                    style: TextStyle(
+                                                      color: isSelected ? SpaceNavyTheme.goldChampagne : Colors.white,
+                                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                                      fontSize: 15,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              if (isSelected)
-                                                const Icon(Icons.check_circle, color: SpaceNavyTheme.goldChampagne, size: 20),
-                                            ],
+                                                if (isSelected)
+                                                  const Icon(Icons.check_circle, color: SpaceNavyTheme.goldChampagne, size: 20),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                              ],
+                                    );
+                                  }),
+                                ],
+                              ),
                             ),
                           ),
                         );

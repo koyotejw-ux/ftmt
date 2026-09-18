@@ -96,8 +96,8 @@ class SnackTeaserCard extends StatelessWidget {
           const SizedBox(height: 6),
           Row(
             children: [
-              const Icon(Icons.warning_amber_rounded, color: Color(0xFFFF5252), size: 14),
-              const SizedBox(width: 6),
+              const Icon(Icons.warning_amber_rounded, color: Color(0xFFFF5252), size: 16),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   AppI18n.tr('energy_warning_snack', currentRegion),

@@ -43,13 +43,14 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
       ),
       builder: (ctx) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.78,
           child: TarotShuffleView(
+            region: widget.currentRegion,
             onCardsPicked: (cards) {
               Navigator.of(ctx).pop();
               _analyzeFortuneWithAd(
-                title: '신비의 3-Card 타로 심층 리포트',
-                category: '타로',
+                title: AppI18n.tr('tarot_title', widget.currentRegion),
+                category: 'Tarot',
                 tarotCards: cards,
               );
             },
@@ -67,9 +68,9 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
     // Check heart balance
     if (widget.wallet.hearts <= 0 && !widget.wallet.hasVipPass) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('복채(하트)가 부족합니다. 충전소에서 충전해주세요!')),
+        SnackBar(content: Text(AppI18n.tr('out_of_hearts_title', widget.currentRegion))),
       );
-      HeartShopBottomSheet.show(context, widget.wallet);
+      HeartShopBottomSheet.show(context, widget.wallet, currentRegion: widget.currentRegion);
       return;
     }
 
@@ -81,9 +82,16 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
         // Show 1.5s calculation HUD for trust anchor
         CalculatingHudDialog.show(
           context,
+          region: widget.currentRegion,
           onFinished: () async {
             await widget.wallet.consumeHeart();
             if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppI18n.tr('heart_consumed_snack', widget.currentRegion)),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => FortuneDetailScreen(
@@ -92,6 +100,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     birthTime: _selectedBirth,
                     selectedCity: _selectedCity,
                     selectedTarotCards: tarotCards?.cast(),
+                    region: widget.currentRegion,
                   ),
                 ),
               );
@@ -114,12 +123,13 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
       builder: (ctx) {
         return StatefulBuilder(
           builder: (context, setSheetState) {
+            final bottomPadding = MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).padding.bottom + 32.0;
             return Padding(
               padding: EdgeInsets.only(
                 left: 20,
                 right: 20,
                 top: 24,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+                bottom: bottomPadding,
               ),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -127,129 +137,142 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.white24,
-                        borderRadius: BorderRadius.circular(2),
+                    Center(
+                      child: Container(
+                        width: 44,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.white24,
+                          borderRadius: BorderRadius.circular(3),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    menu.localizedTitle(widget.currentRegion),
-                    style: const TextStyle(
-                      color: SpaceNavyTheme.goldChampagne,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    '정밀 진태양시 오차 보정(-32분)과 원전 알고리즘을 적용합니다.',
-                    style: TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // City Selection (True solar time anchor)
-                  const Text('출생 도시 (진태양시 경도 보정)', style: TextStyle(color: Colors.white70, fontSize: 13)),
-                  const SizedBox(height: 8),
-                  DropdownButtonFormField<String>(
-                    initialValue: _selectedCity,
-                    dropdownColor: const Color(0xFF141B33),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white.withValues(alpha: 0.05),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: SpaceNavyTheme.goldBorder),
+                    const SizedBox(height: 18),
+                    Text(
+                      menu.localizedTitle(widget.currentRegion),
+                      style: const TextStyle(
+                        color: SpaceNavyTheme.goldChampagne,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    items: ['서울', '부산', '도쿄', '뉴욕', '런던', '파리']
-                        .map((city) => DropdownMenuItem(value: city, child: Text(city, style: const TextStyle(color: Colors.white))))
-                        .toList(),
-                    onChanged: (val) {
-                      if (val != null) {
-                        setSheetState(() => _selectedCity = val);
-                        setState(() => _selectedCity = val);
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 6),
+                    Text(
+                      AppI18n.tr('birth_modal_desc', widget.currentRegion),
+                      style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                    ),
+                    const SizedBox(height: 20),
 
-                  // Birth Date Picker
-                  ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: const BorderSide(color: SpaceNavyTheme.goldBorder),
+                    // City Selection (True solar time anchor)
+                    Text(
+                      AppI18n.tr('birth_city_label', widget.currentRegion),
+                      style: const TextStyle(color: Colors.white70, fontSize: 13),
                     ),
-                    tileColor: Colors.white.withValues(alpha: 0.04),
-                    leading: const Icon(Icons.calendar_today, color: SpaceNavyTheme.goldChampagne),
-                    title: const Text('생년월일 및 태어난 시간', style: TextStyle(color: Colors.white70, fontSize: 13)),
-                    subtitle: Text(
-                      '${_selectedBirth.year}년 ${_selectedBirth.month}월 ${_selectedBirth.day}일 ${_selectedBirth.hour}:${_selectedBirth.minute}',
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white38),
-                    onTap: () async {
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: _selectedBirth,
-                        firstDate: DateTime(1930),
-                        lastDate: DateTime.now(),
-                      );
-                      if (picked != null) {
-                        if (!context.mounted) return;
-                        final time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.fromDateTime(_selectedBirth),
-                        );
-                        if (time != null) {
-                          setSheetState(() {
-                            _selectedBirth = DateTime(picked.year, picked.month, picked.day, time.hour, time.minute);
-                          });
+                    const SizedBox(height: 8),
+                    DropdownButtonFormField<String>(
+                      initialValue: _selectedCity,
+                      dropdownColor: const Color(0xFF141B33),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white.withValues(alpha: 0.05),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: SpaceNavyTheme.goldBorder),
+                        ),
+                      ),
+                      items: ['서울', '부산', '도쿄', '뉴욕', '런던', '파리']
+                          .map((city) => DropdownMenuItem(value: city, child: Text(city, style: const TextStyle(color: Colors.white))))
+                          .toList(),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setSheetState(() => _selectedCity = val);
+                          setState(() => _selectedCity = val);
                         }
-                      }
-                    },
-                  ),
-
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: SpaceNavyTheme.goldChampagne,
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                      ),
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                        _analyzeFortuneWithAd(
-                          title: menu.localizedTitle(widget.currentRegion),
-                          category: '정통 사주',
-                        );
                       },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.auto_awesome, size: 18),
-                          SizedBox(width: 8),
-                          Text('정밀 운명 분석 시작 (하트 1개)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                        ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Birth Date Picker
+                    ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: const BorderSide(color: SpaceNavyTheme.goldBorder),
+                      ),
+                      tileColor: Colors.white.withValues(alpha: 0.04),
+                      leading: const Icon(Icons.calendar_today, color: SpaceNavyTheme.goldChampagne),
+                      title: Text(
+                        AppI18n.tr('birth_datetime_label', widget.currentRegion),
+                        style: const TextStyle(color: Colors.white70, fontSize: 13),
+                      ),
+                      subtitle: Text(
+                        '${_selectedBirth.year}-${_selectedBirth.month.toString().padLeft(2, '0')}-${_selectedBirth.day.toString().padLeft(2, '0')} ${_selectedBirth.hour.toString().padLeft(2, '0')}:${_selectedBirth.minute.toString().padLeft(2, '0')}',
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white38),
+                      onTap: () async {
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: _selectedBirth,
+                          firstDate: DateTime(1930),
+                          lastDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          if (!context.mounted) return;
+                          final time = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(_selectedBirth),
+                          );
+                          if (time != null) {
+                            setSheetState(() {
+                              _selectedBirth = DateTime(picked.year, picked.month, picked.day, time.hour, time.minute);
+                            });
+                          }
+                        }
+                      },
+                    ),
+
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: SpaceNavyTheme.goldChampagne,
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                          _analyzeFortuneWithAd(
+                            title: menu.localizedTitle(widget.currentRegion),
+                            category: 'Ephemeris Analysis',
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.auto_awesome, size: 18),
+                            const SizedBox(width: 10),
+                            Flexible(
+                              child: Text(
+                                AppI18n.tr('start_analysis_btn', widget.currentRegion),
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 12),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      );
-    },
-  );
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -286,9 +309,99 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
             onTap: () {
               _analyzeFortuneWithAd(
                 title: AppI18n.tr('wealth_golden_time', widget.currentRegion),
-                category: '도파민 스낵',
+                category: 'Dopamine Snack',
               );
             },
+          ),
+
+          const SizedBox(height: 16),
+
+          // 2.5 Daily Retention Check-in Reward Card (BM & Retention Driver)
+          GlassBox(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            backgroundColor: const Color(0xFF141B33).withValues(alpha: 0.75),
+            border: Border.all(color: SpaceNavyTheme.goldBorder.withValues(alpha: 0.6)),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.calendar_month, color: Colors.pinkAccent, size: 22),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppI18n.tr('daily_checkin_title', widget.currentRegion),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        AppI18n.tr('daily_checkin_desc', widget.currentRegion),
+                        style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                widget.wallet.canClaimDailyFree()
+                    ? ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pinkAccent,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () async {
+                          await widget.wallet.consumeDailyFree();
+                          await widget.wallet.addHearts(1);
+                          setState(() {});
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppI18n.tr('daily_claimed_snack', widget.currentRegion)),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          AppI18n.tr('daily_checkin_claim', widget.currentRegion),
+                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.06),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.check_circle, size: 14, color: Color(0xFF00E5FF)),
+                            const SizedBox(width: 4),
+                            Text(
+                              AppI18n.tr('daily_checkin_done', widget.currentRegion),
+                              style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 24),

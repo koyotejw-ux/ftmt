@@ -62,6 +62,14 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   }
 
   @override
+  void didUpdateWidget(covariant MatchHubScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentRegion != widget.currentRegion) {
+      _updateMatchPreview();
+    }
+  }
+
+  @override
   void dispose() {
     _sparkController.dispose();
     super.dispose();
@@ -69,13 +77,20 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
   void _updateMatchPreview() {
     setState(() {
-      if (_selectedTabIndex == 0) {
-        _matchResult = SixteenTypeMatrix.calculateChemistry(_typeA, _typeB);
-      } else if (_selectedTabIndex == 1) {
+      final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+      final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
+
+      if (currentMenu == MatchSubMenu.sixteenType) {
+        _matchResult = SixteenTypeMatrix.calculateChemistry(
+          _typeA,
+          _typeB,
+          region: widget.currentRegion,
+        );
+      } else if (currentMenu == MatchSubMenu.sajuIlju) {
         _matchResult = MatchResult(
           score: 95,
-          headline: '천간합(甲己合)과 지지 육합의 길한 인연',
-          summary: '두 사람의 일주(Day Pillar)가 서로의 부족한 오행을 완벽하게 채워주며 백년가약을 이루는 조화로운 궁합입니다.',
+          headline: AppI18n.tr('match_headline_pillar', widget.currentRegion),
+          summary: AppI18n.tr('match_summary_pillar', widget.currentRegion),
           passion: 92,
           trust: 96,
           communication: 88,
@@ -85,8 +100,8 @@ class _MatchHubScreenState extends State<MatchHubScreen>
       } else {
         _matchResult = MatchResult(
           score: 89,
-          headline: '불과 바람의 역동적인 시너지',
-          summary: '서로를 빛나게 하는 에너지가 넘치며 함께 있을 때 끊임없이 새로운 영감과 도전을 나누는 조합입니다.',
+          headline: AppI18n.tr('match_headline_element', widget.currentRegion),
+          summary: AppI18n.tr('match_summary_element', widget.currentRegion),
           passion: 95,
           trust: 85,
           communication: 90,
@@ -103,7 +118,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppI18n.tr('out_of_hearts_title', widget.currentRegion))),
         );
-        HeartShopBottomSheet.show(context, widget.wallet);
+        HeartShopBottomSheet.show(context, widget.wallet, currentRegion: widget.currentRegion);
       }
       return;
     }
@@ -111,26 +126,34 @@ class _MatchHubScreenState extends State<MatchHubScreen>
     await widget.wallet.consumeHeart();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('✨ 정밀 궁합 심층 분석이 언락되었습니다! (하트 1개 사용)')),
+        SnackBar(
+          content: Text(AppI18n.tr('match_unlocked_snack', widget.currentRegion)),
+          duration: const Duration(seconds: 2),
+        ),
       );
     }
   }
 
   String get _currentLabelA {
-    if (_selectedTabIndex == 0) return _typeA;
-    if (_selectedTabIndex == 1) return _pillarA.split('(').first;
+    final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+    final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
+    if (currentMenu == MatchSubMenu.sixteenType) return _typeA;
+    if (currentMenu == MatchSubMenu.sajuIlju) return _pillarA.split('(').first;
     return _elementA.split(' ').first;
   }
 
   String get _currentLabelB {
-    if (_selectedTabIndex == 0) return _typeB;
-    if (_selectedTabIndex == 1) return _pillarB.split('(').first;
+    final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+    final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
+    if (currentMenu == MatchSubMenu.sixteenType) return _typeB;
+    if (currentMenu == MatchSubMenu.sajuIlju) return _pillarB.split('(').first;
     return _elementB.split(' ').first;
   }
 
   @override
   Widget build(BuildContext context) {
     final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+    final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -262,8 +285,8 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
                 const SizedBox(height: 16),
 
-                // Match Selection Controls (Changes according to selected tab)
-                if (_selectedTabIndex == 0)
+                // Match Selection Controls (Changes according to selected menu)
+                if (currentMenu == MatchSubMenu.sixteenType)
                   Row(
                     children: [
                       Expanded(
@@ -291,12 +314,12 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                       ),
                     ],
                   )
-                else if (_selectedTabIndex == 1)
+                else if (currentMenu == MatchSubMenu.sajuIlju)
                   Row(
                     children: [
                       Expanded(
                         child: _buildTypeDropdown(
-                          label: '나의 일주(日柱)',
+                          label: AppI18n.tr('my_pillar_label', widget.currentRegion),
                           currentVal: _pillarA,
                           items: _commonPillars,
                           onChanged: (val) {
@@ -308,7 +331,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                       const SizedBox(width: 12),
                       Expanded(
                         child: _buildTypeDropdown(
-                          label: '상대방 일주(日柱)',
+                          label: AppI18n.tr('partner_pillar_label', widget.currentRegion),
                           currentVal: _pillarB,
                           items: _commonPillars,
                           onChanged: (val) {
@@ -324,7 +347,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                     children: [
                       Expanded(
                         child: _buildTypeDropdown(
-                          label: '나의 원소 / 기질',
+                          label: AppI18n.tr('my_element_label', widget.currentRegion),
                           currentVal: _elementA,
                           items: _elements,
                           onChanged: (val) {
@@ -336,7 +359,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                       const SizedBox(width: 12),
                       Expanded(
                         child: _buildTypeDropdown(
-                          label: '상대방 원소 / 기질',
+                          label: AppI18n.tr('partner_element_label', widget.currentRegion),
                           currentVal: _elementB,
                           items: _elements,
                           onChanged: (val) {
@@ -396,11 +419,11 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                             score: _matchResult!.score,
                             headline: _matchResult!.headline,
                             radarData: {
-                              '열정': _matchResult!.passion,
-                              '신뢰': _matchResult!.trust,
-                              '소통': _matchResult!.communication,
-                              '가치관': _matchResult!.values,
-                              '성장': _matchResult!.growth,
+                              AppI18n.tr('axis_passion', widget.currentRegion): _matchResult!.passion,
+                              AppI18n.tr('axis_trust', widget.currentRegion): _matchResult!.trust,
+                              AppI18n.tr('axis_communication', widget.currentRegion): _matchResult!.communication,
+                              AppI18n.tr('axis_values', widget.currentRegion): _matchResult!.values,
+                              AppI18n.tr('axis_growth', widget.currentRegion): _matchResult!.growth,
                             },
                           );
                         },
@@ -443,11 +466,11 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                   // 5-Axis Radar Chart
                   RadarChartView(
                     values: {
-                      '열정': _matchResult!.passion,
-                      '신뢰': _matchResult!.trust,
-                      '소통': _matchResult!.communication,
-                      '가치관': _matchResult!.values,
-                      '성장': _matchResult!.growth,
+                      AppI18n.tr('axis_passion', widget.currentRegion): _matchResult!.passion,
+                      AppI18n.tr('axis_trust', widget.currentRegion): _matchResult!.trust,
+                      AppI18n.tr('axis_communication', widget.currentRegion): _matchResult!.communication,
+                      AppI18n.tr('axis_values', widget.currentRegion): _matchResult!.values,
+                      AppI18n.tr('axis_growth', widget.currentRegion): _matchResult!.growth,
                     },
                     size: 200,
                   ),
@@ -457,18 +480,27 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                   // Deep Match Unlock Action
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
-                    child: ElevatedButton.icon(
+                    height: 50,
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: SpaceNavyTheme.goldChampagne,
                         foregroundColor: Colors.black,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       onPressed: _unlockDeepMatchAnalysis,
-                      icon: const Icon(Icons.auto_awesome, size: 18),
-                      label: const Text(
-                        '두 사람의 시크릿 심층 궁합 열람 (하트 1개)',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.auto_awesome, size: 18),
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Text(
+                              AppI18n.tr('unlock_match_btn', widget.currentRegion),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
