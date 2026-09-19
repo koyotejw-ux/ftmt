@@ -254,28 +254,33 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                 SizedBox(
                   height: 170,
                   width: double.infinity,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    clipBehavior: Clip.none,
-                    children: [
-                      // Person A Aura (Neon Violet)
-                      Positioned(
-                        left: 45,
-                        child: _buildAuraOrb(
-                          color: const Color(0xFF8A2BE2),
-                          label: _currentLabelA,
-                          subLabel: AppI18n.tr('me_label', widget.currentRegion),
-                        ),
-                      ),
-                      // Person B Aura (Neon Cyan)
-                      Positioned(
-                        right: 45,
-                        child: _buildAuraOrb(
-                          color: const Color(0xFF00E5FF),
-                          label: _currentLabelB,
-                          subLabel: AppI18n.tr('you_label', widget.currentRegion),
-                        ),
-                      ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final totalW = constraints.maxWidth;
+                      // Keep orbs nicely spaced even on narrow screens (e.g. 320px)
+                      final orbOffset = (totalW * 0.12).clamp(16.0, 60.0);
+                      return Stack(
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.none,
+                        children: [
+                          // Person A Aura (Neon Violet)
+                          Positioned(
+                            left: orbOffset,
+                            child: _buildAuraOrb(
+                              color: const Color(0xFF8A2BE2),
+                              label: _currentLabelA,
+                              subLabel: AppI18n.tr('me_label', widget.currentRegion),
+                            ),
+                          ),
+                          // Person B Aura (Neon Cyan)
+                          Positioned(
+                            right: orbOffset,
+                            child: _buildAuraOrb(
+                              color: const Color(0xFF00E5FF),
+                              label: _currentLabelB,
+                              subLabel: AppI18n.tr('you_label', widget.currentRegion),
+                            ),
+                          ),
                       // Center Sparkle
                       AnimatedBuilder(
                         animation: _sparkController,
@@ -303,8 +308,10 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                         },
                       ),
                     ],
-                  ),
-                ),
+                  );
+                },
+              ),
+            ),
 
                 const SizedBox(height: 16),
 
@@ -355,53 +362,62 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppI18n.tr('chemistry_score', widget.currentRegion),
-                            style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppI18n.tr('chemistry_score', widget.currentRegion),
+                              style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                            ),
+                            Text(
+                              '${_matchResult!.score}',
+                              style: const TextStyle(
+                                color: SpaceNavyTheme.goldChampagne,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFE5C07B),
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           ),
-                          Text(
-                            '${_matchResult!.score}',
-                            style: const TextStyle(
-                              color: SpaceNavyTheme.goldChampagne,
-                              fontSize: 36,
-                              fontWeight: FontWeight.w900,
+                          onPressed: () {
+                            StoryShareDialog.show(
+                              context,
+                              title: currentMenu.localizedTitle(widget.currentRegion),
+                              personA: _currentLabelA,
+                              personB: _currentLabelB,
+                              score: _matchResult!.score,
+                              headline: _matchResult!.headline,
+                              radarData: {
+                                AppI18n.tr('axis_passion', widget.currentRegion): _matchResult!.passion,
+                                AppI18n.tr('axis_trust', widget.currentRegion): _matchResult!.trust,
+                                AppI18n.tr('axis_communication', widget.currentRegion): _matchResult!.communication,
+                                AppI18n.tr('axis_values', widget.currentRegion): _matchResult!.values,
+                                AppI18n.tr('axis_growth', widget.currentRegion): _matchResult!.growth,
+                              },
+                              region: widget.currentRegion,
+                            );
+                          },
+                          icon: const Icon(Icons.share, size: 16),
+                          label: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              AppI18n.tr('share_story_btn', widget.currentRegion),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                             ),
                           ),
-                        ],
-                      ),
-                      ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE5C07B),
-                          foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        onPressed: () {
-                          StoryShareDialog.show(
-                            context,
-                            title: currentMenu.localizedTitle(widget.currentRegion),
-                            personA: _currentLabelA,
-                            personB: _currentLabelB,
-                            score: _matchResult!.score,
-                            headline: _matchResult!.headline,
-                            radarData: {
-                              AppI18n.tr('axis_passion', widget.currentRegion): _matchResult!.passion,
-                              AppI18n.tr('axis_trust', widget.currentRegion): _matchResult!.trust,
-                              AppI18n.tr('axis_communication', widget.currentRegion): _matchResult!.communication,
-                              AppI18n.tr('axis_values', widget.currentRegion): _matchResult!.values,
-                              AppI18n.tr('axis_growth', widget.currentRegion): _matchResult!.growth,
-                            },
-                            region: widget.currentRegion,
-                          );
-                        },
-                        icon: const Icon(Icons.share, size: 16),
-                        label: Text(
-                          AppI18n.tr('share_story_btn', widget.currentRegion),
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                         ),
                       ),
                     ],
@@ -457,16 +473,22 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                         backgroundColor: SpaceNavyTheme.goldChampagne,
                         foregroundColor: Colors.black,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
                       ),
                       onPressed: _unlockDeepMatchAnalysis,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(Icons.auto_awesome, size: 18),
-                          const SizedBox(width: 10),
-                          Text(
-                            AppI18n.tr('unlock_match_btn', widget.currentRegion),
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                AppI18n.tr('unlock_match_btn', widget.currentRegion),
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -505,9 +527,15 @@ class _MatchHubScreenState extends State<MatchHubScreen>
         children: [
           Text(subLabel, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.bold)),
           const SizedBox(height: 2),
-          Text(
-            label,
-            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                label,
+                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ],
       ),
@@ -526,10 +554,12 @@ class _MatchHubScreenState extends State<MatchHubScreen>
         Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
+          isExpanded: true,
           initialValue: items.contains(currentVal) ? currentVal : items.first,
           dropdownColor: const Color(0xFF141B33),
           decoration: InputDecoration(
             isDense: true,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
             filled: true,
             fillColor: Colors.white.withValues(alpha: 0.05),
             border: OutlineInputBorder(
@@ -538,7 +568,13 @@ class _MatchHubScreenState extends State<MatchHubScreen>
             ),
           ),
           items: items
-              .map((t) => DropdownMenuItem(value: t, child: Text(t, style: const TextStyle(color: Colors.white, fontSize: 13))))
+              .map((t) => DropdownMenuItem(
+                    value: t,
+                    child: Text(
+                      t,
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                    ),
+                  ))
               .toList(),
           onChanged: onChanged,
         ),

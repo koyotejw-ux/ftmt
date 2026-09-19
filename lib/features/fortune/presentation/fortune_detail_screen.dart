@@ -100,8 +100,9 @@ class FortuneDetailScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildDataColumn(AppI18n.tr('detail_coords_title', region), degreeStr),
-                      _buildDataColumn(AppI18n.tr('detail_offset_title', region), AppI18n.tr('detail_time_offset', region)),
+                      Expanded(child: _buildDataColumn(AppI18n.tr('detail_coords_title', region), degreeStr)),
+                      const SizedBox(width: 8),
+                      Expanded(child: _buildDataColumn(AppI18n.tr('detail_offset_title', region), AppI18n.tr('detail_time_offset', region))),
                     ],
                   ),
                   const SizedBox(height: 10),

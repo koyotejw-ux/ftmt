@@ -281,11 +281,15 @@ class ShopScreen extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: SpaceNavyTheme.goldChampagne),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               ),
               onPressed: onBuy,
-              child: Text(
-                AppI18n.tr('buy_button', currentRegion),
-                style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  AppI18n.tr('buy_button', currentRegion),
+                  style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12),
+                ),
               ),
             ),
           ),

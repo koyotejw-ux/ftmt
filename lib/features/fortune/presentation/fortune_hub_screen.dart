@@ -191,9 +191,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     ),
                     const SizedBox(height: 8),
                     DropdownButtonFormField<String>(
+                      isExpanded: true,
                       initialValue: _currentCity,
                       dropdownColor: const Color(0xFF141B33),
                       decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                         filled: true,
                         fillColor: Colors.white.withValues(alpha: 0.05),
                         border: OutlineInputBorder(
@@ -202,7 +205,10 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                         ),
                       ),
                       items: _getCitiesForRegion(widget.currentRegion)
-                          .map((city) => DropdownMenuItem(value: city, child: Text(city, style: const TextStyle(color: Colors.white))))
+                          .map((city) => DropdownMenuItem(
+                                value: city,
+                                child: Text(city, style: const TextStyle(color: Colors.white, fontSize: 13)),
+                              ))
                           .toList(),
                       onChanged: (val) {
                         if (val != null) {
@@ -376,7 +382,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.pinkAccent,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () async {
@@ -392,13 +398,16 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                             );
                           }
                         },
-                        child: Text(
-                          AppI18n.tr('daily_checkin_claim', widget.currentRegion),
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppI18n.tr('daily_checkin_claim', widget.currentRegion),
+                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       )
                     : Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.06),
                           borderRadius: BorderRadius.circular(8),
@@ -409,9 +418,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           children: [
                             const Icon(Icons.check_circle, size: 14, color: Color(0xFF00E5FF)),
                             const SizedBox(width: 4),
-                            Text(
-                              AppI18n.tr('daily_checkin_done', widget.currentRegion),
-                              style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                AppI18n.tr('daily_checkin_done', widget.currentRegion),
+                                style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
+                              ),
                             ),
                           ],
                         ),
@@ -454,7 +466,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
             builder: (context, constraints) {
               final width = constraints.maxWidth;
               final crossAxisCount = width > 700 ? 4 : (width > 480 ? 3 : 2);
-              final childAspectRatio = width > 700 ? 1.5 : (width < 360 ? 1.15 : 1.35);
+              final childAspectRatio = width > 700 ? 1.4 : (width < 360 ? 1.05 : 1.22);
 
               return GridView.builder(
                 shrinkWrap: true,

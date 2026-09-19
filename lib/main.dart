@@ -112,31 +112,35 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           titleSpacing: 16,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '✦ FortuneMatch',
-                style: TextStyle(
-                  color: SpaceNavyTheme.goldChampagne,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0.8,
-                  fontSize: 17,
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '✦ FortuneMatch',
+                  style: TextStyle(
+                    color: SpaceNavyTheme.goldChampagne,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.8,
+                    fontSize: 17,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 6),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(6),
+                const SizedBox(width: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    widget.currentRegion.countryCode,
+                    style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 9, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                child: Text(
-                  widget.currentRegion.countryCode,
-                  style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 9, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             Padding(

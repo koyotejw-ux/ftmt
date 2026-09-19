@@ -63,20 +63,22 @@ class SnackTeaserCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          Row(
-            children: [
-              const Text(
-                '14:30 ~ 16:00',
-                style: TextStyle(
-                  color: Color(0xFF00E5FF),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.1,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                const Text(
+                  '14:30 ~ 16:00',
+                  style: TextStyle(
+                    color: Color(0xFF00E5FF),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.1,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Flexible(
-                child: Container(
+                const SizedBox(width: 10),
+                Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.08),
@@ -87,8 +89,8 @@ class SnackTeaserCard extends StatelessWidget {
                     style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: 10),
           const Divider(color: Colors.white10),
