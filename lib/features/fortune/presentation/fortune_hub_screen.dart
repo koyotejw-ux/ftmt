@@ -6,6 +6,8 @@ import '../../../core/theme/space_navy_theme.dart';
 import '../../ads/ad_manager.dart';
 import '../../economy/data/heart_wallet_repository.dart';
 import '../../economy/presentation/heart_shop_bottom_sheet.dart';
+import '../../profile/data/user_profile_repository.dart';
+import '../../profile/presentation/profile_edit_dialog.dart';
 import 'astral_wheel_widget.dart';
 import 'snack_teaser_card.dart';
 import 'calculating_hud_dialog.dart';
@@ -16,12 +18,14 @@ class FortuneHubScreen extends StatefulWidget {
   final SupportedRegion currentRegion;
   final ValueChanged<SupportedRegion> onRegionChanged;
   final HeartWalletRepository wallet;
+  final UserProfileRepository profileRepo;
 
   const FortuneHubScreen({
     super.key,
     required this.currentRegion,
     required this.onRegionChanged,
     required this.wallet,
+    required this.profileRepo,
   });
 
   @override
@@ -29,8 +33,16 @@ class FortuneHubScreen extends StatefulWidget {
 }
 
 class _FortuneHubScreenState extends State<FortuneHubScreen> {
-  DateTime _selectedBirth = DateTime(1995, 8, 15, 14, 30);
+  late DateTime _selectedBirth;
   String? _selectedCity;
+
+  @override
+  void initState() {
+    super.initState();
+    final profile = widget.profileRepo.profile;
+    _selectedBirth = profile.birthDateTime;
+    _selectedCity = profile.city;
+  }
 
   List<String> _getCitiesForRegion(SupportedRegion region) {
     switch (region) {
@@ -169,20 +181,157 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                       ),
                     ),
                     const SizedBox(height: 18),
-                    Text(
-                      menu.localizedTitle(widget.currentRegion),
-                      style: const TextStyle(
-                        color: SpaceNavyTheme.goldChampagne,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          menu.localizedTitle(widget.currentRegion),
+                          style: const TextStyle(
+                            color: SpaceNavyTheme.goldChampagne,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            ProfileEditDialog.show(
+                              context,
+                              initialProfile: widget.profileRepo.profile,
+                              region: widget.currentRegion,
+                              onSaved: (p) async {
+                                await widget.profileRepo.saveProfile(p);
+                                setSheetState(() {
+                                  _selectedBirth = p.birthDateTime;
+                                  _selectedCity = p.city;
+                                });
+                                setState(() {
+                                  _selectedBirth = p.birthDateTime;
+                                  _selectedCity = p.city;
+                                });
+                              },
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: SpaceNavyTheme.goldBorder),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.tune, color: SpaceNavyTheme.goldChampagne, size: 14),
+                                const SizedBox(width: 4),
+                                Text(
+                                  AppI18n.tr('profile_edit_title', widget.currentRegion),
+                                  style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 6),
                     Text(
                       AppI18n.tr('birth_modal_desc', widget.currentRegion),
                       style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 14),
+
+                    // Quick Toggle / Mode Pill
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              final my = widget.profileRepo.profile;
+                              setSheetState(() {
+                                _selectedBirth = my.birthDateTime;
+                                _selectedCity = my.city;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                color: (_selectedBirth == widget.profileRepo.profile.birthDateTime)
+                                    ? SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2)
+                                    : Colors.white.withValues(alpha: 0.04),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: (_selectedBirth == widget.profileRepo.profile.birthDateTime)
+                                      ? SpaceNavyTheme.goldChampagne
+                                      : Colors.white12,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '👤 ${widget.profileRepo.profile.name} (${AppI18n.tr('view_mode_my', widget.currentRegion)})',
+                                  style: TextStyle(
+                                    color: (_selectedBirth == widget.profileRepo.profile.birthDateTime)
+                                        ? SpaceNavyTheme.goldChampagne
+                                        : Colors.white70,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        InkWell(
+                          onTap: () {
+                            final vault = widget.profileRepo.getSavedVaultProfiles();
+                            if (vault.isNotEmpty) {
+                              final first = vault.first;
+                              setSheetState(() {
+                                _selectedBirth = first.birthDateTime;
+                                _selectedCity = first.city;
+                              });
+                            } else {
+                              ProfileEditDialog.show(
+                                context,
+                                initialProfile: UserProfile(
+                                  name: '지인',
+                                  birthDateTime: DateTime(1996, 5, 10, 12, 0),
+                                  city: 'Seoul',
+                                ),
+                                region: widget.currentRegion,
+                                isForSelf: false,
+                                onSaved: (p) async {
+                                  await widget.profileRepo.addVaultProfile(p);
+                                  setSheetState(() {
+                                    _selectedBirth = p.birthDateTime;
+                                    _selectedCity = p.city;
+                                  });
+                                },
+                              );
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white24),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.group, color: Color(0xFF00E5FF), size: 16),
+                                const SizedBox(width: 4),
+                                Text(
+                                  AppI18n.tr('view_mode_other', widget.currentRegion),
+                                  style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 16),
 
                     // City Selection (True solar time anchor)
                     Text(
@@ -309,6 +458,77 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // 0. User Profile Quick Badge & Edit Trigger
+          StreamBuilder<UserProfile?>(
+            stream: widget.profileRepo.profileStream,
+            initialData: widget.profileRepo.profile,
+            builder: (context, snapshot) {
+              final profile = snapshot.data ?? widget.profileRepo.profile;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: GlassBox(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  backgroundColor: const Color(0xFF141B33).withValues(alpha: 0.7),
+                  border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.3)),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.person, color: SpaceNavyTheme.goldChampagne, size: 18),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${profile.name}님의 우주 좌표',
+                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${profile.sajuIlju.split('(').first} · ${profile.zodiacAnimal.split('(')[1].replaceAll(')', '')} · ${profile.sunSign} · ${profile.bloodType}',
+                              style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          ProfileEditDialog.show(
+                            context,
+                            initialProfile: profile,
+                            region: widget.currentRegion,
+                            onSaved: (updated) async {
+                              await widget.profileRepo.saveProfile(updated);
+                              setState(() {
+                                _selectedBirth = updated.birthDateTime;
+                                _selectedCity = updated.city;
+                              });
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: SpaceNavyTheme.goldBorder),
+                          ),
+                          child: const Text('수정', style: TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+
           // 1. Interactive 3D Culturally-Adaptive Astral Wheel
           AstralWheelWidget(
             currentRegion: widget.currentRegion,
@@ -323,7 +543,6 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
               );
             },
           ),
-
 
           const SizedBox(height: 12),
 

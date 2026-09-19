@@ -5,6 +5,7 @@ import 'core/localization/geo_detector.dart';
 import 'core/theme/aura_painter.dart';
 import 'core/theme/space_navy_theme.dart';
 import 'features/economy/data/heart_wallet_repository.dart';
+import 'features/profile/data/user_profile_repository.dart';
 import 'features/fortune/presentation/fortune_hub_screen.dart';
 import 'features/match/presentation/match_hub_screen.dart';
 import 'features/economy/presentation/shop_screen.dart';
@@ -21,13 +22,15 @@ void main() async {
   );
 
   final wallet = await HeartWalletRepository.create();
-  runApp(FortuneMatchApp(wallet: wallet));
+  final profileRepo = await UserProfileRepository.create();
+  runApp(FortuneMatchApp(wallet: wallet, profileRepo: profileRepo));
 }
 
 class FortuneMatchApp extends StatefulWidget {
   final HeartWalletRepository wallet;
+  final UserProfileRepository profileRepo;
 
-  const FortuneMatchApp({super.key, required this.wallet});
+  const FortuneMatchApp({super.key, required this.wallet, required this.profileRepo});
 
   @override
   State<FortuneMatchApp> createState() => _FortuneMatchAppState();
@@ -51,6 +54,7 @@ class _FortuneMatchAppState extends State<FortuneMatchApp> {
       theme: SpaceNavyTheme.darkTheme,
       home: FortuneMatchMainScaffold(
         wallet: widget.wallet,
+        profileRepo: widget.profileRepo,
         currentRegion: _currentRegion,
         onRegionChanged: (newRegion) {
           setState(() => _currentRegion = newRegion);
@@ -62,12 +66,14 @@ class _FortuneMatchAppState extends State<FortuneMatchApp> {
 
 class FortuneMatchMainScaffold extends StatefulWidget {
   final HeartWalletRepository wallet;
+  final UserProfileRepository profileRepo;
   final SupportedRegion currentRegion;
   final ValueChanged<SupportedRegion> onRegionChanged;
 
   const FortuneMatchMainScaffold({
     super.key,
     required this.wallet,
+    required this.profileRepo,
     required this.currentRegion,
     required this.onRegionChanged,
   });
@@ -86,10 +92,12 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
         currentRegion: widget.currentRegion,
         onRegionChanged: widget.onRegionChanged,
         wallet: widget.wallet,
+        profileRepo: widget.profileRepo,
       ),
       MatchHubScreen(
         currentRegion: widget.currentRegion,
         wallet: widget.wallet,
+        profileRepo: widget.profileRepo,
       ),
       ShopScreen(
         wallet: widget.wallet,
@@ -97,6 +105,7 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
       ),
       VaultScreen(
         wallet: widget.wallet,
+        profileRepo: widget.profileRepo,
         currentRegion: widget.currentRegion,
       ),
       SettingsScreen(

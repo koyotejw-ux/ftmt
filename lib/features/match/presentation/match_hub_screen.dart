@@ -7,6 +7,8 @@ import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../../economy/data/heart_wallet_repository.dart';
 import '../../economy/presentation/heart_shop_bottom_sheet.dart';
+import '../../profile/data/user_profile_repository.dart';
+import '../../profile/presentation/profile_edit_dialog.dart';
 import '../domain/sixteen_type_matrix.dart';
 import '../domain/match_item_engine.dart';
 import 'radar_chart_view.dart';
@@ -15,11 +17,13 @@ import 'story_share_widget.dart';
 class MatchHubScreen extends StatefulWidget {
   final SupportedRegion currentRegion;
   final HeartWalletRepository wallet;
+  final UserProfileRepository profileRepo;
 
   const MatchHubScreen({
     super.key,
     required this.currentRegion,
     required this.wallet,
+    required this.profileRepo,
   });
 
   @override
@@ -50,28 +54,32 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   }
 
   void _initDefaultSelections() {
+    final my = widget.profileRepo.profile;
+
     // 16 Types default
-    _selectedItemsA[MatchSubMenu.sixteenType] = 'ENFP';
+    _selectedItemsA[MatchSubMenu.sixteenType] = my.mbti ?? 'ENFP';
     _selectedItemsB[MatchSubMenu.sixteenType] = 'INTJ';
 
-    // Saju Pillar default
-    _selectedItemsA[MatchSubMenu.sajuIlju] = '갑자(甲子)';
+    // Saju Pillar default (Deduce exact day pillar from user's birth)
+    final myIlju = my.sajuIlju;
+    _selectedItemsA[MatchSubMenu.sajuIlju] = MatchItemEngine.sajuPillars.contains(myIlju) ? myIlju : MatchItemEngine.sajuPillars[0];
     _selectedItemsB[MatchSubMenu.sajuIlju] = '기축(己丑)';
 
-    // Zodiac Animal default (동갑 or 삼합)
-    _selectedItemsA[MatchSubMenu.zodiacAnimal] = '자(쥐띠 🐭)';
+    // Zodiac Animal default (Deduce animal from user's birth)
+    final myAnimal = my.zodiacAnimal;
+    _selectedItemsA[MatchSubMenu.zodiacAnimal] = MatchItemEngine.zodiacAnimals.contains(myAnimal) ? myAnimal : MatchItemEngine.zodiacAnimals[0];
     _selectedItemsB[MatchSubMenu.zodiacAnimal] = '진(용띠 🐲)';
 
     // Blood Type default
-    _selectedItemsA[MatchSubMenu.bloodType] = 'A형';
+    _selectedItemsA[MatchSubMenu.bloodType] = my.bloodType;
     _selectedItemsB[MatchSubMenu.bloodType] = 'O형';
 
     // Zodiac Element default
-    _selectedItemsA[MatchSubMenu.zodiacElement] = MatchItemEngine.zodiacElements[0]; // Fire
+    _selectedItemsA[MatchSubMenu.zodiacElement] = my.zodiacElement;
     _selectedItemsB[MatchSubMenu.zodiacElement] = MatchItemEngine.zodiacElements[2]; // Air
 
     // Numerology Life Path
-    _selectedItemsA[MatchSubMenu.numerologyLifePath] = MatchItemEngine.lifePathNumbers[0];
+    _selectedItemsA[MatchSubMenu.numerologyLifePath] = my.lifePathNumber;
     _selectedItemsB[MatchSubMenu.numerologyLifePath] = MatchItemEngine.lifePathNumbers[1];
 
     // Hybrid Blood x Zodiac
@@ -343,6 +351,127 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                             _updateMatchPreview();
                           }
                         },
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 12),
+
+                // Helper Action Buttons: Calculate from Birth & Pick from Vault
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        ),
+                        onPressed: () {
+                          ProfileEditDialog.show(
+                            context,
+                            initialProfile: UserProfile(
+                              name: '상대방',
+                              birthDateTime: DateTime(1996, 5, 10, 12, 0),
+                              city: 'Seoul',
+                            ),
+                            region: widget.currentRegion,
+                            isForSelf: false,
+                            onSaved: (personB) {
+                              setState(() {
+                                _selectedItemsB[MatchSubMenu.sajuIlju] = personB.sajuIlju;
+                                _selectedItemsB[MatchSubMenu.zodiacAnimal] = personB.zodiacAnimal;
+                                _selectedItemsB[MatchSubMenu.bloodType] = personB.bloodType;
+                                _selectedItemsB[MatchSubMenu.zodiacElement] = personB.zodiacElement;
+                                _selectedItemsB[MatchSubMenu.numerologyLifePath] = personB.lifePathNumber;
+                                if (personB.mbti != null) {
+                                  _selectedItemsB[MatchSubMenu.sixteenType] = personB.mbti!;
+                                }
+                              });
+                              _updateMatchPreview();
+                            },
+                          );
+                        },
+                        icon: const Icon(Icons.cake, color: SpaceNavyTheme.goldChampagne, size: 14),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppI18n.tr('match_calc_from_birth', widget.currentRegion),
+                            style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: const Color(0xFF00E5FF).withValues(alpha: 0.6)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        ),
+                        onPressed: () {
+                          final vault = widget.profileRepo.getSavedVaultProfiles();
+                          if (vault.isNotEmpty) {
+                            showModalBottomSheet(
+                              context: context,
+                              backgroundColor: const Color(0xFF0D1224),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                              ),
+                              builder: (sheetCtx) => SafeArea(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        AppI18n.tr('match_pick_from_vault', widget.currentRegion),
+                                        style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 14),
+                                      ...vault.map((p) => ListTile(
+                                            tileColor: Colors.white.withValues(alpha: 0.05),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                            leading: const Icon(Icons.favorite, color: Colors.pinkAccent),
+                                            title: Text(p.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                            subtitle: Text('${p.sajuIlju.split('(').first} · ${p.bloodType}', style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12)),
+                                            onTap: () {
+                                              Navigator.of(sheetCtx).pop();
+                                              setState(() {
+                                                _selectedItemsB[MatchSubMenu.sajuIlju] = p.sajuIlju;
+                                                _selectedItemsB[MatchSubMenu.zodiacAnimal] = p.zodiacAnimal;
+                                                _selectedItemsB[MatchSubMenu.bloodType] = p.bloodType;
+                                                _selectedItemsB[MatchSubMenu.zodiacElement] = p.zodiacElement;
+                                                _selectedItemsB[MatchSubMenu.numerologyLifePath] = p.lifePathNumber;
+                                                if (p.mbti != null) {
+                                                  _selectedItemsB[MatchSubMenu.sixteenType] = p.mbti!;
+                                                }
+                                              });
+                                              _updateMatchPreview();
+                                            },
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('보관함에 저장된 인연이 없습니다. 생년월일로 직접 계산해 보세요!')),
+                            );
+                          }
+                        },
+                        icon: const Icon(Icons.people_alt, color: Color(0xFF00E5FF), size: 14),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppI18n.tr('match_pick_from_vault', widget.currentRegion),
+                            style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ),
                   ],
