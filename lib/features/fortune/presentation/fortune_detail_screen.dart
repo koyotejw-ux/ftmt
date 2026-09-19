@@ -6,6 +6,7 @@ import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../../../core/astronomy/ephemeris_math.dart';
 import '../domain/tarot_deck.dart';
+import '../domain/tarot_reading_engine.dart';
 
 class FortuneDetailScreen extends StatelessWidget {
   final String title;
@@ -206,6 +207,9 @@ class FortuneDetailScreen extends StatelessWidget {
                   ),
                 );
               }),
+              const SizedBox(height: 16),
+              // 3-Card 시간 흐름 종합 운세 풀이 및 행동 가이드
+              _buildTarotComprehensiveInterpretation(context),
             ] else ...[
               // Saju & Deep Destiny Report
               Text(
@@ -327,6 +331,10 @@ class FortuneDetailScreen extends StatelessWidget {
       return '당신의 생년월일에 깃든 수비학 운명수는 세상을 변화시키는 특별한 파동을 지니고 있습니다. 흔들리지 않는 자기 확신을 갖고 나아갈 때 숨겨진 잠재력과 영적 사명이 활짝 피어납니다.';
     } else if (menu == FortuneSubMenu.celticRunes) {
       return '고대 북유럽 룬의 신비로운 상징이 당신의 수호 에너지를 감싸고 있습니다. 내면의 소리에 귀 기울이고 신념을 행동으로 옮길 때 우주의 지혜가 당신을 올바른 길로 인도합니다.';
+    } else if (menu == FortuneSubMenu.rokusei) {
+      return '롯세이센주츠(六星占術)의 대운 흐름에 따르면, 당신의 운명성은 현재 잠재된 씨앗이 단단한 뿌리를 내리는 안정기(安定期)에 머물고 있습니다. 무리한 확장보다 약속과 신용을 중시할 때 재물과 명예가 크게 번창합니다.';
+    } else if (menu == FortuneSubMenu.kigaku) {
+      return '구성기학(九星気学) 본명성과 월명성의 방위 기운이 조화롭게 작용하고 있습니다. 동남쪽의 활발한 생기(生氣)를 품고 있으므로 적극적인 교류와 활동을 펼칠 때 뜻밖의 큰 조력자를 만나게 됩니다.';
     }
     return AppI18n.tr('detail_nature_flow_desc', region);
   }
@@ -352,8 +360,174 @@ class FortuneDetailScreen extends StatelessWidget {
         case WesternZodiac.pisces:
           return '원소 개운 처방: 물(Water)의 깊은 정서를 위해 따뜻한 반신욕과 잔잔한 음악으로 에너지를 충전하세요.';
       }
+    } else if (menu == FortuneSubMenu.dailyZodiacAnimal) {
+      return '12간지 개운 처방: 아침 기상 시 동쪽을 바라보며 심호흡 3회를 하고, 밝은 미소로 첫 인사를 건네보세요.';
+    } else if (menu == FortuneSubMenu.numerology) {
+      return '수비학 조율 처방: 당신의 고유 수비학 진동수에 맞춰 중요한 메모나 숫자를 기록할 때 금색/청색 펜을 활용하세요.';
+    } else if (menu == FortuneSubMenu.celticRunes) {
+      return '룬 신탁 개운 처방: 자연의 소리(바람, 물소리)를 배경 삼아 5분간 명상하며 마음의 나침반을 정렬하세요.';
+    } else if (menu == FortuneSubMenu.rokusei) {
+      return '롯세이센주츠 처방: 감정의 기복을 조절하기 위해 책상 정리정돈과 정갈한 차 한 잔으로 운의 흐름을 정화하세요.';
+    } else if (menu == FortuneSubMenu.kigaku) {
+      return '구성기학 방위 처방: 출근 및 외출 시 환한 미소와 함께 동남쪽으로 가벼운 발걸음을 내딛으세요.';
     }
     return AppI18n.tr('detail_remedy_title', region);
+  }
+
+  Widget _buildTarotComprehensiveInterpretation(BuildContext context) {
+    if (selectedTarotCards == null || selectedTarotCards!.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final reading = TarotReadingEngine.analyzeThreeCards(
+      selectedTarotCards!,
+      region: region,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          region == SupportedRegion.korea
+              ? '✦ 3-Card 시간 흐름 종합 운세 풀이'
+              : '✦ 3-Card Comprehensive Destiny Synthesis',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        GlassBox(
+          backgroundColor: const Color(0xFF0F1528).withValues(alpha: 0.85),
+          border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.7)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Flow Title
+              Row(
+                children: [
+                  const Icon(Icons.auto_awesome, color: SpaceNavyTheme.goldChampagne, size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      reading.flowTitle,
+                      style: const TextStyle(
+                        color: SpaceNavyTheme.goldChampagne,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              // Narrative
+              Text(
+                reading.flowNarrative,
+                style: const TextStyle(
+                  color: Color(0xFFF0F4FC),
+                  fontSize: 14,
+                  height: 1.6,
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Divider(color: Colors.white12, height: 1),
+              const SizedBox(height: 14),
+
+              // Love & Relationship advice
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.favorite, color: Color(0xFFFF4081), size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          region == SupportedRegion.korea ? '애정 & 대인관계 흐름' : 'Love & Relationships',
+                          style: const TextStyle(
+                            color: Color(0xFFFF4081),
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          reading.loveAndRelationshipAdvice,
+                          style: const TextStyle(color: Color(0xFFD6DFEF), fontSize: 13, height: 1.5),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+
+              // Career & Finance advice
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.monetization_on, color: Color(0xFF00E5FF), size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          region == SupportedRegion.korea ? '직업 & 재물 비전' : 'Career & Wealth Vision',
+                          style: const TextStyle(
+                            color: Color(0xFF00E5FF),
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          reading.careerAndFinanceAdvice,
+                          style: const TextStyle(color: Color(0xFFD6DFEF), fontSize: 13, height: 1.5),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Core Action Tip Box
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.4)),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.lightbulb, color: SpaceNavyTheme.goldChampagne, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        reading.coreActionTip,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          height: 1.5,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildDataColumn(String label, String value) {

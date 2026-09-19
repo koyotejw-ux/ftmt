@@ -13,6 +13,7 @@ import '../domain/sixteen_type_matrix.dart';
 import '../domain/match_item_engine.dart';
 import 'radar_chart_view.dart';
 import 'story_share_widget.dart';
+import 'widgets/match_deep_report_sheet.dart';
 
 class MatchHubScreen extends StatefulWidget {
   final SupportedRegion currentRegion;
@@ -170,9 +171,25 @@ class _MatchHubScreenState extends State<MatchHubScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppI18n.tr('match_unlocked_snack', widget.currentRegion)),
-          duration: const Duration(seconds: 2),
+          duration: const Duration(seconds: 1),
         ),
       );
+
+      final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+      final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
+      final a = _getItemA(currentMenu);
+      final b = _getItemB(currentMenu);
+
+      if (_matchResult != null) {
+        MatchDeepReportSheet.show(
+          context,
+          menu: currentMenu,
+          itemA: a,
+          itemB: b,
+          result: _matchResult!,
+          region: widget.currentRegion,
+        );
+      }
     }
   }
 
