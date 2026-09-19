@@ -80,80 +80,167 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
           ),
         ),
 
-        // 3 Picked Cards Area
+        // 3 Picked Cards Area (Tarot Golden Ratio 1:1.6, Perfectly Centered)
         Container(
-          height: 120,
+          height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(3, (index) {
               final hasCard = index < _selectedCards.length;
               final card = hasCard ? _selectedCards[index] : null;
+              final phaseName = [
+                AppI18n.tr('tarot_phase_past', widget.region),
+                AppI18n.tr('tarot_phase_present', widget.region),
+                AppI18n.tr('tarot_phase_future', widget.region),
+              ][index];
 
-              return Flexible(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 88, minWidth: 64),
-                  height: 110,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: hasCard ? SpaceNavyTheme.goldChampagne : Colors.white24,
-                      width: hasCard ? 1.5 : 1.0,
-                    ),
-                    color: hasCard
-                        ? const Color(0xFF141B33)
-                        : Colors.white.withValues(alpha: 0.04),
-                    boxShadow: hasCard
-                        ? [
-                            BoxShadow(
-                              color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.35),
-                              blurRadius: 10,
-                            ),
-                          ]
-                        : [],
+              return Container(
+                width: 82,
+                height: 124,
+                margin: const EdgeInsets.symmetric(horizontal: 6),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: hasCard ? SpaceNavyTheme.goldChampagne : SpaceNavyTheme.goldBorder.withValues(alpha: 0.35),
+                    width: hasCard ? 1.8 : 1.0,
                   ),
-                  child: Center(
-                    child: hasCard
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FittedBox(
-                                child: Text(
-                                  card!.runeSymbol,
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    color: SpaceNavyTheme.goldChampagne,
+                  color: hasCard
+                      ? const Color(0xFF141B33)
+                      : const Color(0xFF0D1224).withValues(alpha: 0.6),
+                  boxShadow: hasCard
+                      ? [
+                          BoxShadow(
+                            color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            spreadRadius: 1,
+                          ),
+                        ]
+                      : [],
+                ),
+                child: hasCard
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(11),
+                        child: Stack(
+                          children: [
+                            // Golden inner border
+                            Positioned.fill(
+                              child: Container(
+                                margin: const EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.4),
+                                    width: 0.8,
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(6),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Phase tag
+                                    Text(
+                                      phaseName.split(' ')[0],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Color(0xFF00E5FF),
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    // Rune / Arcana Symbol
+                                    Text(
+                                      card!.runeSymbol,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 26,
+                                        color: SpaceNavyTheme.goldChampagne,
+                                        height: 1.1,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    // Card Name
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        card.localizedName(widget.region).split('(').first.trim(),
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 26,
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white24,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Center(
                                   child: Text(
-                                    card.localizedName(widget.region).split(' ')[0],
+                                    '${index + 1}',
+                                    textAlign: TextAlign.center,
                                     style: const TextStyle(
+                                      color: Colors.white38,
                                       fontSize: 11,
-                                      color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 8),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  phaseName,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              const Text(
+                                '카드 선택',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF9AA7C7),
+                                  fontSize: 9,
+                                ),
+                              ),
                             ],
-                          )
-                        : Text(
-                            [
-                              AppI18n.tr('tarot_phase_past', widget.region),
-                              AppI18n.tr('tarot_phase_present', widget.region),
-                              AppI18n.tr('tarot_phase_future', widget.region),
-                            ][index],
-                            style: const TextStyle(color: Colors.white38, fontSize: 12),
                           ),
-                  ),
-                ),
+                        ),
+                      ),
               );
             }),
           ),
@@ -199,6 +286,19 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
                           backgroundColor: const Color(0xFF0D1224).withValues(alpha: 0.85),
                           child: Stack(
                             children: [
+                              // Inner ornate border
+                              Positioned.fill(
+                                child: Container(
+                                  margin: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: SpaceNavyTheme.goldChampagne.withValues(alpha: isPicked ? 0.6 : 0.25),
+                                      width: 0.8,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               // Mystical back design
                               Center(
                                 child: Column(
@@ -206,15 +306,20 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
                                   children: [
                                     Icon(
                                       Icons.auto_awesome,
-                                      color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6),
+                                      color: isPicked
+                                          ? SpaceNavyTheme.cyanNeon
+                                          : SpaceNavyTheme.goldChampagne.withValues(alpha: 0.75),
                                       size: 32,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      '✦ 78 ✦',
+                                      '✦ TAROT ✦',
                                       style: TextStyle(
-                                        color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.4),
+                                        color: isPicked
+                                            ? SpaceNavyTheme.cyanNeon
+                                            : SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6),
                                         fontSize: 10,
+                                        fontWeight: FontWeight.bold,
                                         letterSpacing: 2.0,
                                       ),
                                     ),
@@ -223,14 +328,14 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
                               ),
                               if (isPicked)
                                 Positioned(
-                                  top: 6,
-                                  right: 6,
+                                  top: 8,
+                                  right: 8,
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       color: SpaceNavyTheme.cyanNeon,
                                       shape: BoxShape.circle,
                                     ),
-                                    padding: const EdgeInsets.all(2),
+                                    padding: const EdgeInsets.all(3),
                                     child: const Icon(Icons.check, size: 12, color: Colors.black),
                                   ),
                                 ),
