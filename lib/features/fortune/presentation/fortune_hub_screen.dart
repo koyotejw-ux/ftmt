@@ -96,6 +96,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
   Future<void> _analyzeFortuneWithAd({
     required String title,
     required String category,
+    FortuneSubMenu? menu,
     List<dynamic>? tarotCards,
   }) async {
     // Check heart balance
@@ -130,6 +131,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                   builder: (ctx) => FortuneDetailScreen(
                     title: title,
                     category: category,
+                    menu: menu,
                     birthTime: _selectedBirth,
                     selectedCity: _currentCity,
                     selectedTarotCards: tarotCards?.cast(),
@@ -422,6 +424,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           _analyzeFortuneWithAd(
                             title: menu.localizedTitle(widget.currentRegion),
                             category: 'Ephemeris Analysis',
+                            menu: menu,
                           );
                         },
                         child: Row(

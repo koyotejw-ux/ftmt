@@ -72,23 +72,27 @@ class GeoDetector {
         return [
           MatchSubMenu.sajuIlju,
           MatchSubMenu.zodiacAnimal,
+          MatchSubMenu.westernZodiac,
           MatchSubMenu.bloodType,
           MatchSubMenu.sixteenType,
         ];
       case SupportedRegion.unitedStates:
         return [
+          MatchSubMenu.westernZodiac,
           MatchSubMenu.zodiacElement,
           MatchSubMenu.sixteenType,
           MatchSubMenu.numerologyLifePath,
         ];
       case SupportedRegion.japan:
         return [
+          MatchSubMenu.westernZodiac,
           MatchSubMenu.bloodZodiacHybrid,
           MatchSubMenu.sixteenType,
           MatchSubMenu.rokuseiMatch,
         ];
       case SupportedRegion.europe:
         return [
+          MatchSubMenu.westernZodiac,
           MatchSubMenu.zodiacHouse,
           MatchSubMenu.numerologyLifePath,
           MatchSubMenu.celticRuneMatch,
@@ -134,6 +138,7 @@ enum FortuneSubMenu {
 }
 
 enum MatchSubMenu {
+  westernZodiac('12별자리 (Zodiac) 케미', '12 Zodiac Signs Chemistry', '12星座の相性・惹かれ合い', 'Chimie des 12 Signes du Zodiaque'),
   sixteenType('16 성격유형 (MBTI) 케미', '16 Personalities Chemistry', '16タイプ性格相性 (MBTI)', '16 Personalities Match'),
   sajuIlju('사주 일주(日柱) 합·충 궁합', 'Bazi Day Pillar Harmony', '日柱の相性と引き寄せ', 'Bazi Pillar Harmony'),
   zodiacAnimal('전통 12간지 띠 궁합', '12 Eastern Zodiac Animal Match', '十二支・生まれ年相性', 'Zodiaque Chinois Harmonie'),

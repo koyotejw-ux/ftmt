@@ -60,6 +60,13 @@ class _MatchHubScreenState extends State<MatchHubScreen>
     _selectedItemsA[MatchSubMenu.sixteenType] = my.mbti ?? 'ENFP';
     _selectedItemsB[MatchSubMenu.sixteenType] = 'INTJ';
 
+    // 12 Western Zodiac default
+    final myZodiac = my.westernZodiacItem;
+    _selectedItemsA[MatchSubMenu.westernZodiac] = MatchItemEngine.westernZodiacSigns.contains(myZodiac)
+        ? myZodiac
+        : MatchItemEngine.westernZodiacSigns[4]; // 사자자리
+    _selectedItemsB[MatchSubMenu.westernZodiac] = MatchItemEngine.westernZodiacSigns[8]; // 사수자리 (120° 트라인 최상 궁합)
+
     // Saju Pillar default (Deduce exact day pillar from user's birth)
     final myIlju = my.sajuIlju;
     _selectedItemsA[MatchSubMenu.sajuIlju] = MatchItemEngine.sajuPillars.contains(myIlju) ? myIlju : MatchItemEngine.sajuPillars[0];
@@ -380,6 +387,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                             isForSelf: false,
                             onSaved: (personB) {
                               setState(() {
+                                _selectedItemsB[MatchSubMenu.westernZodiac] = personB.westernZodiacItem;
                                 _selectedItemsB[MatchSubMenu.sajuIlju] = personB.sajuIlju;
                                 _selectedItemsB[MatchSubMenu.zodiacAnimal] = personB.zodiacAnimal;
                                 _selectedItemsB[MatchSubMenu.bloodType] = personB.bloodType;
@@ -437,10 +445,11 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                             leading: const Icon(Icons.favorite, color: Colors.pinkAccent),
                                             title: Text(p.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                                            subtitle: Text('${p.sajuIlju.split('(').first} · ${p.bloodType}', style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12)),
+                                            subtitle: Text('${p.westernZodiacItem.split('(').first} · ${p.sajuIlju.split('(').first} · ${p.bloodType}', style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12)),
                                             onTap: () {
                                               Navigator.of(sheetCtx).pop();
                                               setState(() {
+                                                _selectedItemsB[MatchSubMenu.westernZodiac] = p.westernZodiacItem;
                                                 _selectedItemsB[MatchSubMenu.sajuIlju] = p.sajuIlju;
                                                 _selectedItemsB[MatchSubMenu.zodiacAnimal] = p.zodiacAnimal;
                                                 _selectedItemsB[MatchSubMenu.bloodType] = p.bloodType;

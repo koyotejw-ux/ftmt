@@ -4,6 +4,8 @@ import 'package:fortunematch/core/astronomy/saju_engine.dart';
 import 'package:fortunematch/core/astronomy/solar_time_fixer.dart';
 import 'package:fortunematch/core/astronomy/ephemeris_math.dart';
 import 'package:fortunematch/features/match/domain/sixteen_type_matrix.dart';
+import 'package:fortunematch/features/match/domain/match_item_engine.dart';
+import 'package:fortunematch/core/localization/geo_detector.dart';
 import 'package:fortunematch/features/economy/data/heart_wallet_repository.dart';
 
 void main() {
@@ -59,6 +61,33 @@ void main() {
       await repo.unlockVipMasterPass();
       expect(repo.hasVipPass, isTrue);
       expect(repo.hasNoAds, isTrue);
+    });
+
+    test('Western Zodiac Match Calculation and GeoDetector integration', () {
+      // 120° Trine match: 양자리(Aries) & 사수자리(Sagittarius)
+      final trineRes = MatchItemEngine.calculateMatch(
+        menu: MatchSubMenu.westernZodiac,
+        itemA: '양자리 (♈ Aries)',
+        itemB: '사수자리 (♐ Sagittarius)',
+        region: SupportedRegion.korea,
+      );
+      expect(trineRes.score, 98);
+      expect(trineRes.headline.contains('트라인') || trineRes.headline.contains('Trine'), isTrue);
+
+      // Same sign match: 사자자리 & 사자자리
+      final sameRes = MatchItemEngine.calculateMatch(
+        menu: MatchSubMenu.westernZodiac,
+        itemA: '사자자리 (♌ Leo)',
+        itemB: '사자자리 (♌ Leo)',
+        region: SupportedRegion.korea,
+      );
+      expect(sameRes.score, 92);
+
+      // Ensure westernZodiac is included in all regional menus
+      for (final region in SupportedRegion.values) {
+        final menus = GeoDetector.getMatchMenus(region);
+        expect(menus.contains(MatchSubMenu.westernZodiac), isTrue);
+      }
     });
   });
 }

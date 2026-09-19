@@ -47,6 +47,12 @@ class UserProfile {
     return sign.ko;
   }
 
+  /// Calculate Western Zodiac Item formatted (e.g. '사자자리 (♌ Leo)')
+  String get westernZodiacItem {
+    final sign = EphemerisMath.getSunSign(birthDateTime);
+    return '${sign.ko} (${sign.symbol} ${sign.en})';
+  }
+
   /// Calculate Western Zodiac 4 Elements
   String get zodiacElement {
     final sign = EphemerisMath.getSunSign(birthDateTime);

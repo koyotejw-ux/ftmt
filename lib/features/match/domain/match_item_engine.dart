@@ -3,6 +3,22 @@ import '../../../core/localization/geo_detector.dart';
 import 'sixteen_type_matrix.dart';
 
 class MatchItemEngine {
+  // 0. Global: 12 Western Zodiac Signs (황도 12궁)
+  static const List<String> westernZodiacSigns = [
+    '양자리 (♈ Aries)',
+    '황소자리 (♉ Taurus)',
+    '쌍둥이자리 (♊ Gemini)',
+    '게자리 (♋ Cancer)',
+    '사자자리 (♌ Leo)',
+    '처녀자리 (♍ Virgo)',
+    '천칭자리 (♎ Libra)',
+    '전갈자리 (♏ Scorpio)',
+    '사수자리 (♐ Sagittarius)',
+    '염소자리 (♑ Capricorn)',
+    '물병자리 (♒ Aquarius)',
+    '물고기자리 (♓ Pisces)',
+  ];
+
   // 1. Korea: Saju Ilju (60 甲子 일주)
   static const List<String> sajuPillars = [
     '갑자(甲子)', '을축(乙丑)', '병인(丙寅)', '정묘(丁卯)', '무진(戊辰)',
@@ -97,6 +113,8 @@ class MatchItemEngine {
   /// Returns available items for selected menu
   static List<String> getAvailableItems(MatchSubMenu menu) {
     switch (menu) {
+      case MatchSubMenu.westernZodiac:
+        return westernZodiacSigns;
       case MatchSubMenu.sixteenType:
         return SixteenTypeMatrix.allTypes;
       case MatchSubMenu.sajuIlju:
@@ -123,6 +141,14 @@ class MatchItemEngine {
   /// Get localized short aura label for display inside the glowing orbs
   static String getAuraOrbLabel(MatchSubMenu menu, String value) {
     switch (menu) {
+      case MatchSubMenu.westernZodiac:
+        // '양자리 (♈ Aries)' -> '♈ 양자리'
+        if (value.contains('(') && value.contains(')')) {
+          final signName = value.split('(').first.trim();
+          final symbol = value.substring(value.indexOf('(') + 1).split(' ').first;
+          return '$symbol $signName';
+        }
+        return value;
       case MatchSubMenu.sixteenType:
         return value;
       case MatchSubMenu.sajuIlju:
@@ -159,6 +185,8 @@ class MatchItemEngine {
   /// Localized labels for Me and Partner input pickers
   static String getPickerLabelA(MatchSubMenu menu, SupportedRegion region) {
     switch (menu) {
+      case MatchSubMenu.westernZodiac:
+        return AppI18n.tr('my_zodiac_sign_label', region);
       case MatchSubMenu.sixteenType:
         return AppI18n.tr('my_type', region);
       case MatchSubMenu.sajuIlju:
@@ -184,6 +212,8 @@ class MatchItemEngine {
 
   static String getPickerLabelB(MatchSubMenu menu, SupportedRegion region) {
     switch (menu) {
+      case MatchSubMenu.westernZodiac:
+        return AppI18n.tr('partner_zodiac_sign_label', region);
       case MatchSubMenu.sixteenType:
         return AppI18n.tr('partner_type', region);
       case MatchSubMenu.sajuIlju:
@@ -215,6 +245,9 @@ class MatchItemEngine {
     required SupportedRegion region,
   }) {
     switch (menu) {
+      case MatchSubMenu.westernZodiac:
+        return _calculateWesternZodiac(itemA, itemB, region);
+
       case MatchSubMenu.sixteenType:
         return SixteenTypeMatrix.calculateChemistry(itemA, itemB, region: region);
 
@@ -493,6 +526,111 @@ class MatchItemEngine {
       communication: (82 + ((seed ~/ 3) % 16)).toDouble(),
       values: (92 + ((seed ~/ 4) % 8)).toDouble(),
       growth: (90 + ((seed ~/ 5) % 9)).toDouble(),
+    );
+  }
+
+  // 10) 12 서양 별자리 (Sun Signs) 정밀 각도(Aspect) 및 원소 궁합
+  static MatchResult _calculateWesternZodiac(String a, String b, SupportedRegion region) {
+    final cleanA = a.split('(').first.trim();
+    final cleanB = b.split('(').first.trim();
+
+    final signOrder = [
+      '양자리', '황소자리', '쌍둥이자리', '게자리',
+      '사자자리', '처녀자리', '천칭자리', '전갈자리',
+      '사수자리', '염소자리', '물병자리', '물고기자리',
+    ];
+
+    final idxA = signOrder.indexOf(cleanA);
+    final idxB = signOrder.indexOf(cleanB);
+
+    final validA = idxA >= 0 ? idxA : 0;
+    final validB = idxB >= 0 ? idxB : 0;
+
+    final diff = ((validA - validB).abs()) % 12;
+    final step = diff > 6 ? 12 - diff : diff;
+
+    int score = 82;
+    String headline = AppI18n.tr('match_zodiac_semi_title', region);
+    String summary = AppI18n.tr('match_zodiac_semi_desc', region);
+
+    double passion = 82;
+    double trust = 84;
+    double comms = 82;
+    double values = 85;
+    double growth = 88;
+
+    if (step == 0) {
+      // 동일한 별자리 (Conjunction 0°)
+      score = 92;
+      headline = AppI18n.tr('mirror_pair_title', region);
+      summary = AppI18n.tr('mirror_pair_desc', region);
+      passion = 90;
+      trust = 95;
+      comms = 92;
+      values = 96;
+      growth = 88;
+    } else if (step == 4) {
+      // 120° 트라인 (Trine) - 동일 4대 원소 (Fire-Fire, Earth-Earth, Air-Air, Water-Water)
+      score = 98;
+      headline = AppI18n.tr('match_zodiac_trine_title', region);
+      summary = AppI18n.tr('match_zodiac_trine_desc', region);
+      passion = 96;
+      trust = 98;
+      comms = 95;
+      values = 97;
+      growth = 94;
+    } else if (step == 2) {
+      // 60° 섹스타일 (Sextile) - 상생 원소 (Fire-Air, Earth-Water)
+      score = 95;
+      headline = AppI18n.tr('match_zodiac_sextile_title', region);
+      summary = AppI18n.tr('match_zodiac_sextile_desc', region);
+      passion = 94;
+      trust = 93;
+      comms = 97;
+      values = 92;
+      growth = 96;
+    } else if (step == 6) {
+      // 180° 대향궁 (Opposition) - 정반대의 강렬한 자석 같은 끌림
+      score = 90;
+      headline = AppI18n.tr('match_zodiac_opposite_title', region);
+      summary = AppI18n.tr('match_zodiac_opposite_desc', region);
+      passion = 98;
+      trust = 85;
+      comms = 88;
+      values = 86;
+      growth = 99;
+    } else if (step == 3) {
+      // 90° 스퀘어 (Square) - 역동적 도전과 긴장감
+      score = 84;
+      headline = AppI18n.tr('match_zodiac_square_title', region);
+      summary = AppI18n.tr('match_zodiac_square_desc', region);
+      passion = 92;
+      trust = 80;
+      comms = 83;
+      values = 82;
+      growth = 95;
+    } else if (step == 5) {
+      // 150° 퀸컹크스 (Quincunx) - 신비로운 이끌림과 영적 조율
+      score = 86;
+      headline = AppI18n.tr('match_zodiac_quincunx_title', region);
+      summary = AppI18n.tr('match_zodiac_quincunx_desc', region);
+      passion = 87;
+      trust = 86;
+      comms = 84;
+      values = 88;
+      growth = 92;
+    }
+
+    final seed = (a.hashCode ^ b.hashCode).abs();
+    return MatchResult(
+      score: score,
+      headline: headline,
+      summary: summary,
+      passion: passion + (seed % 3),
+      trust: trust + ((seed ~/ 2) % 3),
+      communication: comms + ((seed ~/ 3) % 3),
+      values: values + ((seed ~/ 4) % 3),
+      growth: growth + ((seed ~/ 5) % 3),
     );
   }
 }

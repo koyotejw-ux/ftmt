@@ -1128,6 +1128,92 @@ class AppI18n {
       SupportedRegion.europe: 'Ajouter',
     },
 
+    // Western Zodiac Match Specific Keys
+    'my_zodiac_sign_label': {
+      SupportedRegion.korea: '나의 12별자리 (Sun Sign)',
+      SupportedRegion.unitedStates: 'My Sun Sign (Zodiac)',
+      SupportedRegion.japan: '自分の太陽星座 (12星座)',
+      SupportedRegion.europe: 'Mon Signe Solaire (Zodiaque)',
+    },
+    'partner_zodiac_sign_label': {
+      SupportedRegion.korea: '상대방 12별자리 (Sun Sign)',
+      SupportedRegion.unitedStates: 'Partner Sun Sign',
+      SupportedRegion.japan: '相手の太陽星座 (12星座)',
+      SupportedRegion.europe: 'Signe Solaire du Partenaire',
+    },
+    'match_zodiac_trine_title': {
+      SupportedRegion.korea: '120° 트라인(Trine): 원소의 완벽한 공명과 축복',
+      SupportedRegion.unitedStates: '120° Trine: Sublime Elemental Harmonic Harmony',
+      SupportedRegion.japan: '120° トライン: 同じエレメントの調和と至高の共鳴',
+      SupportedRegion.europe: 'Trigone 120° : Harmonie Céleste Élémentaire Parfaite',
+    },
+    'match_zodiac_trine_desc': {
+      SupportedRegion.korea: '동일한 천문학적 원소(Fire/Earth/Air/Water)를 공유하는 최고의 별자리 조합으로, 서로의 감정과 가치관이 물 흐르듯 자연스럽게 통하는 천생연분입니다.',
+      SupportedRegion.unitedStates: 'Sharing identical celestial elements, your energies flow into each other effortlessly, creating a profound, destined cosmic union.',
+      SupportedRegion.japan: '同じエレメントを共有する最高の星座相性。言葉を交わさずとも互いの意図や感情が自然に伝わり合う天生物のご縁です。',
+      SupportedRegion.europe: 'Partageant la même essence élémentaire, vos âmes vibrent à l\'unisson dans une communion fluide et inconditionnelle.',
+    },
+    'match_zodiac_sextile_title': {
+      SupportedRegion.korea: '60° 섹스타일(Sextile): 불과 바람, 흙과 물의 황금 시너지',
+      SupportedRegion.unitedStates: '60° Sextile: Golden Complementary Alchemy',
+      SupportedRegion.japan: '60° セクスタイル: 火と風、土と水が織りなす黄金シナジー',
+      SupportedRegion.europe: 'Sextile 60° : Alchimie Complémentaire Dorée',
+    },
+    'match_zodiac_sextile_desc': {
+      SupportedRegion.korea: '상생하는 원소 간의 결합(불-바람, 흙-물)으로, 서로에게 끝없는 활력과 영감을 불어넣으며 함께 있을 때 둘만의 시너지가 폭발하는 환상의 콤비입니다.',
+      SupportedRegion.unitedStates: 'Interlocking compatible elements (Fire-Air, Earth-Water) constantly stoke creativity, mutual vitality, and joyful companionship.',
+      SupportedRegion.japan: '相生のエレメント（火×風、土×水）が互いを高め合い、常に前向きな刺激と温かな居心地を届ける理想のパートナーです。',
+      SupportedRegion.europe: 'L\'alliance féconde des éléments compatibles apporte une émulation bienveillante et un élan partagé perpétuel.',
+    },
+    'match_zodiac_opposite_title': {
+      SupportedRegion.korea: '180° 대향궁(Opposition): 자석처럼 강렬하게 끌리는 운명적 스파크',
+      SupportedRegion.unitedStates: '180° Opposition: Magnetic Polarity & Destiny Spark',
+      SupportedRegion.japan: '180° オポジション: 磁石のように強く惹かれ合う運命の引力',
+      SupportedRegion.europe: 'Opposition 180° : Attraction Magnétique & Miroir Céleste',
+    },
+    'match_zodiac_opposite_desc': {
+      SupportedRegion.korea: '황도 12궁에서 정반대에 위치한 별자리로서, 서로의 결핍을 완벽하게 거울처럼 비추어 강력한 매력과 폭발적인 성장을 이끌어내는 마력의 관계입니다.',
+      SupportedRegion.unitedStates: 'Facing across the celestial wheel, you reflect each other\'s soul shadows, igniting irresistible magnetic attraction and transformational growth.',
+      SupportedRegion.japan: '黄道十二宮で真正面に向き合う星座同士。互いに欠けているピースを補い合い、抗えない魅力で惹かれ合うドラマチックなご縁です。',
+      SupportedRegion.europe: 'Placés en face à face sur la roue céleste, vos contrastes magnétiques s\'attirent irrésistiblement pour une métamorphose mutuelle.',
+    },
+    'match_zodiac_square_title': {
+      SupportedRegion.korea: '90° 스퀘어(Square): 다이내믹한 긴장감과 열정적 도전',
+      SupportedRegion.unitedStates: '90° Square: Dynamic Creative Tension & Passion',
+      SupportedRegion.japan: '90° スクエア: 刺激的な緊張感と熱い情熱の挑戦',
+      SupportedRegion.europe: 'Carré 90° : Tension Créatrice & Flamme Passionnée',
+    },
+    'match_zodiac_square_desc': {
+      SupportedRegion.korea: '서로 다른 기질이 팽팽한 호기심과 강렬한 긴장감을 선사합니다. 대화와 이해를 통해 조율할 때 그 어떤 관계보다 견고한 성취와 깊은 사랑을 일궈냅니다.',
+      SupportedRegion.unitedStates: 'Distinct behavioral modes spark intriguing friction and fierce passion, forging diamond-strength devotion once embraced.',
+      SupportedRegion.japan: '異なる気質が心地よい刺激と緊張感を生み出します。互いを認め合うことで、誰よりも強固な絆と情熱を育めます。',
+      SupportedRegion.europe: 'Une étincelle vive née de modes d\'action distincts qui se transmue en un attachement d\'une intensité exceptionnelle.',
+    },
+    'match_zodiac_semi_title': {
+      SupportedRegion.korea: '이웃 별자리의 신선한 배움과 호기심',
+      SupportedRegion.unitedStates: 'Adjacent Signs: Fresh Discovery & Learning',
+      SupportedRegion.japan: '隣り合う星座: 新鮮な学びと好奇心の絆',
+      SupportedRegion.europe: 'Signes Voisins : Découverte Fraîche & Curiosité',
+    },
+    'match_zodiac_semi_desc': {
+      SupportedRegion.korea: '황도대에서 바로 이웃하거나 인접한 별자리로서 서로에게 없는 독창적인 면모에 감탄하며, 친구이자 스승으로서 오랜 신뢰를 쌓아가는 따뜻한 관계입니다.',
+      SupportedRegion.unitedStates: 'Adjacent signs bringing fascinating contrasts, admiring each other\'s distinct gifts in enduring friendship and romance.',
+      SupportedRegion.japan: '隣り合う星座ならではの新鮮な驚きに満ち、親友であり良き理解者として穏やかな愛情を深めていけます。',
+      SupportedRegion.europe: 'Voisins sur la roue zodiacale, vous vous émerveillez des dons de l\'autre avec tendresse et complicité durable.',
+    },
+    'match_zodiac_quincunx_title': {
+      SupportedRegion.korea: '150° 퀸컹크스: 신비로운 이끌림과 영적 조율',
+      SupportedRegion.unitedStates: '150° Quincunx: Mystical Fascination & Evolution',
+      SupportedRegion.japan: '150° インコンジャンクト: 神秘的な引力と魂の調율',
+      SupportedRegion.europe: 'Quinconce 150° : Fascination Mystique & Ajustement Sacré',
+    },
+    'match_zodiac_quincunx_desc': {
+      SupportedRegion.korea: '원소와 성향이 완전히 다른 이질적인 매력에 사로잡히며, 서로를 이해하려는 배려를 통해 영혼의 그릇을 한층 넓혀가는 성숙한 인연입니다.',
+      SupportedRegion.unitedStates: 'Fascinated by completely disparate energetic frequencies, unlocking deep personal transformation and graceful empathy.',
+      SupportedRegion.japan: '全く異なる性質にミステ리어スな魅力を感じ合い、思いやりを重ねることで心の器を大きく広げられるご縁です。',
+      SupportedRegion.europe: 'Attirés par des fréquences singulières, vous élargissez votre conscience avec délicatesse et bienveillance.',
+    },
+
     // Story Share Dialog Localizations
     'share_dialog_certified': {
       SupportedRegion.korea: '진태양시 경도 보정 및 다차원 매트릭스 인증',
