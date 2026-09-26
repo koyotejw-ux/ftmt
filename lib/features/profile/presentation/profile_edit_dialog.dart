@@ -3,6 +3,7 @@ import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../data/user_profile_repository.dart';
+import '../../match/domain/match_item_engine.dart';
 
 class ProfileEditDialog extends StatefulWidget {
   final UserProfile initialProfile;
@@ -57,7 +58,7 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   late String _mbti;
   late String _gender;
 
-  final List<String> _bloodTypes = ['A형', 'B형', 'O형', 'AB형'];
+  late List<String> _bloodTypes;
   final List<String> _mbtis = [
     'ENFP', 'ENFJ', 'ENTP', 'ENTJ',
     'ESFP', 'ESFJ', 'ESTP', 'ESTJ',
@@ -68,12 +69,30 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   @override
   void initState() {
     super.initState();
+    _bloodTypes = MatchItemEngine.getBloodTypes(widget.region);
     _nameCtrl = TextEditingController(text: widget.initialProfile.name);
     _birthDateTime = widget.initialProfile.birthDateTime;
     _city = widget.initialProfile.city;
-    _bloodType = widget.initialProfile.bloodType;
+    _bloodType = _normalizeBloodType(widget.initialProfile.bloodType, _bloodTypes);
     _mbti = widget.initialProfile.mbti ?? 'ENFP';
     _gender = widget.initialProfile.gender;
+  }
+
+  String _normalizeBloodType(String current, List<String> available) {
+    if (available.contains(current)) return current;
+    if (current.contains('AB')) {
+      return available.firstWhere((e) => e.contains('AB'), orElse: () => available.first);
+    }
+    if (current.contains('A')) {
+      return available.firstWhere((e) => e.contains('A') && !e.contains('AB'), orElse: () => available.first);
+    }
+    if (current.contains('B')) {
+      return available.firstWhere((e) => e.contains('B') && !e.contains('AB'), orElse: () => available.first);
+    }
+    if (current.contains('O')) {
+      return available.firstWhere((e) => e.contains('O'), orElse: () => available.first);
+    }
+    return available.first;
   }
 
   @override
@@ -84,7 +103,9 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
 
   UserProfile _buildCurrentProfile() {
     return UserProfile(
-      name: _nameCtrl.text.trim().isEmpty ? (widget.isForSelf ? '나 (본인)' : '상대방') : _nameCtrl.text.trim(),
+      name: _nameCtrl.text.trim().isEmpty
+          ? (widget.isForSelf ? AppI18n.tr('profile_default_self', widget.region) : AppI18n.tr('profile_default_other', widget.region))
+          : _nameCtrl.text.trim(),
       birthDateTime: _birthDateTime,
       city: _city,
       bloodType: _bloodType,
@@ -159,10 +180,10 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildPreviewPill('사주 일주', preview.sajuIlju.split('(').first),
-                  _buildPreviewPill('12간지 띠', preview.zodiacAnimal.split('(')[1].replaceAll(')', '')),
-                  _buildPreviewPill('황도 12궁', preview.sunSign),
-                  _buildPreviewPill('혈액형', preview.bloodType),
+                  _buildPreviewPill(AppI18n.tr('pill_saju_ilju', widget.region), preview.sajuIlju.split('(').first),
+                  _buildPreviewPill(AppI18n.tr('pill_zodiac_animal', widget.region), preview.zodiacAnimal.contains('(') ? preview.zodiacAnimal.split('(')[1].replaceAll(')', '') : preview.zodiacAnimal),
+                  _buildPreviewPill(AppI18n.tr('pill_sun_sign', widget.region), preview.localizedSunSign(widget.region)),
+                  _buildPreviewPill(AppI18n.tr('pill_blood_type', widget.region), preview.bloodType),
                 ],
               ),
             ),
@@ -176,7 +197,7 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               controller: _nameCtrl,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: widget.isForSelf ? '예: 나 (본인)' : '예: 홍길동 (친구/연인)',
+                hintText: widget.isForSelf ? AppI18n.tr('profile_hint_self', widget.region) : AppI18n.tr('profile_hint_other', widget.region),
                 hintStyle: const TextStyle(color: Colors.white30),
                 isDense: true,
                 filled: true,
@@ -264,7 +285,7 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('MBTI (선택)', style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                      Text(AppI18n.tr('mbti_optional', widget.region), style: const TextStyle(color: Colors.white70, fontSize: 12)),
                       const SizedBox(height: 6),
                       DropdownButtonFormField<String>(
                         isExpanded: true,

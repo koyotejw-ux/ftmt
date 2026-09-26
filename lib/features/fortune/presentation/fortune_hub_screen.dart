@@ -52,8 +52,16 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
         return ['New York (EST)', 'Los Angeles (PST)', 'Chicago (CST)', 'Houston (CST)', 'San Francisco (PST)'];
       case SupportedRegion.japan:
         return ['東京 (Tokyo)', '大阪 (Osaka)', '京都 (Kyoto)', '福岡 (Fukuoka)', '札幌 (Sapporo)'];
-      case SupportedRegion.europe:
-        return ['Paris (CET)', 'London (GMT)', 'Berlin (CET)', 'Rome (CET)', 'Madrid (CET)'];
+      case SupportedRegion.unitedKingdom:
+        return ['London (GMT)', 'Manchester (GMT)', 'Edinburgh (GMT)', 'Birmingham (GMT)', 'Glasgow (GMT)'];
+      case SupportedRegion.germany:
+        return ['Berlin (CET)', 'München (CET)', 'Frankfurt (CET)', 'Hamburg (CET)', 'Köln (CET)'];
+      case SupportedRegion.france:
+        return ['Paris (CET)', 'Lyon (CET)', 'Marseille (CET)', 'Bordeaux (CET)', 'Nice (CET)'];
+      case SupportedRegion.spain:
+        return ['Madrid (CET)', 'Barcelona (CET)', 'Valencia (CET)', 'Sevilla (CET)', 'Bilbao (CET)'];
+      case SupportedRegion.italy:
+        return ['Roma (CET)', 'Milano (CET)', 'Firenze (CET)', 'Napoli (CET)', 'Venezia (CET)'];
     }
   }
 
@@ -489,12 +497,14 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${profile.name}님의 우주 좌표',
+                              AppI18n.tr('user_cosmic_coords', widget.currentRegion).replaceAll('{name}', profile.name),
                               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '${profile.sajuIlju.split('(').first} · ${profile.zodiacAnimal.split('(')[1].replaceAll(')', '')} · ${profile.sunSign} · ${profile.bloodType}',
+                              widget.currentRegion == SupportedRegion.korea
+                                  ? '${profile.sajuIlju.split('(').first} · ${profile.zodiacAnimal.split('(')[1].replaceAll(')', '')} · ${profile.sunSign} · ${profile.bloodType}'
+                                  : '${profile.sunSign} · ${profile.zodiacElement.split('(').first.trim()} · ${profile.lifePathNumber.split('(').first.trim()} · ${profile.bloodType}',
                               style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11),
                             ),
                           ],
@@ -522,7 +532,10 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: SpaceNavyTheme.goldBorder),
                           ),
-                          child: const Text('수정', style: TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11, fontWeight: FontWeight.bold)),
+                          child: Text(
+                            AppI18n.tr('edit_btn', widget.currentRegion),
+                            style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ],

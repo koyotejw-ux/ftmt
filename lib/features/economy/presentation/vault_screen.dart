@@ -130,10 +130,10 @@ class _VaultScreenState extends State<VaultScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildPill('사주 일주', myProfile.sajuIlju.split('(').first),
-                    _buildPill('12간지 띠', myProfile.zodiacAnimal.split('(')[1].replaceAll(')', '')),
-                    _buildPill('별자리', myProfile.sunSign),
-                    _buildPill('혈액형', myProfile.bloodType),
+                    _buildPill(AppI18n.tr('pill_saju_ilju', widget.currentRegion), myProfile.sajuIlju.split('(').first),
+                    _buildPill(AppI18n.tr('pill_zodiac_animal', widget.currentRegion), myProfile.zodiacAnimal.contains('(') ? myProfile.zodiacAnimal.split('(')[1].replaceAll(')', '') : myProfile.zodiacAnimal),
+                    _buildPill(AppI18n.tr('pill_sun_sign', widget.currentRegion), myProfile.localizedSunSign(widget.currentRegion)),
+                    _buildPill(AppI18n.tr('pill_blood_type', widget.currentRegion), myProfile.bloodType),
                   ],
                 ),
               ],
@@ -250,7 +250,7 @@ class _VaultScreenState extends State<VaultScreen> {
                           Text(p.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
                           const SizedBox(height: 3),
                           Text(
-                            '${p.birthDateTime.year}.${p.birthDateTime.month.toString().padLeft(2, '0')}.${p.birthDateTime.day.toString().padLeft(2, '0')} · ${p.sunSign}',
+                            '${p.birthDateTime.year}.${p.birthDateTime.month.toString().padLeft(2, '0')}.${p.birthDateTime.day.toString().padLeft(2, '0')} · ${p.localizedSunSign(widget.currentRegion)}',
                             style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
                           ),
                         ],

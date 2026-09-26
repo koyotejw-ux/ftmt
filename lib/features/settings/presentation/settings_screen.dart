@@ -91,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 16),
-                                  ...SupportedRegion.values.map((r) {
+                                  ...SupportedRegion.selectableRegions.map((r) {
                                     final isSelected = r == widget.currentRegion;
                                     return Padding(
                                       padding: const EdgeInsets.only(bottom: 10),
@@ -127,13 +127,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                         : Colors.white.withValues(alpha: 0.1),
                                                     borderRadius: BorderRadius.circular(6),
                                                   ),
-                                                  child: Text(
-                                                    r.countryCode,
-                                                    style: TextStyle(
-                                                      color: isSelected ? Colors.black : Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 12,
-                                                    ),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text(r.flagEmoji, style: const TextStyle(fontSize: 14)),
+                                                      const SizedBox(width: 4),
+                                                      Text(
+                                                        r.countryCode,
+                                                        style: TextStyle(
+                                                          color: isSelected ? Colors.black : Colors.white,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 11,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                                 const SizedBox(width: 14),
@@ -180,13 +187,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: Text(
-                            widget.currentRegion.countryCode,
-                            style: const TextStyle(
-                              color: SpaceNavyTheme.goldChampagne,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(widget.currentRegion.flagEmoji, style: const TextStyle(fontSize: 14)),
+                              const SizedBox(width: 4),
+                              Text(
+                                widget.currentRegion.countryCode,
+                                style: const TextStyle(
+                                  color: SpaceNavyTheme.goldChampagne,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(width: 12),

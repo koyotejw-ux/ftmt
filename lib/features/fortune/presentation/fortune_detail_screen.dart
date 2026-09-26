@@ -31,7 +31,7 @@ class FortuneDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final degreeStr = EphemerisMath.calculatePreciseDegree(birthTime);
-    final aspectStr = EphemerisMath.detectMajorAspect(birthTime);
+    final aspectStr = EphemerisMath.detectMajorAspect(birthTime, region);
 
     return Scaffold(
       backgroundColor: SpaceNavyTheme.backgroundDeep,
@@ -59,7 +59,7 @@ class FortuneDetailScreen extends StatelessWidget {
             onPressed: () {
               SharePlus.instance.share(
                 ShareParams(
-                  text: '[$title] 나의 고품격 심층 운세 리포트! #FortuneMatch',
+                  text: '[$title] ${AppI18n.tr('share_report_caption', region)} #FortuneMatch',
                 ),
               );
             },

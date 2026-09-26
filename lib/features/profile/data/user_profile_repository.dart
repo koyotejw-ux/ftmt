@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/astronomy/ephemeris_math.dart';
 import '../../../core/astronomy/saju_engine.dart';
+import '../../../core/localization/geo_detector.dart';
 
 class UserProfile {
   final String name;
@@ -45,6 +46,12 @@ class UserProfile {
   String get sunSign {
     final sign = EphemerisMath.getSunSign(birthDateTime);
     return sign.ko;
+  }
+
+  /// Localized Sun Sign according to active region
+  String localizedSunSign(SupportedRegion region) {
+    final sign = EphemerisMath.getSunSign(birthDateTime);
+    return sign.localizedName(region);
   }
 
   /// Calculate Western Zodiac Item formatted (e.g. '사자자리 (♌ Leo)')

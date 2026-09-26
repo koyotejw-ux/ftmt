@@ -110,11 +110,259 @@ class MatchItemEngine {
     'Wunjo ᚹ (기쁨과 조화로운 평화)',
   ];
 
+  /// Regional Zodiac Signs
+  static List<String> getWesternZodiacSigns(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko':
+        return westernZodiacSigns;
+      case 'ja':
+        return [
+          '牡羊座 (♈ Aries)', '牡牛座 (♉ Taurus)', '双子座 (♊ Gemini)', '蟹座 (♋ Cancer)',
+          '獅子座 (♌ Leo)', '乙女座 (♍ Virgo)', '天秤座 (♎ Libra)', '蠍座 (♏ Scorpio)',
+          '射手座 (♐ Sagittarius)', '山羊座 (♑ Capricorn)', '水瓶座 (♒ Aquarius)', '魚座 (♓ Pisces)'
+        ];
+      case 'de':
+        return [
+          'Widder (♈ Aries)', 'Stier (♉ Taurus)', 'Zwillinge (♊ Gemini)', 'Krebs (♋ Cancer)',
+          'Löwe (♌ Leo)', 'Jungfrau (♍ Virgo)', 'Waage (♎ Libra)', 'Skorpion (♏ Scorpio)',
+          'Schütze (♐ Sagittarius)', 'Steinbock (♑ Capricorn)', 'Wassermann (♒ Aquarius)', 'Fische (♓ Pisces)'
+        ];
+      case 'fr':
+        return [
+          'Bélier (♈ Aries)', 'Taureau (♉ Taurus)', 'Gémeaux (♊ Gemini)', 'Cancer (♋ Cancer)',
+          'Lion (♌ Leo)', 'Vierge (♍ Virgo)', 'Balance (♎ Libra)', 'Scorpion (♏ Scorpio)',
+          'Sagittaire (♐ Sagittarius)', 'Capricorne (♑ Capricorn)', 'Verseau (♒ Aquarius)', 'Poissons (♓ Pisces)'
+        ];
+      case 'es':
+        return [
+          'Aries (♈ Aries)', 'Tauro (♉ Taurus)', 'Géminis (♊ Gemini)', 'Cáncer (♋ Cancer)',
+          'Leo (♌ Leo)', 'Virgo (♍ Virgo)', 'Libra (♎ Libra)', 'Escorpio (♏ Scorpio)',
+          'Sagitario (♐ Sagittarius)', 'Capricornio (♑ Capricorn)', 'Acuario (♒ Aquarius)', 'Piscis (♓ Pisces)'
+        ];
+      case 'it':
+        return [
+          'Ariete (♈ Aries)', 'Toro (♉ Taurus)', 'Gemelli (♊ Gemini)', 'Cancro (♋ Cancer)',
+          'Leone (♌ Leo)', 'Vergine (♍ Virgo)', 'Bilancia (♎ Libra)', 'Scorpione (♏ Scorpio)',
+          'Sagittario (♐ Sagittarius)', 'Capricorno (♑ Capricorn)', 'Acquario (♒ Aquarius)', 'Pesci (♓ Pisces)'
+        ];
+      default:
+        return [
+          'Aries (♈ Fire)', 'Taurus (♉ Earth)', 'Gemini (♊ Air)', 'Cancer (♋ Water)',
+          'Leo (♌ Fire)', 'Virgo (♍ Earth)', 'Libra (♎ Air)', 'Scorpio (♏ Water)',
+          'Sagittarius (♐ Fire)', 'Capricorn (♑ Earth)', 'Aquarius (♒ Air)', 'Pisces (♓ Water)'
+        ];
+    }
+  }
+
+  static List<String> getBloodTypes(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko': return ['A형', 'B형', 'O형', 'AB형'];
+      case 'ja': return ['A型', 'B型', 'O型', 'AB型'];
+      case 'de': return ['Blutgruppe A', 'Blutgruppe B', 'Blutgruppe O', 'Blutgruppe AB'];
+      case 'fr': return ['Groupe A', 'Groupe B', 'Groupe O', 'Groupe AB'];
+      case 'es': return ['Grupo A', 'Grupo B', 'Grupo O', 'Grupo AB'];
+      case 'it': return ['Gruppo A', 'Gruppo B', 'Gruppo O', 'Gruppo AB'];
+      default: return ['Type A', 'Type B', 'Type O', 'Type AB'];
+    }
+  }
+
+  static List<String> getZodiacElements(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko':
+        return zodiacElements;
+      case 'ja':
+        return [
+          'Fire (火 - 牡羊/獅子/射手)',
+          'Earth (地 - 牡牛/乙女/山羊)',
+          'Air (風 - 双子/天秤/水瓶)',
+          'Water (水 - 蟹/蠍/魚)',
+        ];
+      case 'de':
+        return [
+          'Feuer (Widder / Löwe / Schütze)',
+          'Erde (Stier / Jungfrau / Steinbock)',
+          'Luft (Zwillinge / Waage / Wassermann)',
+          'Wasser (Krebs / Skorpion / Fische)',
+        ];
+      case 'fr':
+        return [
+          'Feu (Bélier / Lion / Sagittaire)',
+          'Terre (Taureau / Vierge / Capricorne)',
+          'Air (Gémeaux / Balance / Verseau)',
+          'Eau (Cancer / Scorpion / Poissons)',
+        ];
+      case 'es':
+        return [
+          'Fuego (Aries / Leo / Sagitario)',
+          'Tierra (Tauro / Virgo / Capricornio)',
+          'Aire (Géminis / Libra / Acuario)',
+          'Agua (Cáncer / Escorpio / Piscis)',
+        ];
+      case 'it':
+        return [
+          'Fuoco (Ariete / Leone / Sagittario)',
+          'Terra (Toro / Vergine / Capricorno)',
+          'Aria (Gemelli / Bilancia / Acquario)',
+          'Acqua (Cancro / Scorpione / Pesci)',
+        ];
+      default:
+        return [
+          'Fire (Aries / Leo / Sagittarius)',
+          'Earth (Taurus / Virgo / Capricorn)',
+          'Air (Gemini / Libra / Aquarius)',
+          'Water (Cancer / Scorpio / Pisces)',
+        ];
+    }
+  }
+
+  static List<String> getLifePathNumbers(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko':
+        return lifePathNumbers;
+      case 'ja':
+        return [
+          '運命数 1 (先駆者/Leader)', '運命数 2 (調和者/Peacemaker)', '運命数 3 (創造者/Creator)',
+          '運命数 4 (建設者/Builder)', '運命数 5 (冒険者/Free Spirit)', '運命数 6 (守護者/Caregiver)',
+          '運命数 7 (探求者/Philosopher)', '運命数 8 (達成者/Visionary)', '運命数 9 (導き手/Humanitarian)',
+          'マスター 11 (直感者/Intuitive)', 'マスター 22 (大建築家/Architect)'
+        ];
+      case 'de':
+        return [
+          'Lebenszahl 1 (Pionier & Anführer)', 'Lebenszahl 2 (Diplomat & Friedensstifter)',
+          'Lebenszahl 3 (Schöpfer & Kommunikator)', 'Lebenszahl 4 (Meisterbauer & Fundament)',
+          'Lebenszahl 5 (Freigeist & Entdecker)', 'Lebenszahl 6 (Beschützer & Herz)',
+          'Lebenszahl 7 (Philosoph & Suchender)', 'Lebenszahl 8 (Visionär & Macher)',
+          'Lebenszahl 9 (Humanist & Heiler)', 'Master 11 (Spirituelle Intuition)',
+          'Master 22 (Meisterarchitekt)'
+        ];
+      case 'fr':
+        return [
+          'Chemin de Vie 1 (Pionnier & Leader)', 'Chemin de Vie 2 (Médiateur & Harmonie)',
+          'Chemin de Vie 3 (Créateur & Expression)', 'Chemin de Vie 4 (Bâtisseur & Ordre)',
+          'Chemin de Vie 5 (Esprit Libre & Voyageur)', 'Chemin de Vie 6 (Bienveillant & Guide)',
+          'Chemin de Vie 7 (Philosophe & Sage)', 'Chemin de Vie 8 (Visionnaire & Succès)',
+          'Chemin de Vie 9 (Humaniste Céleste)', 'Maître 11 (Catalyseur Intuitif)',
+          'Maître 22 (Maître Bâtisseur)'
+        ];
+      case 'es':
+        return [
+          'Camino de Vida 1 (Pionero & Líder)', 'Camino de Vida 2 (Pacificador & Armonía)',
+          'Camino de Vida 3 (Creador & Comunicador)', 'Camino de Vida 4 (Constructor & Base)',
+          'Camino de Vida 5 (Espíritu Libre)', 'Camino de Vida 6 (Protector & Amor)',
+          'Camino de Vida 7 (Filósofo & Sabio)', 'Camino de Vida 8 (Visionario & Logro)',
+          'Camino de Vida 9 (Humanitario)', 'Maestro 11 (Intuitivo Espiritual)',
+          'Maestro 22 (Maestro Constructor)'
+        ];
+      case 'it':
+        return [
+          'Sentiero di Vita 1 (Pioniere & Leader)', 'Sentiero di Vita 2 (Pacificatore)',
+          'Sentiero di Vita 3 (Creatore & Espressione)', 'Sentiero di Vita 4 (Costruttore)',
+          'Sentiero di Vita 5 (Spirito Libero)', 'Sentiero di Vita 6 (Custode & Amore)',
+          'Sentiero di Vita 7 (Filosofo & Cercatore)', 'Sentiero di Vita 8 (Visionario)',
+          'Sentiero di Vita 9 (Umanitario)', 'Maestro 11 (Intuitivo Cosmico)',
+          'Maestro 22 (Maestro Architetto)'
+        ];
+      default:
+        return [
+          'Life Path 1 (Pioneer & Leader)', 'Life Path 2 (Peacemaker & Diplomat)',
+          'Life Path 3 (Creator & Communicator)', 'Life Path 4 (Master Builder & Solid)',
+          'Life Path 5 (Free Spirit & Adventurer)', 'Life Path 6 (Loving Caregiver)',
+          'Life Path 7 (Seeker & Philosopher)', 'Life Path 8 (Visionary & Achiever)',
+          'Life Path 9 (Humanitarian & Healer)', 'Master 11 (Intuitive Catalyst)',
+          'Master 22 (Master Architect)'
+        ];
+    }
+  }
+
+  static List<String> getCelticRunes(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko': return celticRunes;
+      case 'ja':
+        return [
+          'Fehu ᚠ (豊かさと繁栄の結合)', 'Uruz ᚢ (野生の活力と回復力)', 'Thurisaz ᚦ (守護と強固な決意)',
+          'Ansuz ᚨ (神聖な英知と対話)', 'Raidho ᚱ (運命の旅路と共鳴)', 'Kenaz ᚲ (洞察と情熱の炎)',
+          'Gebo ᚷ (神聖な絆と無償の愛)', 'Wunjo ᚹ (歓喜と調和の至福)'
+        ];
+      case 'de':
+        return [
+          'Fehu ᚠ (Wohlstand & Neuanfang)', 'Uruz ᚢ (Ureigene Vitalität & Kraft)', 'Thurisaz ᚦ (Schutz & Entschlossenheit)',
+          'Ansuz ᚨ (Göttliche Weisheit)', 'Raidho ᚱ (Schicksalsreise & Einklang)', 'Kenaz ᚲ (Flamme der Erkenntnis)',
+          'Gebo ᚷ (Heiliges Bündnis & Gabe)', 'Wunjo ᚹ (Glückselige Harmonie & Freude)'
+        ];
+      case 'fr':
+        return [
+          'Fehu ᚠ (Prospérité & Nouveaux Départs)', 'Uruz ᚢ (Vitalité Sauvage & Puissance)', 'Thurisaz ᚦ (Protection & Force)',
+          'Ansuz ᚨ (Sagesse Divine & Dialogue)', 'Raidho ᚱ (Voyage Destiné & Élan)', 'Kenaz ᚲ (Lumière de l\'Amour)',
+          'Gebo ᚷ (Union Sacrée & Don Mutuel)', 'Wunjo ᚹ (Joie Lumineuse & Harmonie)'
+        ];
+      case 'es':
+        return [
+          'Fehu ᚠ (Prosperidad y Nuevos Comienzos)', 'Uruz ᚢ (Fuerza y Vitalidad Pura)', 'Thurisaz ᚦ (Protección y Coraje)',
+          'Ansuz ᚨ (Sabiduría Divina)', 'Raidho ᚱ (Viaje del Destino y Unión)', 'Kenaz ᚲ (Fuego del Conocimiento)',
+          'Gebo ᚷ (Pacto Sagrado y Entrega)', 'Wunjo ᚹ (Alegría Armoniosa y Paz)'
+        ];
+      case 'it':
+        return [
+          'Fehu ᚠ (Prosperità e Nuovi Inizi)', 'Uruz ᚢ (Vitalità Primordiale)', 'Thurisaz ᚦ (Protezione e Risolutezza)',
+          'Ansuz ᚨ (Saggezza Sacra e Dialogo)', 'Raidho ᚱ (Viaggio del Destino)', 'Kenaz ᚲ (Fiamma della Passione)',
+          'Gebo ᚷ (Unione Sacra e Dono)', 'Wunjo ᚹ (Armonia Radiosa e Gioia)'
+        ];
+      default:
+        return [
+          'Fehu ᚠ (Prosperity & Abundance)', 'Uruz ᚢ (Untamed Vitality & Strength)', 'Thurisaz ᚦ (Protection & Willpower)',
+          'Ansuz ᚨ (Divine Wisdom & Communion)', 'Raidho ᚱ (Destined Journey & Rhythm)', 'Kenaz ᚲ (Illumination & Passion)',
+          'Gebo ᚷ (Sacred Gift & Devotion)', 'Wunjo ᚹ (Joy & Blissful Harmony)'
+        ];
+    }
+  }
+
+  static List<String> getSynastryHouses(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko': return synastryHouses;
+      case 'ja':
+        return [
+          '1st House (自己の共鳴・自然な親和)', '4th House (心の安らぎ・魂の故郷)',
+          '5th House (ロマンスと創造的情熱)', '7th House (運命の伴侶・契約の絆)',
+          '8th House (魂の変容・強烈な引力)', '10th House (社会的成功・人生の同志)'
+        ];
+      case 'de':
+        return [
+          '1. Haus (Einklang des Selbst)', '4. Haus (Seelische Geborgenheit)',
+          '5. Haus (Romantik & Leidenschaft)', '7. Haus (Seelengefährte & Partnerschaft)',
+          '8. Haus (Tiefe seelische Transformation)', '10. Haus (Gemeinsamer Erfolg & Status)'
+        ];
+      case 'fr':
+        return [
+          '1ère Maison (Résonance du Soi)', '4ème Maison (Havre de Paix de l\'Âme)',
+          '5ème Maison (Romance & Flamme Créative)', '7ème Maison (Partenaire de Destin)',
+          '8ème Maison (Alchimie & Métamorphose)', '10ème Maison (Succès & Évolution)'
+        ];
+      case 'es':
+        return [
+          'Casa 1 (Afinidad del Ser)', 'Casa 4 (Refugio del Alma y Hogar)',
+          'Casa 5 (Romance y Pasión Creativa)', 'Casa 7 (Compañero del Destino)',
+          'Casa 8 (Transformación Espiritual)', 'Casa 10 (Éxito Social y Crecimiento)'
+        ];
+      case 'it':
+        return [
+          '1ª Casa (Risonanza del Sé)', '4ª Casa (Rifugio dell\'Anima e Radici)',
+          '5ª Casa (Passione Creativa & Amore)', '7ª Casa (Compagno del Destino)',
+          '8ª Casa (Trasformazione Profonda)', '10ª Casa (Successo & Destino Comune)'
+        ];
+      default:
+        return [
+          '1st House (Core Self Resonance)', '4th House (Soul Sanctuary & Comfort)',
+          '5th House (Romance & Creative Passion)', '7th House (Destined Sacred Partner)',
+          '8th House (Spiritual Transformation)', '10th House (Social Elevation & Success)'
+        ];
+    }
+  }
+
   /// Returns available items for selected menu
-  static List<String> getAvailableItems(MatchSubMenu menu) {
+  static List<String> getAvailableItems(MatchSubMenu menu, [SupportedRegion region = SupportedRegion.unitedStates]) {
     switch (menu) {
       case MatchSubMenu.westernZodiac:
-        return westernZodiacSigns;
+        return getWesternZodiacSigns(region);
       case MatchSubMenu.sixteenType:
         return SixteenTypeMatrix.allTypes;
       case MatchSubMenu.sajuIlju:
@@ -122,19 +370,19 @@ class MatchItemEngine {
       case MatchSubMenu.zodiacAnimal:
         return zodiacAnimals;
       case MatchSubMenu.bloodType:
-        return bloodTypes;
+        return getBloodTypes(region);
       case MatchSubMenu.zodiacElement:
-        return zodiacElements;
+        return getZodiacElements(region);
       case MatchSubMenu.numerologyLifePath:
-        return lifePathNumbers;
+        return getLifePathNumbers(region);
       case MatchSubMenu.bloodZodiacHybrid:
         return bloodZodiacHybrids;
       case MatchSubMenu.rokuseiMatch:
         return rokuseiStars;
       case MatchSubMenu.zodiacHouse:
-        return synastryHouses;
+        return getSynastryHouses(region);
       case MatchSubMenu.celticRuneMatch:
-        return celticRunes;
+        return getCelticRunes(region);
     }
   }
 
@@ -366,8 +614,15 @@ class MatchItemEngine {
 
   // 3) 혈액형 궁합 (A, B, O, AB)
   static MatchResult _calculateBloodType(String a, String b, SupportedRegion region) {
-    final typeA = a.replaceAll('형', '').trim();
-    final typeB = b.replaceAll('형', '').trim();
+    String cleanType(String s) {
+      if (s.contains('AB')) return 'AB';
+      if (s.contains('A')) return 'A';
+      if (s.contains('B')) return 'B';
+      if (s.contains('O')) return 'O';
+      return 'A';
+    }
+    final typeA = cleanType(a);
+    final typeB = cleanType(b);
 
     int score = 80;
     String headline = AppI18n.tr('match_blood_balance_title', region);
@@ -410,8 +665,16 @@ class MatchItemEngine {
 
   // 4) 서양 점성술 4대 원소 (Fire, Earth, Air, Water)
   static MatchResult _calculateZodiacElement(String a, String b, SupportedRegion region) {
-    final elemA = a.split(' ')[0];
-    final elemB = b.split(' ')[0];
+    String cleanElem(String s) {
+      final lower = s.toLowerCase();
+      if (lower.contains('fire') || lower.contains('불') || lower.contains('火') || lower.contains('feuer') || lower.contains('feu') || lower.contains('fuego') || lower.contains('fuoco')) return 'Fire';
+      if (lower.contains('earth') || lower.contains('흙') || lower.contains('土') || lower.contains('erde') || lower.contains('terre') || lower.contains('tierra') || lower.contains('terra')) return 'Earth';
+      if (lower.contains('air') || lower.contains('바람') || lower.contains('風') || lower.contains('luft') || lower.contains('aire') || lower.contains('aria')) return 'Air';
+      if (lower.contains('water') || lower.contains('물') || lower.contains('水') || lower.contains('wasser') || lower.contains('eau') || lower.contains('agua') || lower.contains('acqua')) return 'Water';
+      return 'Fire';
+    }
+    final elemA = cleanElem(a);
+    final elemB = cleanElem(b);
 
     int score = 78;
     String headline = AppI18n.tr('match_headline_element', region);
@@ -531,20 +794,31 @@ class MatchItemEngine {
 
   // 10) 12 서양 별자리 (Sun Signs) 정밀 각도(Aspect) 및 원소 궁합
   static MatchResult _calculateWesternZodiac(String a, String b, SupportedRegion region) {
-    final cleanA = a.split('(').first.trim();
-    final cleanB = b.split('(').first.trim();
+    final symbols = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'];
+    int findSignIndex(String s) {
+      for (int i = 0; i < symbols.length; i++) {
+        if (s.contains(symbols[i])) return i;
+      }
+      final lower = s.toLowerCase();
+      final enSigns = [
+        'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+        'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+      ];
+      for (int i = 0; i < enSigns.length; i++) {
+        if (lower.contains(enSigns[i])) return i;
+      }
+      final koSigns = [
+        '양', '황소', '쌍둥이', '게', '사자', '처녀',
+        '천칭', '전갈', '사수', '염소', '물병', '물고기'
+      ];
+      for (int i = 0; i < koSigns.length; i++) {
+        if (s.contains(koSigns[i])) return i;
+      }
+      return 0;
+    }
 
-    final signOrder = [
-      '양자리', '황소자리', '쌍둥이자리', '게자리',
-      '사자자리', '처녀자리', '천칭자리', '전갈자리',
-      '사수자리', '염소자리', '물병자리', '물고기자리',
-    ];
-
-    final idxA = signOrder.indexOf(cleanA);
-    final idxB = signOrder.indexOf(cleanB);
-
-    final validA = idxA >= 0 ? idxA : 0;
-    final validB = idxB >= 0 ? idxB : 0;
+    final validA = findSignIndex(a);
+    final validB = findSignIndex(b);
 
     final diff = ((validA - validB).abs()) % 12;
     final step = diff > 6 ? 12 - diff : diff;

@@ -252,7 +252,11 @@ class StoryShareDialog extends StatelessWidget {
                   onPressed: () {
                     SharePlus.instance.share(
                       ShareParams(
-                        text: '[$title] $personA x $personB : $score! ✨\n#FortuneMatch #포춘매치',
+                        text: AppI18n.tr('share_match_caption', region)
+                            .replaceAll('{title}', title)
+                            .replaceAll('{personA}', personA)
+                            .replaceAll('{personB}', personB)
+                            .replaceAll('{score}', score.toString()),
                       ),
                     );
                   },

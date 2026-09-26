@@ -125,12 +125,16 @@ class AstralWheelPainter extends CustomPainter {
         _paintKoreaBaziWheel(canvas, center, radius);
         break;
       case SupportedRegion.unitedStates:
+      case SupportedRegion.unitedKingdom:
         _paintWesternNatalWheel(canvas, center, radius);
         break;
       case SupportedRegion.japan:
         _paintJapanNineStarWheel(canvas, center, radius);
         break;
-      case SupportedRegion.europe:
+      case SupportedRegion.germany:
+      case SupportedRegion.france:
+      case SupportedRegion.spain:
+      case SupportedRegion.italy:
         _paintCelticRunicWheel(canvas, center, radius);
         break;
     }

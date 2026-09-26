@@ -108,14 +108,14 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   }
 
   String _getItemA(MatchSubMenu menu) {
-    final available = MatchItemEngine.getAvailableItems(menu);
+    final available = MatchItemEngine.getAvailableItems(menu, widget.currentRegion);
     final saved = _selectedItemsA[menu];
     if (saved != null && available.contains(saved)) return saved;
     return available.first;
   }
 
   String _getItemB(MatchSubMenu menu) {
-    final available = MatchItemEngine.getAvailableItems(menu);
+    final available = MatchItemEngine.getAvailableItems(menu, widget.currentRegion);
     final saved = _selectedItemsB[menu];
     if (saved != null && available.contains(saved)) return saved;
     return available.length > 1 ? available[1] : available.first;
@@ -354,7 +354,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                       child: _buildTypeDropdown(
                         label: MatchItemEngine.getPickerLabelA(currentMenu, widget.currentRegion),
                         currentVal: _getItemA(currentMenu),
-                        items: MatchItemEngine.getAvailableItems(currentMenu),
+                        items: MatchItemEngine.getAvailableItems(currentMenu, widget.currentRegion),
                         onChanged: (val) {
                           if (val != null) {
                             setState(() => _selectedItemsA[currentMenu] = val);
@@ -368,7 +368,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                       child: _buildTypeDropdown(
                         label: MatchItemEngine.getPickerLabelB(currentMenu, widget.currentRegion),
                         currentVal: _getItemB(currentMenu),
-                        items: MatchItemEngine.getAvailableItems(currentMenu),
+                        items: MatchItemEngine.getAvailableItems(currentMenu, widget.currentRegion),
                         onChanged: (val) {
                           if (val != null) {
                             setState(() => _selectedItemsB[currentMenu] = val);
@@ -396,7 +396,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                           ProfileEditDialog.show(
                             context,
                             initialProfile: UserProfile(
-                              name: '상대방',
+                              name: AppI18n.tr('profile_default_other', widget.currentRegion),
                               birthDateTime: DateTime(1996, 5, 10, 12, 0),
                               city: 'Seoul',
                             ),
@@ -486,7 +486,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('보관함에 저장된 인연이 없습니다. 생년월일로 직접 계산해 보세요!')),
+                              SnackBar(content: Text(AppI18n.tr('vault_empty_notice', widget.currentRegion))),
                             );
                           }
                         },
