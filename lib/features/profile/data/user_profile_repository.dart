@@ -26,8 +26,8 @@ class UserProfile {
 
   /// Localized user display name
   String localizedName(SupportedRegion region) {
-    if (name.isEmpty || name == '나 (본인)' || name == '나' || name == 'Me' || name.contains('본인')) {
-      return AppI18n.tr('profile_default_me', region);
+    if (name.isEmpty || name == '나 (본인)' || name == '나' || name == 'Me' || name.contains('본인') || name.contains('Myself')) {
+      return AppI18n.tr('profile_default_self', region);
     }
     if (name.contains('김서연') || name.contains('연인') || name.contains('Partner') || name.contains('Lover')) {
       switch (region.languageCode) {

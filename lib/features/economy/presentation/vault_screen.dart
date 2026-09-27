@@ -86,9 +86,12 @@ class _VaultScreenState extends State<VaultScreen> {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                myProfile.name,
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                              Flexible(
+                                child: Text(
+                                  myProfile.localizedName(widget.currentRegion),
+                                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               const SizedBox(width: 6),
                               Container(
@@ -182,12 +185,17 @@ class _VaultScreenState extends State<VaultScreen> {
                         style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        widget.wallet.hasVipPass
-                            ? AppI18n.tr('vault_vip_desc', widget.currentRegion)
-                            : AppI18n.tr('vault_hearts_desc', widget.currentRegion)
-                                .replaceAll('{count}', '${widget.wallet.hearts}'),
-                        style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 13),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          widget.wallet.hasVipPass
+                              ? AppI18n.tr('vault_vip_desc', widget.currentRegion)
+                              : AppI18n.tr('vault_hearts_desc', widget.currentRegion)
+                                  .replaceAll('{count}', '${widget.wallet.hearts}'),
+                          maxLines: 1,
+                          style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 13),
+                        ),
                       ),
                     ],
                   ),
