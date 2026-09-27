@@ -120,6 +120,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
     await AdManager.instance.showInterstitialAd(
       context,
       isNoAds: widget.wallet.hasNoAds,
+      region: widget.currentRegion,
       onComplete: () {
         // Show 1.5s calculation HUD for trust anchor
         CalculatingHudDialog.show(
@@ -275,14 +276,17 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                                 ),
                               ),
                               child: Center(
-                                child: Text(
-                                  '👤 ${widget.profileRepo.profile.name} (${AppI18n.tr('view_mode_my', widget.currentRegion)})',
-                                  style: TextStyle(
-                                    color: (_selectedBirth == widget.profileRepo.profile.birthDateTime)
-                                        ? SpaceNavyTheme.goldChampagne
-                                        : Colors.white70,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    '👤 ${widget.profileRepo.profile.localizedName(widget.currentRegion)} (${AppI18n.tr('view_mode_my', widget.currentRegion)})',
+                                    style: TextStyle(
+                                      color: (_selectedBirth == widget.profileRepo.profile.birthDateTime)
+                                          ? SpaceNavyTheme.goldChampagne
+                                          : Colors.white70,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -303,7 +307,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                               ProfileEditDialog.show(
                                 context,
                                 initialProfile: UserProfile(
-                                  name: '지인',
+                                  name: AppI18n.tr('profile_default_other', widget.currentRegion),
                                   birthDateTime: DateTime(1996, 5, 10, 12, 0),
                                   city: 'Seoul',
                                 ),
@@ -497,15 +501,19 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              AppI18n.tr('user_cosmic_coords', widget.currentRegion).replaceAll('{name}', profile.name),
+                              AppI18n.tr('user_cosmic_coords', widget.currentRegion).replaceAll('{name}', profile.localizedName(widget.currentRegion)),
                               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 2),
                             Text(
                               widget.currentRegion == SupportedRegion.korea
-                                  ? '${profile.sajuIlju.split('(').first} · ${profile.zodiacAnimal.split('(')[1].replaceAll(')', '')} · ${profile.sunSign} · ${profile.bloodType}'
-                                  : '${profile.sunSign} · ${profile.zodiacElement.split('(').first.trim()} · ${profile.lifePathNumber.split('(').first.trim()} · ${profile.bloodType}',
+                                  ? '${profile.sajuIlju.split('(').first} · ${profile.zodiacAnimal.split('(')[1].replaceAll(')', '')} · ${profile.sunSign} · ${profile.localizedBloodType(widget.currentRegion)}'
+                                  : '${profile.localizedSunSign(widget.currentRegion)} · ${profile.localizedZodiacElement(widget.currentRegion).split('(').first.trim()} · ${profile.localizedLifePathNumber(widget.currentRegion).split('(').first.trim()} · ${profile.localizedBloodType(widget.currentRegion)}',
                               style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
@@ -700,16 +708,16 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
           LayoutBuilder(
             builder: (context, constraints) {
               final width = constraints.maxWidth;
-              final crossAxisCount = width > 700 ? 4 : (width > 480 ? 3 : 2);
-              final childAspectRatio = width > 700 ? 1.4 : (width < 360 ? 1.05 : 1.22);
+              final crossAxisCount = width > 750 ? 4 : (width > 480 ? 3 : 2);
+              final childAspectRatio = width > 750 ? 1.5 : (width < 360 ? 1.15 : 1.35);
 
               return GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                   childAspectRatio: childAspectRatio,
                 ),
                 itemCount: menus.length,
@@ -739,19 +747,25 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           size: 20,
                         ),
                         const SizedBox(height: 6),
-                        Text(
-                          menu.localizedTitle(widget.currentRegion),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            height: 1.25,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            menu.localizedTitle(widget.currentRegion),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              height: 1.25,
+                            ),
+                            maxLines: 1,
                           ),
                         ),
                         const SizedBox(height: 3),
                         Text(
                           AppI18n.tr('deep_report_btn', widget.currentRegion),
-                          style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 10),
+                          style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 10, fontWeight: FontWeight.w500),
+                          maxLines: 1,
                         ),
                       ],
                     ),

@@ -358,6 +358,107 @@ class MatchItemEngine {
     }
   }
 
+  static List<String> getZodiacAnimals(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko':
+        return zodiacAnimals;
+      case 'ja':
+        return [
+          '子 (ねずみ 🐭)', '丑 (うし 🐮)', '寅 (とら 🐯)', '卯 (うさぎ 🐰)',
+          '辰 (たつ 🐲)', '巳 (へび 🐍)', '午 (うま 🐴)', '未 (ひつじ 🐑)',
+          '申 (さる 🐵)', '酉 (とり 🐔)', '戌 (いぬ 🐶)', '亥 (いのしし 🐗)'
+        ];
+      case 'de':
+        return [
+          'Ratte 🐭 (Water)', 'Büffel 🐮 (Earth)', 'Tiger 🐯 (Wood)', 'Hase 🐰 (Wood)',
+          'Drache 🐲 (Earth)', 'Schlange 🐍 (Fire)', 'Pferd 🐴 (Fire)', 'Ziege 🐑 (Earth)',
+          'Affe 🐵 (Metal)', 'Hahn 🐔 (Metal)', 'Hund 🐶 (Earth)', 'Schwein 🐷 (Water)'
+        ];
+      case 'fr':
+        return [
+          'Rat 🐭 (Eau)', 'Buffle 🐮 (Terre)', 'Tigre 🐯 (Bois)', 'Lapin 🐰 (Bois)',
+          'Dragon 🐲 (Terre)', 'Serpent 🐍 (Feu)', 'Cheval 🐴 (Feu)', 'Chèvre 🐑 (Terre)',
+          'Singe 🐵 (Métal)', 'Coq 🐔 (Métal)', 'Chien 🐶 (Terre)', 'Cochon 🐷 (Eau)'
+        ];
+      case 'es':
+        return [
+          'Rata 🐭 (Agua)', 'Buey 🐮 (Tierra)', 'Tigre 🐯 (Madera)', 'Conejo 🐰 (Madera)',
+          'Dragón 🐲 (Tierra)', 'Serpiente 🐍 (Fuego)', 'Caballo 🐴 (Fuego)', 'Cabra 🐑 (Tierra)',
+          'Mono 🐵 (Metal)', 'Gallo 🐔 (Metal)', 'Perro 🐶 (Tierra)', 'Cerdo 🐷 (Agua)'
+        ];
+      case 'it':
+        return [
+          'Topo 🐭 (Acqua)', 'Bue 🐮 (Terra)', 'Tigre 🐯 (Legno)', 'Coniglio 🐰 (Legno)',
+          'Drago 🐲 (Terra)', 'Serpente 🐍 (Fuoco)', 'Cavallo 🐴 (Fuoco)', 'Capra 🐑 (Terra)',
+          'Scimmia 🐵 (Metallo)', 'Gallo 🐔 (Metallo)', 'Cane 🐶 (Terra)', 'Maiale 🐷 (Acqua)'
+        ];
+      default:
+        return [
+          'Rat 🐭 (Water)', 'Ox 🐮 (Earth)', 'Tiger 🐯 (Wood)', 'Rabbit 🐰 (Wood)',
+          'Dragon 🐲 (Earth)', 'Snake 🐍 (Fire)', 'Horse 🐴 (Fire)', 'Goat 🐑 (Earth)',
+          'Monkey 🐵 (Metal)', 'Rooster 🐔 (Metal)', 'Dog 🐶 (Earth)', 'Pig 🐷 (Water)'
+        ];
+    }
+  }
+
+  static List<String> getSajuPillars(SupportedRegion region) {
+    if (region.languageCode == 'ko') {
+      return sajuPillars;
+    }
+    return [
+      'Jia-Zi (甲子)', 'Yi-Chou (乙丑)', 'Bing-Yin (丙寅)', 'Ding-Mao (丁卯)', 'Wu-Chen (戊辰)',
+      'Ji-Si (己巳)', 'Geng-Wu (庚午)', 'Xin-Wei (辛未)', 'Ren-Shen (壬申)', 'Gui-You (癸酉)',
+      'Jia-Xu (甲戌)', 'Yi-Hai (乙亥)', 'Bing-Zi (丙子)', 'Ding-Chou (丁丑)', 'Wu-Yin (戊寅)',
+      'Ji-Mao (己卯)', 'Geng-Chen (庚辰)', 'Xin-Si (辛巳)', 'Ren-Wu (壬午)', 'Gui-Wei (癸未)',
+      'Jia-Shen (甲申)', 'Yi-You (乙酉)', 'Bing-Xu (丙戌)', 'Ding-Hai (丁亥)', 'Wu-Zi (戊子)',
+      'Ji-Chou (己丑)', 'Geng-Yin (庚寅)', 'Xin-Mao (辛卯)', 'Ren-Chen (壬辰)', 'Gui-Si (癸巳)',
+    ];
+  }
+
+  static List<String> getBloodZodiacHybrids(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko':
+        return bloodZodiacHybrids;
+      case 'ja':
+        return [
+          'A型 x 牡羊座 (正義の情熱派)', 'A型 x 乙女座 (完璧主義と配慮)',
+          'B型 x 獅子座 (魅惑のステージ気質)', 'B型 x 射手座 (自由な探検家)',
+          'O型 x 牡牛座 (信頼の頼れる岩)', 'O型 x 天秤座 (円満な社交チャンピオン)',
+          'AB型 x 双子座 (閃きの多才)', 'AB型 x 水瓶座 (神秘の天才性)',
+          'A型 x 蠍座 (深い献身と集中)', 'B型 x 魚座 (豊かな感性と芸術)',
+          'O型 x 蟹座 (温かいファミリーリーダー)', 'AB型 x 山羊座 (冷静沈着な戦略家)'
+        ];
+      default:
+        return [
+          'Type A x Aries (Passionate Leader)', 'Type A x Virgo (Meticulous Caregiver)',
+          'Type B x Leo (Magnetic Charisma)', 'Type B x Sagittarius (Free Spirit Explorer)',
+          'Type O x Taurus (Steadfast Anchor)', 'Type O x Libra (Harmonious Diplomat)',
+          'Type AB x Gemini (Sparkling Versatility)', 'Type AB x Aquarius (Mystic Genius)',
+          'Type A x Scorpio (Devoted Focus)', 'Type B x Pisces (Artistic Sensitivity)',
+          'Type O x Cancer (Warm Protector)', 'Type AB x Capricorn (Cool Strategist)'
+        ];
+    }
+  }
+
+  static List<String> getRokuseiStars(SupportedRegion region) {
+    switch (region.languageCode) {
+      case 'ko':
+        return rokuseiStars;
+      case 'ja':
+        return [
+          '水星人 (水星 - 知恵と名誉)', '金星人 (金星 - 行動力と社交)',
+          '火星人 (火星 - 芸術性と直感)', '木星人 (木星 - 忍耐と大器晩成)',
+          '天王星人 (天王星 - 理想主義と温和)', '土星人 (土星 - 厳格さと道徳心)'
+        ];
+      default:
+        return [
+          'Mercury Star / 水星 (Wisdom & Honor)', 'Venus Star / 金星 (Action & Charisma)',
+          'Mars Star / 火星 (Art & Intuition)', 'Jupiter Star / 木星 (Patience & Growth)',
+          'Uranus Star / 天王星 (Idealism & Peace)', 'Saturn Star / 土星 (Morality & Integrity)'
+        ];
+    }
+  }
+
   /// Returns available items for selected menu
   static List<String> getAvailableItems(MatchSubMenu menu, [SupportedRegion region = SupportedRegion.unitedStates]) {
     switch (menu) {
@@ -366,9 +467,9 @@ class MatchItemEngine {
       case MatchSubMenu.sixteenType:
         return SixteenTypeMatrix.allTypes;
       case MatchSubMenu.sajuIlju:
-        return sajuPillars;
+        return getSajuPillars(region);
       case MatchSubMenu.zodiacAnimal:
-        return zodiacAnimals;
+        return getZodiacAnimals(region);
       case MatchSubMenu.bloodType:
         return getBloodTypes(region);
       case MatchSubMenu.zodiacElement:
@@ -376,9 +477,9 @@ class MatchItemEngine {
       case MatchSubMenu.numerologyLifePath:
         return getLifePathNumbers(region);
       case MatchSubMenu.bloodZodiacHybrid:
-        return bloodZodiacHybrids;
+        return getBloodZodiacHybrids(region);
       case MatchSubMenu.rokuseiMatch:
-        return rokuseiStars;
+        return getRokuseiStars(region);
       case MatchSubMenu.zodiacHouse:
         return getSynastryHouses(region);
       case MatchSubMenu.celticRuneMatch:
@@ -390,21 +491,27 @@ class MatchItemEngine {
   static String getAuraOrbLabel(MatchSubMenu menu, String value) {
     switch (menu) {
       case MatchSubMenu.westernZodiac:
-        // '양자리 (♈ Aries)' -> '♈ 양자리'
         if (value.contains('(') && value.contains(')')) {
           final signName = value.split('(').first.trim();
-          final symbol = value.substring(value.indexOf('(') + 1).split(' ').first;
-          return '$symbol $signName';
+          final inside = value.substring(value.indexOf('(') + 1, value.indexOf(')'));
+          final symbol = inside.contains(' ') ? inside.split(' ').first : inside;
+          if (symbol.isNotEmpty && symbol != signName) {
+            return '$symbol $signName';
+          }
+          return signName;
         }
         return value;
       case MatchSubMenu.sixteenType:
         return value;
       case MatchSubMenu.sajuIlju:
-        return value.split('(').first;
+        return value.split('(').first.trim();
       case MatchSubMenu.zodiacAnimal:
-        // Extract animal name e.g. "자(쥐띠 🐭)" -> "쥐띠🐭"
         if (value.contains('(') && value.contains(')')) {
+          final prefix = value.split('(').first.trim();
           final inside = value.substring(value.indexOf('(') + 1, value.indexOf(')'));
+          if (prefix.length > 1 && !value.startsWith('자(') && !value.startsWith('축(')) {
+            return prefix;
+          }
           return inside.replaceAll(' ', '');
         }
         return value;
@@ -530,14 +637,39 @@ class MatchItemEngine {
 
   // 1) 사주 일주 궁합 계산 (천간합, 지지육합, 삼합)
   static MatchResult _calculateSajuIlju(String a, String b, SupportedRegion region) {
-    final cleanA = a.split('(').first;
-    final cleanB = b.split('(').first;
+    // Extract Hanzi characters inside parenthesis if present (e.g. 甲子 from 'Jia-Zi (甲子)' or '갑자(甲子)')
+    String extractHanziStem(String s) {
+      if (s.contains('(') && s.contains(')')) {
+        final inside = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
+        if (inside.isNotEmpty) return inside[0];
+      }
+      final clean = s.split('(').first.trim().toLowerCase();
+      // Hanzi or Korean or Pinyin
+      if (clean.startsWith('갑') || clean.startsWith('jia') || s.contains('甲')) return '甲';
+      if (clean.startsWith('을') || clean.startsWith('yi') || s.contains('乙')) return '乙';
+      if (clean.startsWith('병') || clean.startsWith('bing') || s.contains('丙')) return '丙';
+      if (clean.startsWith('정') || clean.startsWith('ding') || s.contains('丁')) return '丁';
+      if (clean.startsWith('무') || clean.startsWith('wu') || s.contains('戊')) return '戊';
+      if (clean.startsWith('기') || clean.startsWith('ji') || s.contains('己')) return '己';
+      if (clean.startsWith('경') || clean.startsWith('geng') || s.contains('庚')) return '庚';
+      if (clean.startsWith('신') || clean.startsWith('xin') || s.contains('辛')) return '辛';
+      if (clean.startsWith('임') || clean.startsWith('ren') || s.contains('壬')) return '壬';
+      if (clean.startsWith('계') || clean.startsWith('gui') || s.contains('癸')) return '癸';
+      return clean.isNotEmpty ? clean[0] : '';
+    }
 
-    final stems = {'갑': '기', '기': '갑', '을': '경', '경': '을', '병': '신', '신': '병', '정': '임', '임': '정', '무': '계', '계': '무'};
-    final stemA = cleanA.isNotEmpty ? cleanA[0] : '';
-    final stemB = cleanB.isNotEmpty ? cleanB[0] : '';
+    final stemA = extractHanziStem(a);
+    final stemB = extractHanziStem(b);
 
-    final isStemHarmony = stems[stemA] == stemB;
+    final stemHarmonies = {
+      '甲': '己', '己': '甲',
+      '乙': '庚', '庚': '乙',
+      '丙': '辛', '辛': '丙',
+      '丁': '壬', '壬': '丁',
+      '戊': '癸', '癸': '戊',
+    };
+
+    final isStemHarmony = stemHarmonies[stemA] == stemB;
     final seed = (a.hashCode ^ b.hashCode).abs();
 
     int score = isStemHarmony ? 97 : (75 + (seed % 20));
@@ -560,26 +692,46 @@ class MatchItemEngine {
     );
   }
 
-  // 2) 12간지 띠 궁합 계산 (삼합 4그룹, 육합, 상충)
+  // 2) 12간지 띠 궁합 계산 (삼합 4그룹, 육합, 상충) - 언어 무관 인덱스 매칭
   static MatchResult _calculateZodiacAnimal(String a, String b, SupportedRegion region) {
-    final aChar = a.isNotEmpty ? a[0] : '';
-    final bChar = b.isNotEmpty ? b[0] : '';
+    int findAnimalIndex(String s) {
+      final lower = s.toLowerCase();
+      if (s.contains('🐭') || lower.contains('rat') || s.contains('쥐') || s.contains('자') || s.contains('ねずみ')) return 0;
+      if (s.contains('🐮') || lower.contains('ox') || lower.contains('bue') || lower.contains('büffel') || s.contains('소') || s.contains('축') || s.contains('うし')) return 1;
+      if (s.contains('🐯') || lower.contains('tiger') || lower.contains('tigre') || s.contains('호랑이') || s.contains('인') || s.contains('とら')) return 2;
+      if (s.contains('🐰') || lower.contains('rabbit') || lower.contains('hase') || lower.contains('lapin') || lower.contains('conejo') || s.contains('토끼') || s.contains('묘') || s.contains('うさぎ')) return 3;
+      if (s.contains('🐲') || lower.contains('dragon') || lower.contains('drache') || lower.contains('dragón') || lower.contains('drago') || s.contains('용') || s.contains('진') || s.contains('たつ')) return 4;
+      if (s.contains('🐍') || lower.contains('snake') || lower.contains('schlange') || lower.contains('serpent') || lower.contains('serpiente') || s.contains('뱀') || s.contains('사') || s.contains('へび')) return 5;
+      if (s.contains('🐴') || lower.contains('horse') || lower.contains('pferd') || lower.contains('cheval') || lower.contains('caballo') || lower.contains('cavallo') || s.contains('말') || s.contains('오') || s.contains('うま')) return 6;
+      if (s.contains('🐑') || lower.contains('goat') || lower.contains('sheep') || lower.contains('ziege') || lower.contains('chèvre') || lower.contains('cabra') || s.contains('양') || s.contains('미') || s.contains('ひつじ')) return 7;
+      if (s.contains('🐵') || lower.contains('monkey') || lower.contains('affe') || lower.contains('singe') || lower.contains('mono') || lower.contains('scimmia') || s.contains('원숭이') || s.contains('신') || s.contains('さる')) return 8;
+      if (s.contains('🐔') || lower.contains('rooster') || lower.contains('hahn') || lower.contains('coq') || lower.contains('gallo') || s.contains('닭') || s.contains('유') || s.contains('とり')) return 9;
+      if (s.contains('🐶') || lower.contains('dog') || lower.contains('hund') || lower.contains('chien') || lower.contains('perro') || lower.contains('cane') || s.contains('개') || s.contains('술') || s.contains('いぬ')) return 10;
+      if (s.contains('🐷') || s.contains('🐗') || lower.contains('pig') || lower.contains('boar') || lower.contains('schwein') || lower.contains('cochon') || lower.contains('cerdo') || lower.contains('maiale') || s.contains('돼지') || s.contains('해') || s.contains('いのしし')) return 11;
+      return 0;
+    }
+
+    final idxA = findAnimalIndex(a);
+    final idxB = findAnimalIndex(b);
 
     final samhapGroups = [
-      {'신', '자', '진'},
-      {'사', '유', '축'},
-      {'인', '오', '술'},
-      {'해', '묘', '미'},
+      {8, 0, 4},   // 원숭이(8), 쥐(0), 용(4)
+      {5, 9, 1},   // 뱀(5), 닭(9), 소(1)
+      {2, 6, 10},  // 호랑이(2), 말(6), 개(10)
+      {11, 3, 7},  // 돼지(11), 토끼(3), 양(7)
     ];
 
     final yukhap = {
-      '자': '축', '축': '자', '인': '해', '해': '인',
-      '묘': '술', '술': '묘', '진': '유', '유': '진',
-      '사': '신', '신': '사', '오': '미', '미': '오',
+      0: 1, 1: 0,
+      2: 11, 11: 2,
+      3: 10, 10: 3,
+      4: 9, 9: 4,
+      5: 8, 8: 5,
+      6: 7, 7: 6,
     };
 
-    final isSamhap = samhapGroups.any((g) => g.contains(aChar) && g.contains(bChar) && aChar != bChar);
-    final isYukhap = yukhap[aChar] == bChar;
+    final isSamhap = samhapGroups.any((g) => g.contains(idxA) && g.contains(idxB) && idxA != idxB);
+    final isYukhap = yukhap[idxA] == idxB;
 
     int score = 76;
     String headline = AppI18n.tr('match_animal_general_title', region);
@@ -593,7 +745,7 @@ class MatchItemEngine {
       score = 96;
       headline = AppI18n.tr('match_animal_yukhap_title', region);
       summary = AppI18n.tr('match_animal_yukhap_desc', region);
-    } else if (aChar == bChar) {
+    } else if (idxA == idxB) {
       score = 88;
       headline = AppI18n.tr('match_animal_same_title', region);
       summary = AppI18n.tr('match_animal_same_desc', region);

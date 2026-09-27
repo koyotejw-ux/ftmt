@@ -130,10 +130,24 @@ class _VaultScreenState extends State<VaultScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildPill(AppI18n.tr('pill_saju_ilju', widget.currentRegion), myProfile.sajuIlju.split('(').first),
-                    _buildPill(AppI18n.tr('pill_zodiac_animal', widget.currentRegion), myProfile.zodiacAnimal.contains('(') ? myProfile.zodiacAnimal.split('(')[1].replaceAll(')', '') : myProfile.zodiacAnimal),
+                    _buildPill(
+                      widget.currentRegion == SupportedRegion.korea
+                          ? AppI18n.tr('pill_saju_ilju', widget.currentRegion)
+                          : AppI18n.tr('my_element_label', widget.currentRegion),
+                      widget.currentRegion == SupportedRegion.korea
+                          ? myProfile.sajuIlju.split('(').first
+                          : myProfile.localizedZodiacElement(widget.currentRegion).split('(').first.trim(),
+                    ),
+                    _buildPill(
+                      widget.currentRegion == SupportedRegion.korea
+                          ? AppI18n.tr('pill_zodiac_animal', widget.currentRegion)
+                          : AppI18n.tr('my_lifepath_label', widget.currentRegion),
+                      widget.currentRegion == SupportedRegion.korea
+                          ? (myProfile.zodiacAnimal.contains('(') ? myProfile.zodiacAnimal.split('(')[1].replaceAll(')', '') : myProfile.zodiacAnimal)
+                          : myProfile.localizedLifePathNumber(widget.currentRegion).split('(').first.trim(),
+                    ),
                     _buildPill(AppI18n.tr('pill_sun_sign', widget.currentRegion), myProfile.localizedSunSign(widget.currentRegion)),
-                    _buildPill(AppI18n.tr('pill_blood_type', widget.currentRegion), myProfile.bloodType),
+                    _buildPill(AppI18n.tr('pill_blood_type', widget.currentRegion), myProfile.localizedBloodType(widget.currentRegion)),
                   ],
                 ),
               ],
@@ -247,7 +261,7 @@ class _VaultScreenState extends State<VaultScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(p.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                          Text(p.localizedName(widget.currentRegion), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
                           const SizedBox(height: 3),
                           Text(
                             '${p.birthDateTime.year}.${p.birthDateTime.month.toString().padLeft(2, '0')}.${p.birthDateTime.day.toString().padLeft(2, '0')} · ${p.localizedSunSign(widget.currentRegion)}',
@@ -263,7 +277,9 @@ class _VaultScreenState extends State<VaultScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        p.sajuIlju.split('(').first,
+                        widget.currentRegion == SupportedRegion.korea
+                            ? p.localizedSajuIlju(widget.currentRegion).split('(').first
+                            : p.localizedWesternZodiacItem(widget.currentRegion).split('(').first,
                         style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -315,15 +331,31 @@ class _VaultScreenState extends State<VaultScreen> {
   }
 
   Widget _buildPill(String title, String value) {
-    return Column(
-      children: [
-        Text(title, style: const TextStyle(color: Colors.white38, fontSize: 10)),
-        const SizedBox(height: 3),
-        Text(
-          value,
-          style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12, fontWeight: FontWeight.bold),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Column(
+          children: [
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                title,
+                style: const TextStyle(color: Colors.white38, fontSize: 10),
+                maxLines: 1,
+              ),
+            ),
+            const SizedBox(height: 3),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12, fontWeight: FontWeight.bold),
+                maxLines: 1,
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

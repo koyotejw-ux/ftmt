@@ -56,55 +56,67 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
   void _initDefaultSelections() {
     final my = widget.profileRepo.profile;
+    final r = widget.currentRegion;
 
     // 16 Types default
     _selectedItemsA[MatchSubMenu.sixteenType] = my.mbti ?? 'ENFP';
     _selectedItemsB[MatchSubMenu.sixteenType] = 'INTJ';
 
     // 12 Western Zodiac default
-    final myZodiac = my.westernZodiacItem;
-    _selectedItemsA[MatchSubMenu.westernZodiac] = MatchItemEngine.westernZodiacSigns.contains(myZodiac)
-        ? myZodiac
-        : MatchItemEngine.westernZodiacSigns[4]; // 사자자리
-    _selectedItemsB[MatchSubMenu.westernZodiac] = MatchItemEngine.westernZodiacSigns[8]; // 사수자리 (120° 트라인 최상 궁합)
+    final zodiacList = MatchItemEngine.getAvailableItems(MatchSubMenu.westernZodiac, r);
+    final myZodiac = my.localizedWesternZodiacItem(r);
+    _selectedItemsA[MatchSubMenu.westernZodiac] = zodiacList.contains(myZodiac) ? myZodiac : (zodiacList.length > 4 ? zodiacList[4] : zodiacList.first);
+    _selectedItemsB[MatchSubMenu.westernZodiac] = zodiacList.length > 8 ? zodiacList[8] : (zodiacList.length > 1 ? zodiacList[1] : zodiacList.first);
 
-    // Saju Pillar default (Deduce exact day pillar from user's birth)
-    final myIlju = my.sajuIlju;
-    _selectedItemsA[MatchSubMenu.sajuIlju] = MatchItemEngine.sajuPillars.contains(myIlju) ? myIlju : MatchItemEngine.sajuPillars[0];
-    _selectedItemsB[MatchSubMenu.sajuIlju] = '기축(己丑)';
+    // Saju Pillar default
+    final sajuList = MatchItemEngine.getAvailableItems(MatchSubMenu.sajuIlju, r);
+    final myIlju = my.localizedSajuIlju(r);
+    _selectedItemsA[MatchSubMenu.sajuIlju] = sajuList.contains(myIlju) ? myIlju : sajuList.first;
+    _selectedItemsB[MatchSubMenu.sajuIlju] = sajuList.length > 25 ? sajuList[25] : (sajuList.length > 1 ? sajuList[1] : sajuList.first);
 
-    // Zodiac Animal default (Deduce animal from user's birth)
-    final myAnimal = my.zodiacAnimal;
-    _selectedItemsA[MatchSubMenu.zodiacAnimal] = MatchItemEngine.zodiacAnimals.contains(myAnimal) ? myAnimal : MatchItemEngine.zodiacAnimals[0];
-    _selectedItemsB[MatchSubMenu.zodiacAnimal] = '진(용띠 🐲)';
+    // Zodiac Animal default
+    final animalList = MatchItemEngine.getAvailableItems(MatchSubMenu.zodiacAnimal, r);
+    final myAnimal = my.localizedZodiacAnimal(r);
+    _selectedItemsA[MatchSubMenu.zodiacAnimal] = animalList.contains(myAnimal) ? myAnimal : animalList.first;
+    _selectedItemsB[MatchSubMenu.zodiacAnimal] = animalList.length > 4 ? animalList[4] : (animalList.length > 1 ? animalList[1] : animalList.first);
 
     // Blood Type default
-    _selectedItemsA[MatchSubMenu.bloodType] = my.bloodType;
-    _selectedItemsB[MatchSubMenu.bloodType] = 'O형';
+    final bloodList = MatchItemEngine.getAvailableItems(MatchSubMenu.bloodType, r);
+    final myBlood = my.localizedBloodType(r);
+    _selectedItemsA[MatchSubMenu.bloodType] = bloodList.contains(myBlood) ? myBlood : bloodList.first;
+    _selectedItemsB[MatchSubMenu.bloodType] = bloodList.length > 2 ? bloodList[2] : (bloodList.length > 1 ? bloodList[1] : bloodList.first);
 
     // Zodiac Element default
-    _selectedItemsA[MatchSubMenu.zodiacElement] = my.zodiacElement;
-    _selectedItemsB[MatchSubMenu.zodiacElement] = MatchItemEngine.zodiacElements[2]; // Air
+    final elemList = MatchItemEngine.getAvailableItems(MatchSubMenu.zodiacElement, r);
+    final myElem = my.localizedZodiacElement(r);
+    _selectedItemsA[MatchSubMenu.zodiacElement] = elemList.contains(myElem) ? myElem : elemList.first;
+    _selectedItemsB[MatchSubMenu.zodiacElement] = elemList.length > 2 ? elemList[2] : (elemList.length > 1 ? elemList[1] : elemList.first);
 
     // Numerology Life Path
-    _selectedItemsA[MatchSubMenu.numerologyLifePath] = my.lifePathNumber;
-    _selectedItemsB[MatchSubMenu.numerologyLifePath] = MatchItemEngine.lifePathNumbers[1];
+    final lpList = MatchItemEngine.getAvailableItems(MatchSubMenu.numerologyLifePath, r);
+    final myLp = my.localizedLifePathNumber(r);
+    _selectedItemsA[MatchSubMenu.numerologyLifePath] = lpList.contains(myLp) ? myLp : lpList.first;
+    _selectedItemsB[MatchSubMenu.numerologyLifePath] = lpList.length > 1 ? lpList[1] : lpList.first;
 
     // Hybrid Blood x Zodiac
-    _selectedItemsA[MatchSubMenu.bloodZodiacHybrid] = MatchItemEngine.bloodZodiacHybrids[0];
-    _selectedItemsB[MatchSubMenu.bloodZodiacHybrid] = MatchItemEngine.bloodZodiacHybrids[4];
+    final hybridList = MatchItemEngine.getAvailableItems(MatchSubMenu.bloodZodiacHybrid, r);
+    _selectedItemsA[MatchSubMenu.bloodZodiacHybrid] = hybridList.first;
+    _selectedItemsB[MatchSubMenu.bloodZodiacHybrid] = hybridList.length > 4 ? hybridList[4] : (hybridList.length > 1 ? hybridList[1] : hybridList.first);
 
     // Rokusei
-    _selectedItemsA[MatchSubMenu.rokuseiMatch] = MatchItemEngine.rokuseiStars[0];
-    _selectedItemsB[MatchSubMenu.rokuseiMatch] = MatchItemEngine.rokuseiStars[1];
+    final rokuseiList = MatchItemEngine.getAvailableItems(MatchSubMenu.rokuseiMatch, r);
+    _selectedItemsA[MatchSubMenu.rokuseiMatch] = rokuseiList.first;
+    _selectedItemsB[MatchSubMenu.rokuseiMatch] = rokuseiList.length > 1 ? rokuseiList[1] : rokuseiList.first;
 
     // Synastry House
-    _selectedItemsA[MatchSubMenu.zodiacHouse] = MatchItemEngine.synastryHouses[0];
-    _selectedItemsB[MatchSubMenu.zodiacHouse] = MatchItemEngine.synastryHouses[3];
+    final houseList = MatchItemEngine.getAvailableItems(MatchSubMenu.zodiacHouse, r);
+    _selectedItemsA[MatchSubMenu.zodiacHouse] = houseList.first;
+    _selectedItemsB[MatchSubMenu.zodiacHouse] = houseList.length > 3 ? houseList[3] : (houseList.length > 1 ? houseList[1] : houseList.first);
 
     // Celtic Runes
-    _selectedItemsA[MatchSubMenu.celticRuneMatch] = MatchItemEngine.celticRunes[0];
-    _selectedItemsB[MatchSubMenu.celticRuneMatch] = MatchItemEngine.celticRunes[6];
+    final runeList = MatchItemEngine.getAvailableItems(MatchSubMenu.celticRuneMatch, r);
+    _selectedItemsA[MatchSubMenu.celticRuneMatch] = runeList.first;
+    _selectedItemsB[MatchSubMenu.celticRuneMatch] = runeList.length > 6 ? runeList[6] : (runeList.length > 1 ? runeList[1] : runeList.first);
   }
 
   String _getItemA(MatchSubMenu menu) {
@@ -125,6 +137,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   void didUpdateWidget(covariant MatchHubScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentRegion != widget.currentRegion) {
+      _initDefaultSelections();
       final menus = GeoDetector.getMatchMenus(widget.currentRegion);
       if (_selectedTabIndex >= menus.length) {
         _selectedTabIndex = 0;
@@ -347,160 +360,192 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
                 const SizedBox(height: 16),
 
-                // Match Selection Controls (Dynamically rendered for current menu)
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildTypeDropdown(
-                        label: MatchItemEngine.getPickerLabelA(currentMenu, widget.currentRegion),
-                        currentVal: _getItemA(currentMenu),
-                        items: MatchItemEngine.getAvailableItems(currentMenu, widget.currentRegion),
-                        onChanged: (val) {
-                          if (val != null) {
-                            setState(() => _selectedItemsA[currentMenu] = val);
-                            _updateMatchPreview();
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildTypeDropdown(
-                        label: MatchItemEngine.getPickerLabelB(currentMenu, widget.currentRegion),
-                        currentVal: _getItemB(currentMenu),
-                        items: MatchItemEngine.getAvailableItems(currentMenu, widget.currentRegion),
-                        onChanged: (val) {
-                          if (val != null) {
-                            setState(() => _selectedItemsB[currentMenu] = val);
-                            _updateMatchPreview();
-                          }
-                        },
-                      ),
-                    ),
-                  ],
+                // Match Selection Controls (Dynamically rendered for current menu - Responsive layout)
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isNarrow = constraints.maxWidth < 560;
+                    final dropdownA = _buildTypeDropdown(
+                      label: MatchItemEngine.getPickerLabelA(currentMenu, widget.currentRegion),
+                      currentVal: _getItemA(currentMenu),
+                      items: MatchItemEngine.getAvailableItems(currentMenu, widget.currentRegion),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() => _selectedItemsA[currentMenu] = val);
+                          _updateMatchPreview();
+                        }
+                      },
+                    );
+
+                    final dropdownB = _buildTypeDropdown(
+                      label: MatchItemEngine.getPickerLabelB(currentMenu, widget.currentRegion),
+                      currentVal: _getItemB(currentMenu),
+                      items: MatchItemEngine.getAvailableItems(currentMenu, widget.currentRegion),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() => _selectedItemsB[currentMenu] = val);
+                          _updateMatchPreview();
+                        }
+                      },
+                    );
+
+                    if (isNarrow) {
+                      return Column(
+                        children: [
+                          dropdownA,
+                          const SizedBox(height: 12),
+                          dropdownB,
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: dropdownA),
+                        const SizedBox(width: 12),
+                        Expanded(child: dropdownB),
+                      ],
+                    );
+                  },
                 ),
 
                 const SizedBox(height: 12),
 
-                // Helper Action Buttons: Calculate from Birth & Pick from Vault
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6)),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        ),
-                        onPressed: () {
-                          ProfileEditDialog.show(
-                            context,
-                            initialProfile: UserProfile(
-                              name: AppI18n.tr('profile_default_other', widget.currentRegion),
-                              birthDateTime: DateTime(1996, 5, 10, 12, 0),
-                              city: 'Seoul',
-                            ),
-                            region: widget.currentRegion,
-                            isForSelf: false,
-                            onSaved: (personB) {
-                              setState(() {
-                                _selectedItemsB[MatchSubMenu.westernZodiac] = personB.westernZodiacItem;
-                                _selectedItemsB[MatchSubMenu.sajuIlju] = personB.sajuIlju;
-                                _selectedItemsB[MatchSubMenu.zodiacAnimal] = personB.zodiacAnimal;
-                                _selectedItemsB[MatchSubMenu.bloodType] = personB.bloodType;
-                                _selectedItemsB[MatchSubMenu.zodiacElement] = personB.zodiacElement;
-                                _selectedItemsB[MatchSubMenu.numerologyLifePath] = personB.lifePathNumber;
-                                if (personB.mbti != null) {
-                                  _selectedItemsB[MatchSubMenu.sixteenType] = personB.mbti!;
-                                }
-                              });
-                              _updateMatchPreview();
-                            },
-                          );
-                        },
-                        icon: const Icon(Icons.cake, color: SpaceNavyTheme.goldChampagne, size: 14),
-                        label: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            AppI18n.tr('match_calc_from_birth', widget.currentRegion),
-                            style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 11, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                // Helper Action Buttons: Calculate from Birth & Pick from Vault (Responsive)
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isNarrow = constraints.maxWidth < 440;
+                    final btnCalc = OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: const Color(0xFF00E5FF).withValues(alpha: 0.6)),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        ),
-                        onPressed: () {
-                          final vault = widget.profileRepo.getSavedVaultProfiles();
-                          if (vault.isNotEmpty) {
-                            showModalBottomSheet(
-                              context: context,
-                              backgroundColor: const Color(0xFF0D1224),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                              ),
-                              builder: (sheetCtx) => SafeArea(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        AppI18n.tr('match_pick_from_vault', widget.currentRegion),
-                                        style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(height: 14),
-                                      ...vault.map((p) => ListTile(
-                                            tileColor: Colors.white.withValues(alpha: 0.05),
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                            leading: const Icon(Icons.favorite, color: Colors.pinkAccent),
-                                            title: Text(p.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                                            subtitle: Text('${p.westernZodiacItem.split('(').first} · ${p.sajuIlju.split('(').first} · ${p.bloodType}', style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12)),
-                                            onTap: () {
-                                              Navigator.of(sheetCtx).pop();
-                                              setState(() {
-                                                _selectedItemsB[MatchSubMenu.westernZodiac] = p.westernZodiacItem;
-                                                _selectedItemsB[MatchSubMenu.sajuIlju] = p.sajuIlju;
-                                                _selectedItemsB[MatchSubMenu.zodiacAnimal] = p.zodiacAnimal;
-                                                _selectedItemsB[MatchSubMenu.bloodType] = p.bloodType;
-                                                _selectedItemsB[MatchSubMenu.zodiacElement] = p.zodiacElement;
-                                                _selectedItemsB[MatchSubMenu.numerologyLifePath] = p.lifePathNumber;
-                                                if (p.mbti != null) {
-                                                  _selectedItemsB[MatchSubMenu.sixteenType] = p.mbti!;
-                                                }
-                                              });
-                                              _updateMatchPreview();
-                                            },
-                                          )),
-                                    ],
-                                  ),
+                      onPressed: () {
+                        ProfileEditDialog.show(
+                          context,
+                          initialProfile: UserProfile(
+                            name: AppI18n.tr('profile_default_other', widget.currentRegion),
+                            birthDateTime: DateTime(1996, 5, 10, 12, 0),
+                            city: 'Seoul',
+                          ),
+                          region: widget.currentRegion,
+                          isForSelf: false,
+                          onSaved: (personB) {
+                            setState(() {
+                              _selectedItemsB[MatchSubMenu.westernZodiac] = personB.localizedWesternZodiacItem(widget.currentRegion);
+                              _selectedItemsB[MatchSubMenu.sajuIlju] = personB.localizedSajuIlju(widget.currentRegion);
+                              _selectedItemsB[MatchSubMenu.zodiacAnimal] = personB.localizedZodiacAnimal(widget.currentRegion);
+                              _selectedItemsB[MatchSubMenu.bloodType] = personB.localizedBloodType(widget.currentRegion);
+                              _selectedItemsB[MatchSubMenu.zodiacElement] = personB.localizedZodiacElement(widget.currentRegion);
+                              _selectedItemsB[MatchSubMenu.numerologyLifePath] = personB.localizedLifePathNumber(widget.currentRegion);
+                              if (personB.mbti != null) {
+                                _selectedItemsB[MatchSubMenu.sixteenType] = personB.mbti!;
+                              }
+                            });
+                            _updateMatchPreview();
+                          },
+                        );
+                      },
+                      icon: const Icon(Icons.cake, color: SpaceNavyTheme.goldChampagne, size: 16),
+                      label: Text(
+                        AppI18n.tr('match_calc_from_birth', widget.currentRegion),
+                        style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    );
+
+                    final btnVault = OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: const Color(0xFF00E5FF).withValues(alpha: 0.6)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      ),
+                      onPressed: () {
+                        final vault = widget.profileRepo.getSavedVaultProfiles();
+                        if (vault.isNotEmpty) {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: const Color(0xFF0D1224),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                            ),
+                            builder: (sheetCtx) => SafeArea(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppI18n.tr('match_pick_from_vault', widget.currentRegion),
+                                      style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 14),
+                                    ...vault.map((p) => ListTile(
+                                          tileColor: Colors.white.withValues(alpha: 0.05),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                          leading: const Icon(Icons.favorite, color: Colors.pinkAccent),
+                                          title: Text(p.localizedName(widget.currentRegion), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                          subtitle: Text(
+                                            widget.currentRegion == SupportedRegion.korea
+                                                ? '${p.localizedWesternZodiacItem(widget.currentRegion).split('(').first} · ${p.localizedSajuIlju(widget.currentRegion).split('(').first} · ${p.localizedBloodType(widget.currentRegion)}'
+                                                : '${p.localizedWesternZodiacItem(widget.currentRegion).split('(').first} · ${p.localizedZodiacElement(widget.currentRegion).split('(').first} · ${p.localizedBloodType(widget.currentRegion)}',
+                                            style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(sheetCtx).pop();
+                                            setState(() {
+                                              _selectedItemsB[MatchSubMenu.westernZodiac] = p.localizedWesternZodiacItem(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.sajuIlju] = p.localizedSajuIlju(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.zodiacAnimal] = p.localizedZodiacAnimal(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.bloodType] = p.localizedBloodType(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.zodiacElement] = p.localizedZodiacElement(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.numerologyLifePath] = p.localizedLifePathNumber(widget.currentRegion);
+                                              if (p.mbti != null) {
+                                                _selectedItemsB[MatchSubMenu.sixteenType] = p.mbti!;
+                                              }
+                                            });
+                                            _updateMatchPreview();
+                                          },
+                                        )),
+                                  ],
                                 ),
                               ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(AppI18n.tr('vault_empty_notice', widget.currentRegion))),
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.people_alt, color: Color(0xFF00E5FF), size: 14),
-                        label: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            AppI18n.tr('match_pick_from_vault', widget.currentRegion),
-                            style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(AppI18n.tr('vault_empty_notice', widget.currentRegion))),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.people_alt, color: Color(0xFF00E5FF), size: 16),
+                      label: Text(
+                        AppI18n.tr('match_pick_from_vault', widget.currentRegion),
+                        style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 12, fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
+                    );
+
+                    if (isNarrow) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          btnCalc,
+                          const SizedBox(height: 8),
+                          btnVault,
+                        ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        Expanded(child: btnCalc),
+                        const SizedBox(width: 10),
+                        Expanded(child: btnVault),
+                      ],
+                    );
+                  },
                 ),
 
               ],
@@ -706,7 +751,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600)),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
           isExpanded: true,
@@ -714,7 +759,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
           dropdownColor: const Color(0xFF141B33),
           decoration: InputDecoration(
             isDense: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             filled: true,
             fillColor: Colors.white.withValues(alpha: 0.05),
             border: OutlineInputBorder(
@@ -727,7 +772,9 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                     value: t,
                     child: Text(
                       t,
-                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ))
               .toList(),

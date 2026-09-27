@@ -70,7 +70,7 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   void initState() {
     super.initState();
     _bloodTypes = MatchItemEngine.getBloodTypes(widget.region);
-    _nameCtrl = TextEditingController(text: widget.initialProfile.name);
+    _nameCtrl = TextEditingController(text: widget.initialProfile.localizedName(widget.region));
     _birthDateTime = widget.initialProfile.birthDateTime;
     _city = widget.initialProfile.city;
     _bloodType = _normalizeBloodType(widget.initialProfile.bloodType, _bloodTypes);
@@ -179,12 +179,19 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildPreviewPill(AppI18n.tr('pill_saju_ilju', widget.region), preview.sajuIlju.split('(').first),
-                  _buildPreviewPill(AppI18n.tr('pill_zodiac_animal', widget.region), preview.zodiacAnimal.contains('(') ? preview.zodiacAnimal.split('(')[1].replaceAll(')', '') : preview.zodiacAnimal),
-                  _buildPreviewPill(AppI18n.tr('pill_sun_sign', widget.region), preview.localizedSunSign(widget.region)),
-                  _buildPreviewPill(AppI18n.tr('pill_blood_type', widget.region), preview.bloodType),
-                ],
+                children: widget.region == SupportedRegion.korea
+                    ? [
+                        _buildPreviewPill(AppI18n.tr('pill_saju_ilju', widget.region), preview.localizedSajuIlju(widget.region).split('(').first),
+                        _buildPreviewPill(AppI18n.tr('pill_zodiac_animal', widget.region), preview.localizedZodiacAnimal(widget.region)),
+                        _buildPreviewPill(AppI18n.tr('pill_sun_sign', widget.region), preview.localizedSunSign(widget.region)),
+                        _buildPreviewPill(AppI18n.tr('pill_blood_type', widget.region), preview.localizedBloodType(widget.region)),
+                      ]
+                    : [
+                        _buildPreviewPill(AppI18n.tr('my_element_label', widget.region), preview.localizedZodiacElement(widget.region).split('(').first.trim()),
+                        _buildPreviewPill(AppI18n.tr('my_lifepath_label', widget.region), preview.localizedLifePathNumber(widget.region).split('(').first.trim()),
+                        _buildPreviewPill(AppI18n.tr('pill_sun_sign', widget.region), preview.localizedSunSign(widget.region)),
+                        _buildPreviewPill(AppI18n.tr('pill_blood_type', widget.region), preview.localizedBloodType(widget.region)),
+                      ],
               ),
             ),
 
@@ -364,15 +371,23 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
   }
 
   Widget _buildPreviewPill(String title, String value) {
-    return Column(
-      children: [
-        Text(title, style: const TextStyle(color: Colors.white38, fontSize: 10)),
-        const SizedBox(height: 2),
-        Text(
-          value,
-          style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        children: [
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(title, style: const TextStyle(color: Colors.white38, fontSize: 10)),
+          ),
+          const SizedBox(height: 2),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

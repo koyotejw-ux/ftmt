@@ -24,9 +24,13 @@ class TarotReadingEngine {
     SupportedRegion region = SupportedRegion.korea,
   }) {
     if (cards.isEmpty) {
-      return const TarotReadingResult(
-        flowTitle: '운명의 카드가 선택되지 않았습니다',
-        flowNarrative: '신비의 타로 덱에서 3장의 카드를 선택해 주세요.',
+      return TarotReadingResult(
+        flowTitle: region == SupportedRegion.korea
+            ? '운명의 카드가 선택되지 않았습니다'
+            : 'No Destiny Cards Selected',
+        flowNarrative: region == SupportedRegion.korea
+            ? '신비의 타로 덱에서 3장의 카드를 선택해 주세요.'
+            : 'Please pick 3 cards from the sacred Tarot deck.',
         loveAndRelationshipAdvice: '',
         careerAndFinanceAdvice: '',
         coreActionTip: '',
@@ -37,9 +41,9 @@ class TarotReadingEngine {
     final present = cards.length > 1 ? cards[1] : cards[0];
     final future = cards.length > 2 ? cards[2] : cards[0];
 
-    final pastName = region == SupportedRegion.korea ? past.nameKo : past.nameEn;
-    final presentName = region == SupportedRegion.korea ? present.nameKo : present.nameEn;
-    final futureName = region == SupportedRegion.korea ? future.nameKo : future.nameEn;
+    final pastName = past.localizedName(region);
+    final presentName = present.localizedName(region);
+    final futureName = future.localizedName(region);
 
     // 흐름 테마 도출
     final isTransformative = future.id == 10 || future.id == 21 || future.id == 19;
@@ -70,10 +74,10 @@ class TarotReadingEngine {
           '현재의 혼란이나 정체감은 더 큰 비상을 위한 도움닫기이며, 과거의 경험들이 헛되지 않고 미래의 강력한 나침반이 될 것입니다.';
     } else {
       narrative =
-          'The energy of [$pastName] laid the foundation of "${past.uprightMeaning}". '
-          'Currently standing under [$presentName], you are navigating "${present.uprightMeaning}". '
-          'The horizon ahead leads to [$futureName], heralding "${future.uprightMeaning}". '
-          'Trust the sequence of events; what you have sown in the past is transforming into your greatest asset.';
+          'The energy of [$pastName] laid the foundation of "${past.localizedUprightMeaning(region)}". '
+          'Currently standing under [$presentName], you are navigating "${present.localizedUprightMeaning(region)}". '
+          'The horizon ahead leads to [$futureName], heralding "${future.localizedUprightMeaning(region)}". '
+          'Trust the sequence of divine timing; what you have anchored in the past is transforming into your greatest asset.';
     }
 
     // 연애/인간관계 조언
@@ -87,8 +91,13 @@ class TarotReadingEngine {
         loveAdvice = '과거의 서운함이나 집착을 흘려보내세요. 상대방의 내면을 있는 그대로 존중할 때 오해가 풀리고 새로운 신뢰가 싹틉니다.';
       }
     } else {
-      loveAdvice =
-          'Release lingering attachments from the past. When you communicate with authentic vulnerability, deep emotional alignment blooms naturally.';
+      if (present.id == 6 || future.id == 6 || past.id == 6) {
+        loveAdvice = 'A profound harmonic resonance is opening. Express your heartfelt feelings with vulnerability to solidify an eternal soul bond.';
+      } else if (future.id == 19 || future.id == 3) {
+        loveAdvice = 'Warmth, charisma and magnetic joy radiate through you. Step into your natural glow and attract genuine companionship.';
+      } else {
+        loveAdvice = 'Release lingering misunderstandings from the past. Honoring each other\'s inner truth allows enduring trust to flourish naturally.';
+      }
     }
 
     // 커리어/재물 조언
@@ -102,8 +111,13 @@ class TarotReadingEngine {
         careerAdvice = '단기적 이익보다는 시스템과 신뢰 기반을 튼튼히 할 때입니다. 디테일을 점검하고 내실을 다지면 흔들리지 않는 기반이 구축됩니다.';
       }
     } else {
-      careerAdvice =
-          'A decisive breakthrough is crystallizing in your career path. Take strategic ownership and advance with calculated confidence.';
+      if (future.id == 21 || future.id == 1 || future.id == 4 || future.id == 7) {
+        careerAdvice = 'A decisive breakthrough is crystallizing in your ventures. Take bold ownership and steer ahead with strategic mastery.';
+      } else if (future.id == 10) {
+        careerAdvice = 'A dynamic shift in opportunities is unfolding. Remain agile and ride the wave to capture unexpected prosperity.';
+      } else {
+        careerAdvice = 'Fortify your foundations and systems rather than chasing fleeting gains. Thorough diligence will yield an unshakeable empire.';
+      }
     }
 
     // 핵심 행동 수칙 (Action Tip)
@@ -111,7 +125,7 @@ class TarotReadingEngine {
     if (region == SupportedRegion.korea) {
       tip = '우주의 조언: 과거의 후회에 얽매이지 말고, [$presentName]의 에너지를 살려 오늘 할 수 있는 가장 명확한 한 가지 행동에 집중하세요.';
     } else {
-      tip = 'Cosmic Guideline: Anchor yourself in the present power of [$presentName]. Take one unambiguous, bold action today.';
+      tip = 'Cosmic Guideline: Anchor yourself in the present power of [$presentName]. Take one unambiguous, purposeful action today.';
     }
 
     return TarotReadingResult(

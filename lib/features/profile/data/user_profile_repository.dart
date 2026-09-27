@@ -3,13 +3,15 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/astronomy/ephemeris_math.dart';
 import '../../../core/astronomy/saju_engine.dart';
+import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
+import '../../match/domain/match_item_engine.dart';
 
 class UserProfile {
   final String name;
   final DateTime birthDateTime;
   final String city;
-  final String bloodType; // 'A형', 'B형', 'O형', 'AB형'
+  final String bloodType; // 'A', 'B', 'O', 'AB' or 'A형'
   final String? mbti; // e.g. 'ENFP'
   final String gender; // 'male', 'female', 'other'
 
@@ -17,15 +19,53 @@ class UserProfile {
     required this.name,
     required this.birthDateTime,
     required this.city,
-    this.bloodType = 'A형',
+    this.bloodType = 'A',
     this.mbti = 'ENFP',
     this.gender = 'female',
   });
+
+  /// Localized user display name
+  String localizedName(SupportedRegion region) {
+    if (name.isEmpty || name == '나 (본인)' || name == '나' || name == 'Me' || name.contains('본인')) {
+      return AppI18n.tr('profile_default_me', region);
+    }
+    if (name.contains('김서연') || name.contains('연인') || name.contains('Partner') || name.contains('Lover')) {
+      switch (region.languageCode) {
+        case 'ko': return '김서연 (연인)';
+        case 'ja': return 'ソヨン (恋人)';
+        case 'de': return 'Sophia (Partner)';
+        case 'fr': return 'Sophia (Partenaire)';
+        case 'es': return 'Sofía (Pareja)';
+        case 'it': return 'Sofia (Partner)';
+        default: return 'Sophia (Partner)';
+      }
+    }
+    if (name.contains('이민호') || name.contains('친구') || name.contains('Friend')) {
+      switch (region.languageCode) {
+        case 'ko': return '이민호 (친구)';
+        case 'ja': return 'ミホ (友達)';
+        case 'de': return 'Lucas (Freund)';
+        case 'fr': return 'Lucas (Ami)';
+        case 'es': return 'Lucas (Amigo)';
+        case 'it': return 'Luca (Amico)';
+        default: return 'Lucas (Friend)';
+      }
+    }
+    return name;
+  }
 
   /// Calculate Saju Ilju (e.g. '갑자(甲子)')
   String get sajuIlju {
     final pillars = SajuEngine.calculatePillars(birthDateTime);
     return '${pillars.dayPillar.stem.name}${pillars.dayPillar.branch.name}(${pillars.dayPillar.stem.char}${pillars.dayPillar.branch.char})';
+  }
+
+  String localizedSajuIlju(SupportedRegion region) {
+    final pillars = SajuEngine.calculatePillars(birthDateTime);
+    if (region.languageCode == 'ko') {
+      return '${pillars.dayPillar.stem.name}${pillars.dayPillar.branch.name}(${pillars.dayPillar.stem.char}${pillars.dayPillar.branch.char})';
+    }
+    return '${pillars.dayPillar.stem.char}${pillars.dayPillar.branch.char} Pillar';
   }
 
   /// Calculate 12 Zodiac Animal (e.g. '자(쥐띠 🐭)')
@@ -40,6 +80,19 @@ class UserProfile {
     };
     final emoji = emojiMap[animalName] ?? '✨';
     return '$branchName($animalName띠 $emoji)';
+  }
+
+  String localizedZodiacAnimal(SupportedRegion region) {
+    final pillars = SajuEngine.calculatePillars(birthDateTime);
+    final animalName = pillars.yearPillar.branch.animal;
+    final animals = MatchItemEngine.getZodiacAnimals(region);
+    final indexMap = {
+      '쥐': 0, '소': 1, '호랑이': 2, '토끼': 3,
+      '용': 4, '뱀': 5, '말': 6, '양': 7,
+      '원숭이': 8, '닭': 9, '개': 10, '돼지': 11,
+    };
+    final idx = indexMap[animalName] ?? 0;
+    return animals[idx];
   }
 
   /// Calculate Sun Sign (e.g. '사자자리')
@@ -58,6 +111,11 @@ class UserProfile {
   String get westernZodiacItem {
     final sign = EphemerisMath.getSunSign(birthDateTime);
     return '${sign.ko} (${sign.symbol} ${sign.en})';
+  }
+
+  String localizedWesternZodiacItem(SupportedRegion region) {
+    final sign = EphemerisMath.getSunSign(birthDateTime);
+    return '${sign.localizedName(region)} (${sign.symbol} ${sign.en})';
   }
 
   /// Calculate Western Zodiac 4 Elements
@@ -80,6 +138,29 @@ class UserProfile {
       case WesternZodiac.scorpio:
       case WesternZodiac.pisces:
         return 'Water (물/水 - 게/전갈/물고기)';
+    }
+  }
+
+  String localizedZodiacElement(SupportedRegion region) {
+    final sign = EphemerisMath.getSunSign(birthDateTime);
+    final elements = MatchItemEngine.getZodiacElements(region);
+    switch (sign) {
+      case WesternZodiac.aries:
+      case WesternZodiac.leo:
+      case WesternZodiac.sagittarius:
+        return elements[0];
+      case WesternZodiac.taurus:
+      case WesternZodiac.virgo:
+      case WesternZodiac.capricorn:
+        return elements[1];
+      case WesternZodiac.gemini:
+      case WesternZodiac.libra:
+      case WesternZodiac.aquarius:
+        return elements[2];
+      case WesternZodiac.cancer:
+      case WesternZodiac.scorpio:
+      case WesternZodiac.pisces:
+        return elements[3];
     }
   }
 
@@ -109,6 +190,32 @@ class UserProfile {
     return titles[sum] ?? 'Life Path 1 (개척자/Leader)';
   }
 
+  String localizedLifePathNumber(SupportedRegion region) {
+    int sum = birthDateTime.year + birthDateTime.month + birthDateTime.day;
+    while (sum > 9 && sum != 11 && sum != 22) {
+      int next = 0;
+      for (final digit in sum.toString().split('')) {
+        next += int.parse(digit);
+      }
+      sum = next;
+    }
+    final list = MatchItemEngine.getLifePathNumbers(region);
+    if (sum == 11 && list.length > 9) return list[9];
+    if (sum == 22 && list.length > 10) return list[10];
+    if (sum >= 1 && sum <= 9 && list.length >= sum) return list[sum - 1];
+    return list.first;
+  }
+
+  String localizedBloodType(SupportedRegion region) {
+    final types = MatchItemEngine.getBloodTypes(region);
+    final clean = bloodType.toUpperCase();
+    if (clean.contains('AB')) return types[3];
+    if (clean.contains('A')) return types[0];
+    if (clean.contains('B')) return types[1];
+    if (clean.contains('O') || clean.contains('0')) return types[2];
+    return types[0];
+  }
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'birthDateTime': birthDateTime.toIso8601String(),
@@ -122,7 +229,7 @@ class UserProfile {
         name: json['name'] as String? ?? '나 (본인)',
         birthDateTime: DateTime.tryParse(json['birthDateTime'] as String? ?? '') ?? DateTime(1995, 8, 15, 14, 30),
         city: json['city'] as String? ?? 'Seoul',
-        bloodType: json['bloodType'] as String? ?? 'A형',
+        bloodType: json['bloodType'] as String? ?? 'A',
         mbti: json['mbti'] as String? ?? 'ENFP',
         gender: json['gender'] as String? ?? 'female',
       );
@@ -179,7 +286,7 @@ class UserProfileRepository {
       name: '나 (본인)',
       birthDateTime: DateTime(1995, 8, 15, 14, 30),
       city: 'Seoul',
-      bloodType: 'A형',
+      bloodType: 'A',
       mbti: 'ENFP',
     );
   }
@@ -207,14 +314,14 @@ class UserProfileRepository {
         name: '김서연 (연인)',
         birthDateTime: DateTime(1997, 3, 22, 9, 15),
         city: 'Seoul',
-        bloodType: 'B형',
+        bloodType: 'B',
         mbti: 'INTJ',
       ),
       UserProfile(
         name: '이민호 (친구)',
         birthDateTime: DateTime(1994, 11, 5, 18, 0),
         city: 'Seoul',
-        bloodType: 'O형',
+        bloodType: 'O',
         mbti: 'INFJ',
       ),
     ];

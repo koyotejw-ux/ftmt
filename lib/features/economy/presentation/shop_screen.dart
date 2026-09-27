@@ -112,7 +112,7 @@ class ShopScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   ),
                   onPressed: () async {
-                    final rewarded = await AdManager.instance.showRewardedAd(context);
+                    final rewarded = await AdManager.instance.showRewardedAd(context, region: currentRegion);
                     if (rewarded) {
                       await wallet.addHearts(2);
                       if (context.mounted) {

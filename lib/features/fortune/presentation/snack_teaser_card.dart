@@ -25,31 +25,37 @@ class SnackTeaserCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [SpaceNavyTheme.goldChampagne, Color(0xFFFFA000)],
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.bolt, color: Colors.black, size: 14),
-                    const SizedBox(width: 2),
-                    Text(
-                      AppI18n.tr('today_dopamine_secret', currentRegion),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                      ),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [SpaceNavyTheme.goldChampagne, Color(0xFFFFA000)],
                     ),
-                  ],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.bolt, color: Colors.black, size: 14),
+                      const SizedBox(width: 2),
+                      Flexible(
+                        child: Text(
+                          AppI18n.tr('today_dopamine_secret', currentRegion),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               const Icon(Icons.lock_open, color: SpaceNavyTheme.goldChampagne, size: 16),
             ],
           ),

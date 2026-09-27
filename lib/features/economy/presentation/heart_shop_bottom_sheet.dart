@@ -142,7 +142,7 @@ class HeartShopBottomSheet extends StatelessWidget {
                     ),
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      final rewarded = await AdManager.instance.showRewardedAd(context);
+                      final rewarded = await AdManager.instance.showRewardedAd(context, region: currentRegion);
                       if (rewarded) {
                         await wallet.addHearts(2);
                         if (context.mounted) {

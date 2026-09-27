@@ -229,10 +229,12 @@ class _TarotShuffleViewState extends State<TarotShuffleView> {
                                 ),
                               ),
                               const SizedBox(height: 3),
-                              const Text(
-                                '카드 선택',
+                              Text(
+                                widget.region == SupportedRegion.korea
+                                    ? '카드 선택'
+                                    : (widget.region == SupportedRegion.japan ? 'カード選択' : 'Select Card'),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(0xFF9AA7C7),
                                   fontSize: 9,
                                 ),
