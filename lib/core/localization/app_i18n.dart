@@ -59,7 +59,7 @@ class AppI18n {
     },
     'today_dopamine_secret': {
       'ko': '오늘의 도파민 시크릿',
-      'en': 'Today\\',
+      'en': "Today's Dopamine Secret",
       'ja': '今日のドーパミンシークレット',
       'de': 'Heutiges Dopamin-Geheimnis',
       'fr': 'Secret Céleste du Jour',
@@ -122,7 +122,7 @@ class AppI18n {
     },
     'partner_type': {
       'ko': '상대방 유형',
-      'en': 'Partner\\',
+      'en': "Partner's Profile",
       'ja': '相手のタイプ',
       'de': 'Profil des Partners',
       'fr': 'Profil Partenaire',
@@ -311,7 +311,7 @@ class AppI18n {
     },
     'profile_other_title': {
       'ko': '상대방 정보 입력',
-      'en': 'Enter Other Person\\',
+      'en': "Enter Partner's Profile",
       'ja': '相手の情報入力',
       'de': 'Partnerdaten eingeben',
       'fr': 'Saisir les Données du Partenaire',
@@ -761,7 +761,7 @@ class AppI18n {
     },
     'match_summary_pillar': {
       'ko': '두 사람의 일주(Day Pillar)가 서로의 부족한 기운을 완벽하게 채워주는 조화로운 궁합입니다.',
-      'en': 'Day Pillars balance each other\\',
+      'en': 'Day Pillars harmoniously balance each other\'s elements, providing mutual grounding.',
       'ja': '2人の日柱がお互いに足りないエネルギーを満たし合う調和の取れた相性です。',
       'de': 'Ihre Tagessäulen balancieren die elementaren Energien in perfektem kosmischen Gleichgewicht aus.',
       'fr': 'Les piliers de naissance équilibrent harmonieusement les énergies de chacun.',
@@ -1121,7 +1121,7 @@ class AppI18n {
     },
     'match_spark_desc': {
       'ko': '서로 완전히 다른 별에서 온 듯한 신선한 매력에 이끌리며, 배려를 통해 가장 큰 성장을 이룹니다.',
-      'en': 'Deeply attracted to each other\\',
+      'en': 'Deeply attracted to each other\'s contrasting charms, creating thrilling synergy.',
       'ja': '異なる星から来たような新鮮な魅力に惹かれ合い、思いやりを通じて大きく成長できます。',
       'de': 'Tiefe Anziehung durch faszinierende Gegensätze; bewusste Empathie bringt reifes Wachstum.',
       'fr': 'Une attirance vive née de contrastes fascinants ouvrant un formidable champ d\'évolution.',
@@ -1355,7 +1355,7 @@ class AppI18n {
     },
     'match_blood_ao_desc': {
       'ko': 'O형의 대범하고 따뜻한 리더십과 A형의 섬세하고 진실한 배려가 어우러져 가장 이상적인 안도감을 주는 콤비입니다.',
-      'en': 'O\\',
+      'en': 'O\'s generous warmth and A\'s attentive care blend to offer unmatched emotional security.',
       'ja': 'O型の大らかで温かい包容力とA型の細やかな誠実さが調和し、最も安心感に満ちた理想の関係です。',
       'de': 'Die großzügige Wärme von O vereint sich mit der Achtsamkeit von A zu einem beruhigenden, sicheren Hafen.',
       'fr': 'La générosité chaleureuse du groupe O alliée à la délicate sincérité du groupe A offre un havre de paix.',
@@ -1373,7 +1373,7 @@ class AppI18n {
     },
     'match_blood_bo_desc': {
       'ko': 'B형의 유쾌한 매력과 창의성을 O형이 넉넉한 마음으로 받아주어 언제나 웃음과 도파민이 넘치는 케미입니다.',
-      'en': 'O enthusiastically embraces B\\',
+      'en': 'O enthusiastically embraces B\'s vibrant creativity, filling every day with joyful spark.',
       'ja': 'B型の魅力的な個性と発想力をO型が温かく包み込み、常に笑顔と楽しさが満ち溢れます。',
       'de': 'O nimmt die kreativen Impulse von B begeistert auf und sorgt für fortwährendes Lachen und Lebendigkeit.',
       'fr': 'Le groupe O accueille avec ferveur l\'étincelle créative du groupe B dans un tourbillon d\'allégresse.',
@@ -1697,7 +1697,7 @@ class AppI18n {
     },
     'match_zodiac_opposite_desc': {
       'ko': '황도 12궁에서 정반대에 위치한 별자리로서, 서로의 결핍을 완벽하게 거울처럼 비추어 강력한 매력과 폭발적인 성장을 이끌어내는 마력의 관계입니다.',
-      'en': 'Facing across the celestial wheel, you reflect each other\\',
+      'en': "Facing across the celestial wheel, you reflect each other's deepest potential like a cosmic mirror.",
       'ja': '黄道十二宮で真正面に向き合う星座同士。互いに欠けているピースを補い合い、抗えない魅力で惹かれ合うドラマチックなご縁です。',
       'de': 'Am Tierkreisrad gegenüberliegend, spiegeln Sie verborgene Seelenanteile und entfachen unwiderstehliche Anziehung.',
       'fr': 'Placés en face à face sur la roue céleste, vos contrastes magnétiques s\'attirent irrésistiblement pour une métamorphose mutuelle.',
@@ -1733,7 +1733,7 @@ class AppI18n {
     },
     'match_zodiac_semi_desc': {
       'ko': '황도대에서 바로 이웃하거나 인접한 별자리로서 서로에게 없는 독창적인 면모에 감탄하며, 친구이자 스승으로서 오랜 신뢰를 쌓아가는 따뜻한 관계입니다.',
-      'en': 'Adjacent signs bringing fascinating contrasts, admiring each other\\',
+      'en': "Adjacent signs bringing fascinating contrasts, admiring each other's unique qualities in effortless friendship.",
       'ja': '隣り合う星座ならではの新鮮な驚きに満ち、親友であり良き理解者として穏やかな愛情を深めていけます。',
       'de': 'Angrenzende Tierkreiszeichen faszinieren durch gegenseitige Gaben in herzlicher Freundschaft und Liebe.',
       'fr': 'Voisins sur la roue zodiacale, vous vous émerveillez des dons de l\'autre avec tendresse et complicité durable.',

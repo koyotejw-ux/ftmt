@@ -379,7 +379,9 @@ class MatchDeepReportSheet extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  region.languageCode == 'ko' ? '점' : (region.languageCode == 'ja' ? '点' : ' pts'),
+                  region.languageCode == 'ko'
+                      ? '${score.toInt()}점'
+                      : (region.languageCode == 'ja' ? '${score.toInt()}点' : '${score.toInt()} pts'),
                   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                 ),
               ],
