@@ -6,6 +6,7 @@ import 'core/theme/aura_painter.dart';
 import 'core/theme/space_navy_theme.dart';
 import 'features/economy/data/heart_wallet_repository.dart';
 import 'features/profile/data/user_profile_repository.dart';
+import 'features/fortune_splash_screen.dart';
 import 'features/fortune/presentation/fortune_hub_screen.dart';
 import 'features/match/presentation/match_hub_screen.dart';
 import 'features/economy/presentation/shop_screen.dart';
@@ -52,13 +53,15 @@ class _FortuneMatchAppState extends State<FortuneMatchApp> {
       title: 'FortuneMatch: Zodiac & Tarot',
       debugShowCheckedModeBanner: false,
       theme: SpaceNavyTheme.darkTheme,
-      home: FortuneMatchMainScaffold(
-        wallet: widget.wallet,
-        profileRepo: widget.profileRepo,
-        currentRegion: _currentRegion,
-        onRegionChanged: (newRegion) {
-          setState(() => _currentRegion = newRegion);
-        },
+      home: FortuneSplashScreen(
+        child: FortuneMatchMainScaffold(
+          wallet: widget.wallet,
+          profileRepo: widget.profileRepo,
+          currentRegion: _currentRegion,
+          onRegionChanged: (newRegion) {
+            setState(() => _currentRegion = newRegion);
+          },
+        ),
       ),
     );
   }
