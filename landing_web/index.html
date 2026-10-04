@@ -14,9 +14,67 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Ambient Cosmic Aura & Dynamic Rotating Keyvisual Elements -->
   <div class="cosmic-bg"></div>
   <div class="aura-glow-1"></div>
   <div class="aura-glow-2"></div>
+  
+  <!-- Rotating Keyvisual Wheels (Background Layer) -->
+  <div class="cosmic-orbit-layer" aria-hidden="true">
+    <div class="astral-rotator astral-rotator-hero">
+      <svg class="astral-svg" viewBox="0 0 600 600">
+        <circle cx="300" cy="300" r="280" class="ring-outer" />
+        <circle cx="300" cy="300" r="240" class="ring-dashed" />
+        <circle cx="300" cy="300" r="190" class="ring-dotted" />
+        <circle cx="300" cy="300" r="130" class="ring-inner" />
+        <!-- 12 Zodiac Glyphs -->
+        <g class="glyph-group">
+          <text x="300" y="45" class="astral-glyph">♈</text>
+          <text x="430" y="80" class="astral-glyph">♉</text>
+          <text x="520" y="170" class="astral-glyph">♊</text>
+          <text x="555" y="300" class="astral-glyph">♋</text>
+          <text x="520" y="430" class="astral-glyph">♌</text>
+          <text x="430" y="520" class="astral-glyph">♍</text>
+          <text x="300" y="555" class="astral-glyph">♎</text>
+          <text x="170" y="520" class="astral-glyph">♏</text>
+          <text x="80" y="430" class="astral-glyph">♐</text>
+          <text x="45" y="300" class="astral-glyph">♑</text>
+          <text x="80" y="170" class="astral-glyph">♒</text>
+          <text x="170" y="80" class="astral-glyph">♓</text>
+        </g>
+        <!-- 8 Trigram / Stems Inner Ring -->
+        <g class="inner-glyph-group">
+          <text x="300" y="125" class="stem-glyph">甲</text>
+          <text x="425" y="175" class="stem-glyph">丙</text>
+          <text x="475" y="300" class="stem-glyph">戊</text>
+          <text x="425" y="425" class="stem-glyph">庚</text>
+          <text x="300" y="475" class="stem-glyph">壬</text>
+          <text x="175" y="425" class="stem-glyph">乙</text>
+          <text x="125" y="300" class="stem-glyph">丁</text>
+          <text x="175" y="175" class="stem-glyph">癸</text>
+        </g>
+        <!-- Center Ray Cross -->
+        <line x1="300" y1="20" x2="300" y2="580" class="ray-line" />
+        <line x1="20" y1="300" x2="580" y2="300" class="ray-line" />
+        <line x1="102" y1="102" x2="498" y2="498" class="ray-line diagonal" />
+        <line x1="498" y1="102" x2="102" y2="498" class="ray-line diagonal" />
+      </svg>
+    </div>
+
+    <!-- Secondary Counter-Rotating Orbit (Subtle) -->
+    <div class="astral-rotator astral-rotator-sub">
+      <svg class="astral-svg counter" viewBox="0 0 500 500">
+        <circle cx="250" cy="250" r="230" class="ring-outer alt" />
+        <circle cx="250" cy="250" r="160" class="ring-dashed alt" />
+        <g class="sub-symbols">
+          <text x="250" y="40" class="symbol-glyph">✦</text>
+          <text x="460" y="250" class="symbol-glyph">☽</text>
+          <text x="250" y="460" class="symbol-glyph">✦</text>
+          <text x="40" y="250" class="symbol-glyph">☼</text>
+        </g>
+      </svg>
+    </div>
+  </div>
 
   <!-- Header Navigation -->
   <nav class="glitz-nav">
@@ -53,16 +111,6 @@
       <div class="mockup-container">
         <div class="phone-frame">
           <div class="phone-speaker"></div>
-          <div class="phone-island">
-            <span class="island-camera"></span>
-          </div>
-          <div class="phone-status-bar">
-            <span class="status-time" id="mockupTime">19:50</span>
-            <div class="status-icons">
-              <span class="status-wifi">✦ 5G</span>
-              <span class="status-battery">100%</span>
-            </div>
-          </div>
           <div class="phone-screen">
             <img id="mockupImage" src="assets/images/01_fortune_hub_phone_1080x2400.png" alt="FortuneMatch App Screen" class="screen-img" />
           </div>
