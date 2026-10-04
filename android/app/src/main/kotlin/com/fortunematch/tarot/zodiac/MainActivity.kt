@@ -1,4 +1,4 @@
-package com.fortunematch.app
+package com.fortunematch.tarot.zodiac
 
 import io.flutter.embedding.android.FlutterActivity
 
