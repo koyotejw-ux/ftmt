@@ -82,13 +82,18 @@ function flipTarot() {
   }
 }
 
-function pickCard(idx) {
+function pickCard(idx, btn) {
   currentCardIdx = idx;
   const cardData = tarotCards[idx];
   const card = document.getElementById('tarotCard');
   const cardImg = document.getElementById('tarotCardImg');
   const cardTitle = document.getElementById('cardTitle');
   const cardDesc = document.getElementById('cardDesc');
+
+  if (btn) {
+    document.querySelectorAll('.btn-pick').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
 
   card.classList.remove('flipped');
   isFlipped = false;
@@ -101,6 +106,18 @@ function pickCard(idx) {
     isFlipped = true;
   }, 350);
 }
+
+// Update Phone Status Bar Clock
+function updateMockupTime() {
+  const timeEl = document.getElementById('mockupTime');
+  if (!timeEl) return;
+  const now = new Date();
+  const hrs = String(now.getHours()).padStart(2, '0');
+  const mins = String(now.getMinutes()).padStart(2, '0');
+  timeEl.textContent = `${hrs}:${mins}`;
+}
+setInterval(updateMockupTime, 1000);
+updateMockupTime();
 
 // Dopamine Hour Boost
 function boostFortune() {

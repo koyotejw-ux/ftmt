@@ -7,7 +7,7 @@
   <meta name="description" content="나의 우주 주파수(사주 일주)로 풀이하는 도파민 운세와 전통 타로 카드로 인연의 궁합을 완성하세요." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Pretendard:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -49,14 +49,35 @@
       <!-- App Mockup Carousel -->
       <div class="mockup-container">
         <div class="phone-frame">
-          <div class="notch"></div>
-          <img id="mockupImage" src="assets/images/01_fortune_hub_phone_1080x2400.png" alt="FortuneMatch App Screen" class="screen-img" />
+          <div class="phone-speaker"></div>
+          <div class="phone-island">
+            <span class="island-camera"></span>
+          </div>
+          <div class="phone-status-bar">
+            <span class="status-time" id="mockupTime">19:50</span>
+            <div class="status-icons">
+              <span class="status-wifi">✦ 5G</span>
+              <span class="status-battery">100%</span>
+            </div>
+          </div>
+          <div class="phone-screen">
+            <img id="mockupImage" src="assets/images/01_fortune_hub_phone_1080x2400.png" alt="FortuneMatch App Screen" class="screen-img" />
+          </div>
+          <div class="phone-home-indicator"></div>
         </div>
         <div class="screen-thumbs">
-          <button class="thumb-btn active" onclick="setMockup('assets/images/01_fortune_hub_phone_1080x2400.png', this)">운세 허브</button>
-          <button class="thumb-btn" onclick="setMockup('assets/images/02_zodiac_match_phone_1080x2400.png', this)">사주 궁합</button>
-          <button class="thumb-btn" onclick="setMockup('assets/images/03_shop_vault_phone_1080x2400.png', this)">상점 & 복채</button>
-          <button class="thumb-btn" onclick="setMockup('assets/images/04_connections_phone_1080x2400.png', this)">인연 보관함</button>
+          <button class="thumb-btn active" onclick="setMockup('assets/images/01_fortune_hub_phone_1080x2400.png', this)">
+            <span class="thumb-tag">01</span> 운세 허브
+          </button>
+          <button class="thumb-btn" onclick="setMockup('assets/images/02_zodiac_match_phone_1080x2400.png', this)">
+            <span class="thumb-tag">02</span> 사주 궁합
+          </button>
+          <button class="thumb-btn" onclick="setMockup('assets/images/03_shop_vault_phone_1080x2400.png', this)">
+            <span class="thumb-tag">03</span> 상점 & 복채
+          </button>
+          <button class="thumb-btn" onclick="setMockup('assets/images/04_connections_phone_1080x2400.png', this)">
+            <span class="thumb-tag">04</span> 인연 보관함
+          </button>
         </div>
       </div>
     </section>
@@ -64,7 +85,7 @@
     <!-- Features Section -->
     <section id="features" class="features-section">
       <div class="section-header">
-        <span class="sub-badge">KEY FEATURES</span>
+        <span class="sub-badge">KEY ARCHITECTURE</span>
         <h2>천문학과 명리학의 만남</h2>
         <p>단순한 텍스트 풀이를 넘어서 시각적 예술과 정확한 천문 알고리즘을 담았습니다.</p>
       </div>
@@ -126,28 +147,33 @@
 
       <!-- Date Input & Calculator -->
       <div class="calc-box">
-        <div class="box-title">🪐 내 사주 일주 & 별자리 자동 계산</div>
+        <div class="box-title">🪐 내 사주 일주 & 별자리 설정</div>
         <div class="calc-inputs">
           <input type="date" id="birthInput" value="1998-08-15" />
           <button class="btn-calc" onclick="calculateMySign()">좌표 갱신</button>
         </div>
       </div>
 
-      <!-- Feature Mode Switcher -->
-      <div class="app-tabs">
-        <button class="app-tab active" onclick="switchAppTab('tarot', this)">✦ 타로 카드</button>
-        <button class="app-tab" onclick="switchAppTab('dopamine', this)">⚡ 도파민 시간</button>
-        <button class="app-tab" onclick="switchAppTab('match', this)">❤ 인연 궁합</button>
+      <!-- Section Title: 운세와 궁합 통합 대시보드 -->
+      <div class="dash-headline">
+        <span class="dash-badge">LIVE INSIGHT</span>
+        <h2>오늘의 운세 & 인연 궁합</h2>
       </div>
 
-      <!-- App Tab 1: Interactive 3D Tarot -->
-      <div id="tabTarot" class="tab-content active">
+      <!-- Card 1: 오늘의 운세 & 타로 리딩 -->
+      <div class="app-card fortune-live-card">
+        <div class="card-head">
+          <div class="card-badge gold">DAILY FORTUNE</div>
+          <h3>✦ 오늘의 도파민 운세 & 타로</h3>
+        </div>
+
+        <!-- 3D Tarot Stage -->
         <div class="tarot-stage">
           <div class="tarot-card" id="tarotCard" onclick="flipTarot()">
             <div class="tarot-inner">
               <div class="tarot-face tarot-back">
                 <img src="assets/images/tarot_back.jpg" alt="Tarot Card Back" />
-                <div class="flip-hint">카드를 탭하여 운명을 열어보세요</div>
+                <div class="flip-hint">카드를 터치하여 운명 열기</div>
               </div>
               <div class="tarot-face tarot-front">
                 <img id="tarotCardImg" src="assets/images/tarot_star.jpg" alt="Tarot Card Front" />
@@ -157,48 +183,43 @@
         </div>
 
         <div class="tarot-card-buttons">
-          <button class="btn-pick" onclick="pickCard(0)">The Star (희망)</button>
-          <button class="btn-pick" onclick="pickCard(1)">The Sun (성공)</button>
-          <button class="btn-pick" onclick="pickCard(2)">Wheel of Fortune (운명)</button>
+          <button class="btn-pick active" onclick="pickCard(0, this)">The Star (희망)</button>
+          <button class="btn-pick" onclick="pickCard(1, this)">The Sun (성공)</button>
+          <button class="btn-pick" onclick="pickCard(2, this)">The Wheel (운명)</button>
         </div>
 
         <div class="result-card" id="tarotResultBox">
-          <h3 id="cardTitle">XVII. THE STAR (별)</h3>
-          <p id="cardDesc">어둠을 뚫고 쏟아지는 치유와 영감의 빛입니다. 당신의 직관을 믿고 나아가면 오랫동안 막혀 있던 문제가 순조롭게 풀릴 것입니다.</p>
+          <h4 id="cardTitle">XVII. THE STAR (별)</h4>
+          <p id="cardDesc">어둠을 뚫고 쏟아지는 치유와 희망의 영감입니다. 당신의 직관을 신뢰하세요. 오랫동안 고민하던 금전 및 진로의 문제가 순조롭게 풀릴 것입니다.</p>
         </div>
-      </div>
 
-      <!-- App Tab 2: Dopamine Hour -->
-      <div id="tabDopamine" class="tab-content">
-        <div class="dopamine-box">
-          <div class="dopamine-header">
-            <span class="badge-gold">TODAY'S SECRET</span>
-            <h3>오늘 당신에게 금전운이 터지는 최적 시간</h3>
-          </div>
+        <!-- Dopamine Golden Time inside Fortune Section -->
+        <div class="dopamine-mini-box">
+          <div class="mini-title">⚡ 오늘 금전운 터지는 골든 아워</div>
           <div class="golden-time" id="goldenTimeDisplay">14:30 ~ 16:00</div>
-          <div class="guidance-list">
-            <div class="guide-item">
-              <strong>✦ 행운의 추천 행동:</strong> 중요한 계약, 복권 구매, 또는 중요한 발표를 진행하기에 가장 기운이 왕성합니다.
-            </div>
-            <div class="guide-item warning">
-              <strong>⚠ 주의할 인물 상성:</strong> 감정적 기복이 심하거나 날카로운 말을 쏟아내는 화(火) 기운이 강한 인물을 피하세요.
-            </div>
+          <div class="guide-item">
+            <strong>✦ 행운의 행동:</strong> 중요한 계약 체결, 복권 구매, 새로운 프로젝트 제안에 최적의 기운입니다.
           </div>
-          <button class="btn-gold-action" onclick="boostFortune()">✨ 복채 하트 바치고 행운 부스팅</button>
+          <button class="btn-gold-action" onclick="boostFortune()">✨ 복채 하트 바치고 기운 2.4배 부스팅</button>
         </div>
       </div>
 
-      <!-- App Tab 3: Zodiac Match -->
-      <div id="tabMatch" class="tab-content">
+      <!-- Card 2: 60갑자 사주 인연 궁합 -->
+      <div class="app-card match-live-card">
+        <div class="card-head">
+          <div class="card-badge cyan">ZODIAC MATCH</div>
+          <h3>❤ 우주 좌표 인연 궁합 분석</h3>
+        </div>
+
         <div class="match-box">
           <div class="match-circles">
             <div class="match-bubble my-bubble">
-              <span>나</span>
+              <span class="bubble-tag">나</span>
               <strong id="myMatchLabel">무인(戊寅)</strong>
             </div>
             <div class="match-vs">⚡</div>
             <div class="match-bubble target-bubble">
-              <span>상대방</span>
+              <span class="bubble-tag">상대방</span>
               <strong id="targetMatchLabel">계해(癸亥)</strong>
             </div>
           </div>
@@ -209,7 +230,7 @@
           </div>
 
           <div class="match-select-box">
-            <label for="targetSelect">상대방의 일주(생일) 선택:</label>
+            <label for="targetSelect">상대방의 생년월일/일주 선택:</label>
             <select id="targetSelect" onchange="updateMatchScore()">
               <option value="계해">계해 (癸亥) - 천생연분 합 (96점)</option>
               <option value="갑자">갑자 (甲子) - 상생 조화 (84점)</option>
@@ -222,6 +243,15 @@
             무토(戊土)와 계수(癸水)가 만나 무계합화(戊癸合火)를 이루는 최상의 연분입니다. 서로의 부족한 기운을 자연스럽게 채워주는 평생의 파트너입니다.
           </div>
         </div>
+      </div>
+
+      <!-- Launch Full Flutter Web App Card -->
+      <div class="launch-app-card">
+        <h4>📱 전체 기능 앱으로 실행하기</h4>
+        <p>상점, 복채 충전, 암호화 인연 보관함까지 모든 기능이 포함된 실물 웹앱을 실행해보세요.</p>
+        <a href="app.html" class="btn-full-app" target="_blank">
+          <span>✦ Flutter 앱 전체화면 열기</span> ↗
+        </a>
       </div>
     </div>
   </main>
