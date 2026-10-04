@@ -369,29 +369,27 @@ body {
   border-color: var(--gold-champagne);
 }
 
-/* Realistic Smartphone Mockup (Pixel-Perfect 1080x2400 Exact 9:20 Ratio) */
+/* Realistic Smartphone Mockup (Pixel-Perfect Full Screen Display) */
 .mockup-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin: 24px auto 0;
   width: 100%;
 }
 .phone-frame {
-  width: min(320px, 86vw);
-  height: min(711px, calc(86vw * 2400 / 1080));
+  width: min(315px, 84vw);
+  aspect-ratio: 1080 / 2400;
   background: #000000;
   border: 7px solid #1a2238;
-  border-radius: 44px;
+  border-radius: 38px;
   box-shadow: 
-    0 0 0 2px rgba(229, 192, 123, 0.22),
-    0 25px 65px rgba(0, 0, 0, 0.8),
+    0 0 0 2px rgba(229, 192, 123, 0.25),
+    0 25px 65px rgba(0, 0, 0, 0.85),
     0 0 50px rgba(138, 43, 226, 0.28);
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-sizing: content-box;
+  box-sizing: border-box;
 }
 
 /* Phone Top Speaker */
@@ -407,7 +405,7 @@ body {
   z-index: 25;
 }
 
-/* Full Bleed Phone Screen (Exact 1080x2400 1:1 Rendering) */
+/* Full Bleed Phone Screen (Exact 1:1 Rendering of Header and Bottom Nav) */
 .phone-screen {
   position: absolute;
   inset: 0;
@@ -415,12 +413,13 @@ body {
   height: 100%;
   overflow: hidden;
   background: #070a12;
-  border-radius: 37px;
+  border-radius: 30px;
 }
 .screen-img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
+  object-position: center top;
   display: block;
   transition: opacity 0.25s ease;
 }
@@ -428,16 +427,15 @@ body {
 /* iOS / Android Home Indicator Bar */
 .phone-home-indicator {
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100px;
-  height: 3.5px;
-  background: rgba(255, 255, 255, 0.45);
-  border-radius: 4px;
+  width: 90px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
   z-index: 25;
   pointer-events: none;
-  backdrop-filter: blur(2px);
 }
 
 /* Thumbnails Carousel Controls */
@@ -899,95 +897,191 @@ body {
 /* Match Section */
 .match-box {
   background: transparent;
-  padding: 4px 0;
-}
-.match-circles {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin: 6px 0 18px;
-}
-.match-bubble {
-  width: 86px;
-  height: 86px;
-  border-radius: 50%;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.bubble-tag {
-  font-size: 11px;
-  font-weight: 600;
-  opacity: 0.85;
-}
-.my-bubble {
-  background: rgba(138, 43, 226, 0.18);
-  border: 2px solid var(--violet-aurora);
-  box-shadow: 0 0 18px rgba(138, 43, 226, 0.3);
-}
-.target-bubble {
-  background: rgba(0, 229, 255, 0.18);
-  border: 2px solid var(--cyan-neon);
-  box-shadow: 0 0 18px rgba(0, 229, 255, 0.3);
-}
-.match-bubble strong {
-  font-size: 15px;
-  font-weight: 800;
-  color: #fff;
-  margin-top: 2px;
-}
-.match-vs {
-  font-size: 22px;
-  color: var(--gold-champagne);
-  font-weight: 800;
-}
-.score-container {
-  text-align: center;
-  margin-bottom: 16px;
-}
-.score-value {
-  font-size: 40px;
-  font-weight: 900;
-  color: var(--gold-bright);
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-.score-desc {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  margin-top: 4px;
+  gap: 14px;
 }
 .match-select-box {
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 .match-select-box label {
   display: block;
   font-size: 12px;
   font-weight: 700;
-  color: var(--text-secondary);
+  color: var(--cyan-neon);
   margin-bottom: 6px;
+  letter-spacing: -0.01em;
 }
 .match-select-box select {
   width: 100%;
   background: var(--bg-surface);
   border: 1px solid var(--gold-border);
   color: var(--text-primary);
-  padding: 10px 14px;
+  padding: 11px 14px;
   border-radius: 12px;
   font-size: 13.5px;
   font-family: var(--font-body);
   font-weight: 600;
   outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
 }
+.match-select-box select:focus {
+  border-color: var(--cyan-neon);
+}
+
+.match-circles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 8px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 18px;
+  border: 1px solid rgba(229, 192, 123, 0.15);
+}
+.match-bubble {
+  flex: 1;
+  max-width: 120px;
+  height: 90px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  text-align: center;
+}
+.bubble-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.my-bubble {
+  background: rgba(138, 43, 226, 0.18);
+  border: 1.5px solid var(--violet-aurora);
+  box-shadow: 0 0 16px rgba(138, 43, 226, 0.3);
+}
+.target-bubble {
+  background: rgba(0, 229, 255, 0.18);
+  border: 1.5px solid var(--cyan-neon);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.3);
+}
+.match-bubble strong {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin: 2px 0;
+}
+.element-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--gold-champagne);
+}
+.match-vs-bridge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bridge-line {
+  width: 14px;
+  height: 1px;
+  background: var(--gold-border);
+}
+.bridge-core {
+  font-size: 18px;
+  color: var(--gold-champagne);
+  animation: pulseBridge 2s ease infinite;
+}
+@keyframes pulseBridge {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+
+.score-container {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(229, 192, 123, 0.25);
+  border-radius: 16px;
+  padding: 16px 20px;
+  text-align: center;
+}
+.score-badge-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--gold-champagne);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.score-value {
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--gold-bright);
+  text-shadow: 0 0 24px rgba(255, 215, 0, 0.45);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.score-meter-track {
+  width: 100%;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0 10px;
+}
+.score-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan-neon), var(--gold-bright), #ff007f);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.score-desc {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* 5 Elements Synergy Matrix */
+.element-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.matrix-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--gold-border);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.matrix-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.matrix-val {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.matrix-val.gold {
+  color: var(--gold-champagne);
+}
+.matrix-val.cyan {
+  color: var(--cyan-neon);
+}
+
 .match-tip {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 14px;
+  border-left: 3px solid var(--cyan-neon);
+  border-radius: 0 12px 12px 0;
+  padding: 12px 14px;
   font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.6;
@@ -1117,7 +1211,7 @@ body {
   .dashboard-grid {
     grid-template-columns: 1fr 1fr;
     gap: 24px;
-    align-items: start;
+    align-items: stretch;
   }
 
   /* Card Heights & Internal Spacing */
@@ -1126,7 +1220,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   /* Hero Section on Wide Screens */
@@ -1137,8 +1231,8 @@ body {
     margin-top: 28px;
   }
   .phone-frame {
-    width: 320px;
-    height: 711px;
+    width: 315px;
+    aspect-ratio: 1080 / 2400;
   }
 }
 

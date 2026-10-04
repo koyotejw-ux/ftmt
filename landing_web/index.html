@@ -267,33 +267,63 @@
         </div>
 
         <div class="match-box">
-          <div class="match-circles">
-            <div class="match-bubble my-bubble">
-              <span class="bubble-tag">나</span>
-              <strong id="myMatchLabel">무인(戊寅)</strong>
-            </div>
-            <div class="match-vs">⚡</div>
-            <div class="match-bubble target-bubble">
-              <span class="bubble-tag">상대방</span>
-              <strong id="targetMatchLabel">계해(癸亥)</strong>
-            </div>
-          </div>
-
-          <div class="score-container">
-            <div class="score-value" id="matchScoreVal">96점</div>
-            <div class="score-desc" id="matchScoreDesc">천생연분 우주 좌표의 만남</div>
-          </div>
-
+          <!-- Selection & Target Input -->
           <div class="match-select-box">
-            <label for="targetSelect">상대방의 생년월일/일주 선택:</label>
+            <label for="targetSelect">✦ 인연의 생년월일 / 일주 선택:</label>
             <select id="targetSelect" onchange="updateMatchScore()">
-              <option value="계해">계해 (癸亥) - 천생연분 합 (96점)</option>
-              <option value="갑자">갑자 (甲子) - 상생 조화 (84점)</option>
-              <option value="병인">병인 (丙寅) - 열정적 케미 (79점)</option>
-              <option value="신유">신유 (辛酉) - 성격 차이 주의 (55점)</option>
+              <option value="계해">계해 (癸亥) - 천생연분 합 (96점) · 水 기운</option>
+              <option value="갑자">갑자 (甲子) - 상생 조화 (84점) · 木 기운</option>
+              <option value="병인">병인 (丙寅) - 열정적 케미 (79점) · 火 기운</option>
+              <option value="신유">신유 (辛酉) - 성격 차이 주의 (55점) · 金 기운</option>
             </select>
           </div>
 
+          <!-- Celestial Orbit Interaction Circles -->
+          <div class="match-circles">
+            <div class="match-bubble my-bubble">
+              <span class="bubble-tag">나 (본인)</span>
+              <strong id="myMatchLabel">무인(戊寅)</strong>
+              <small class="element-tag">양토(陽土)</small>
+            </div>
+            <div class="match-vs-bridge">
+              <div class="bridge-line"></div>
+              <div class="bridge-core">⚡</div>
+              <div class="bridge-line"></div>
+            </div>
+            <div class="match-bubble target-bubble">
+              <span class="bubble-tag">인연 (상대방)</span>
+              <strong id="targetMatchLabel">계해(癸亥)</strong>
+              <small class="element-tag" id="targetElementTag">음수(陰水)</small>
+            </div>
+          </div>
+
+          <!-- Chemistry Score & Radial / Meter Box -->
+          <div class="score-container">
+            <div class="score-badge-label">우주 주파수 일치율</div>
+            <div class="score-value" id="matchScoreVal">96점</div>
+            <div class="score-meter-track">
+              <div class="score-meter-fill" id="scoreMeterFill" style="width: 96%;"></div>
+            </div>
+            <div class="score-desc" id="matchScoreDesc">천생연분 우주 좌표의 만남</div>
+          </div>
+
+          <!-- 5 Elements Synergy Matrix -->
+          <div class="element-matrix">
+            <div class="matrix-item">
+              <span class="matrix-label">오행 조화</span>
+              <strong class="matrix-val" id="harmonyVal">무계합화(戊癸合火)</strong>
+            </div>
+            <div class="matrix-item">
+              <span class="matrix-label">관계 에너지</span>
+              <strong class="matrix-val gold" id="energyVal">상생 촉진 (大吉)</strong>
+            </div>
+            <div class="matrix-item">
+              <span class="matrix-label">영혼 주파수</span>
+              <strong class="matrix-val cyan" id="frequencyVal">99.2 MHz</strong>
+            </div>
+          </div>
+
+          <!-- Match Solution Tip -->
           <div class="match-tip" id="matchTipText">
             무토(戊土)와 계수(癸水)가 만나 무계합화(戊癸合火)를 이루는 최상의 연분입니다. 서로의 부족한 기운을 자연스럽게 채워주는 평생의 파트너입니다.
           </div>

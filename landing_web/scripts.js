@@ -168,34 +168,59 @@ function calculateMySign() {
   alert(`우주 좌표가 갱신되었습니다:\n${resText}`);
 }
 
-// Match Score
+// Match Score & Synergy Matrix
 function updateMatchScore() {
   const select = document.getElementById('targetSelect');
   const val = select.value;
   const targetLabel = document.getElementById('targetMatchLabel');
+  const targetElementTag = document.getElementById('targetElementTag');
   const scoreVal = document.getElementById('matchScoreVal');
+  const scoreMeterFill = document.getElementById('scoreMeterFill');
   const scoreDesc = document.getElementById('matchScoreDesc');
+  const harmonyVal = document.getElementById('harmonyVal');
+  const energyVal = document.getElementById('energyVal');
+  const frequencyVal = document.getElementById('frequencyVal');
   const tipText = document.getElementById('matchTipText');
 
   if (val === '계해') {
     targetLabel.textContent = '계해(癸亥)';
+    if (targetElementTag) targetElementTag.textContent = '음수(陰水)';
     scoreVal.textContent = '96점';
+    if (scoreMeterFill) scoreMeterFill.style.width = '96%';
     scoreDesc.textContent = '천생연분 우주 좌표의 만남';
+    if (harmonyVal) harmonyVal.textContent = '무계합화(戊癸合火)';
+    if (energyVal) energyVal.textContent = '상생 촉진 (大吉)';
+    if (frequencyVal) frequencyVal.textContent = '99.2 MHz';
     tipText.textContent = '무토(戊土)와 계수(癸水)가 만나 무계합화(戊癸合火)를 이루는 최상의 연분입니다. 서로의 부족한 기운을 자연스럽게 채워주는 평생의 파트너입니다.';
   } else if (val === '갑자') {
     targetLabel.textContent = '갑자(甲子)';
+    if (targetElementTag) targetElementTag.textContent = '양목(陽木)';
     scoreVal.textContent = '84점';
+    if (scoreMeterFill) scoreMeterFill.style.width = '84%';
     scoreDesc.textContent = '상생 조화와 성장형 시너지';
+    if (harmonyVal) harmonyVal.textContent = '목토생화(木土生火)';
+    if (energyVal) energyVal.textContent = '발전과 도약 (吉)';
+    if (frequencyVal) frequencyVal.textContent = '87.5 MHz';
     tipText.textContent = '서로에게 긍정적인 자극과 성장을 촉진하는 길한 관계입니다. 장기적인 비전과 공동 프로젝트에서 놀라운 성과를 발휘합니다.';
   } else if (val === '병인') {
     targetLabel.textContent = '병인(丙寅)';
+    if (targetElementTag) targetElementTag.textContent = '양화(陽火)';
     scoreVal.textContent = '79점';
+    if (scoreMeterFill) scoreMeterFill.style.width = '79%';
     scoreDesc.textContent = '열정적 불꽃과 생명력의 케미';
+    if (harmonyVal) harmonyVal.textContent = '화생토(火生土)';
+    if (energyVal) energyVal.textContent = '강렬한 매력 (中吉)';
+    if (frequencyVal) frequencyVal.textContent = '81.4 MHz';
     tipText.textContent = '첫인상에서 강렬한 매력을 느끼는 조합입니다. 솔직한 감정 교류를 통해 단기적 갈등을 피하고 깊은 신뢰를 쌓을 수 있습니다.';
   } else {
     targetLabel.textContent = '신유(辛酉)';
+    if (targetElementTag) targetElementTag.textContent = '음금(陰金)';
     scoreVal.textContent = '55점';
+    if (scoreMeterFill) scoreMeterFill.style.width = '55%';
     scoreDesc.textContent = '섬세한 조율이 필요한 관계';
+    if (harmonyVal) harmonyVal.textContent = '토생금(土生金)';
+    if (energyVal) energyVal.textContent = '거리두기 권장 (平)';
+    if (frequencyVal) frequencyVal.textContent = '62.0 MHz';
     tipText.textContent = '서로의 표현 방식과 가치관 차이로 사소한 오해가 생길 수 있습니다. 상대방의 독립적인 성향을 인정하고 거리를 존중할 때 조화를 이룹니다.';
   }
 }
