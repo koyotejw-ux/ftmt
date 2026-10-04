@@ -119,12 +119,90 @@ function updateMockupTime() {
 setInterval(updateMockupTime, 1000);
 updateMockupTime();
 
+// Dopamine Daily Secret Engine (Changes Daily & Synchronized with Planetary Hours)
+const dailyDopaminePool = [
+  {
+    time: "14:30 ~ 16:00",
+    action: "중요한 계약 체결, 복권 구매, 또는 새로운 사업 프로젝트 제안에 최적의 금전운입니다.",
+    caution: "감정적 기복이 심하거나 날카로운 말을 쏟아내는 화(火) 기운의 인물을 피하세요."
+  },
+  {
+    time: "09:20 ~ 11:00",
+    action: "문서 서명, 자산 재배치, 귀인과의 첫 미팅에서 놀라운 호감을 얻는 황금 시간대입니다.",
+    caution: "과도한 욕심으로 즉흥적인 투자나 무리한 지출을 권유하는 상성을 경계하세요."
+  },
+  {
+    time: "11:40 ~ 13:15",
+    action: "자신의 재능과 아이디어를 대중이나 상사에게 어필할 때 도파민과 주목도가 폭발합니다.",
+    caution: "말실수가 생기기 쉬우니 타인의 험담에 동조하지 말고 중립을 유지하세요."
+  },
+  {
+    time: "16:40 ~ 18:20",
+    action: "지연되던 협상이나 밀린 정산이 속 시원하게 해결되는 우주적 회수 주기입니다.",
+    caution: "피로가 누적되어 판단력이 흐려질 수 있으니 음주 가무나 충동구매를 멀리하세요."
+  },
+  {
+    time: "19:30 ~ 21:00",
+    action: "소중한 인연과의 깊은 대화, 애정 고백, 진솔한 유대감을 형성하기에 가장 길합니다.",
+    caution: "과거의 서운했던 기억이나 사소한 집착을 상대에게 강요하지 않도록 주의하세요."
+  },
+  {
+    time: "07:30 ~ 09:00",
+    action: "하루의 첫 승기를 잡는 시간. 아침 산책, 명상, 오늘의 핵심 1순위 업무에 집중하세요.",
+    caution: "조급한 마음에 서두르면 소지품 분실이나 이동 중 작은 실수가 생길 수 있습니다."
+  },
+  {
+    time: "21:30 ~ 23:00",
+    action: "영적 통찰과 창의적 직관이 최고조에 달합니다. 아이디어 기록이나 타로 리딩에 최적입니다.",
+    caution: "스마트폰을 너무 오래 보며 늦은 수면을 취하면 내일의 기운이 분산됩니다."
+  }
+];
+
+let todayDopamineData = null;
+
+// Initialize Daily Dopamine Secret based on Current Date
+function updateDailyDopamine(seedOffset = 0) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const day = now.getDate();
+
+  // Create date seed so it changes automatically each midnight
+  const dayIndex = (year * 365 + month * 31 + day + seedOffset) % dailyDopaminePool.length;
+  todayDopamineData = dailyDopaminePool[Math.abs(dayIndex)];
+
+  const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+  const dayOfWeekNames = ["일", "월", "화", "수", "목", "금", "토"];
+  const dateStr = `${monthNames[month]} ${day}일 (${dayOfWeekNames[now.getDay()]})`;
+
+  const dateBadge = document.getElementById('dopamineDateBadge');
+  if (dateBadge) {
+    dateBadge.textContent = `${dateStr} 오늘`;
+  }
+
+  const timeDisplay = document.getElementById('goldenTimeDisplay');
+  if (timeDisplay) {
+    timeDisplay.textContent = todayDopamineData.time;
+  }
+
+  const actionGuide = document.getElementById('dopamineActionGuide');
+  if (actionGuide) {
+    actionGuide.innerHTML = `<strong>✦ 오늘의 행운 행동:</strong> ${todayDopamineData.action}`;
+  }
+
+  const cautionGuide = document.getElementById('dopamineCautionGuide');
+  if (cautionGuide) {
+    cautionGuide.innerHTML = `<strong>⚠ 오늘의 주의 상성:</strong> ${todayDopamineData.caution}`;
+  }
+}
+
 // Dopamine Hour Boost
 function boostFortune() {
+  if (!todayDopamineData) updateDailyDopamine();
   if (hearts > 0) {
     hearts--;
     document.getElementById('walletHearts').textContent = hearts;
-    alert('✨ 복채 하트 1개가 공양되었습니다!\n\n[우주 주파수 증폭 완료]\n오늘 14:30 ~ 16:00 사이의 직관력과 금전운 에너지가 2.4배 증폭됩니다.');
+    alert(`✨ 복채 하트 1개가 공양되었습니다!\n\n[우주 주파수 증폭 완료]\n오늘 ${todayDopamineData.time} 사이의 직관력과 금전운 에너지가 2.4배 증폭됩니다.`);
   } else {
     alert('보유 복채 하트가 부족합니다. 매일 자정에 무료 충전됩니다.');
   }
@@ -165,7 +243,11 @@ function calculateMySign() {
   document.getElementById('userCoordLabel').textContent = resText;
   document.getElementById('myMatchLabel').textContent = `${stems[Math.abs(stemIdx)]}${branches[Math.abs(branchIdx)]}`;
 
-  alert(`우주 좌표가 갱신되었습니다:\n${resText}`);
+  // Recalculate daily dopamine hours customized to this user's birth sign
+  updateDailyDopamine(day);
+  updateMatchScore();
+
+  alert(`우주 좌표가 갱신되었습니다:\n${resText}\n\n오늘 당신의 고유 도파민 골든 아워가 맞춤 갱신되었습니다.`);
 }
 
 // Match Score & Synergy Matrix
@@ -224,3 +306,9 @@ function updateMatchScore() {
     tipText.textContent = '서로의 표현 방식과 가치관 차이로 사소한 오해가 생길 수 있습니다. 상대방의 독립적인 성향을 인정하고 거리를 존중할 때 조화를 이룹니다.';
   }
 }
+
+// Auto-initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  updateDailyDopamine();
+  updateMatchScore();
+});

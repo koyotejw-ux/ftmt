@@ -853,11 +853,25 @@ body {
   padding: 16px;
   margin-top: 14px;
 }
+.dopamine-meta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
 .mini-title {
   font-size: 12.5px;
   font-weight: 700;
   color: var(--gold-champagne);
-  margin-bottom: 6px;
+}
+.dopamine-date-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--cyan-neon);
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  padding: 2px 8px;
+  border-radius: 10px;
 }
 .golden-time {
   font-size: 28px;
@@ -867,6 +881,12 @@ body {
   margin-bottom: 10px;
   letter-spacing: -0.02em;
 }
+.guidance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
 .guide-item {
   background: rgba(255, 255, 255, 0.03);
   border-left: 3px solid var(--gold-champagne);
@@ -875,7 +895,9 @@ body {
   font-size: 12.5px;
   color: var(--text-secondary);
   line-height: 1.5;
-  margin-bottom: 14px;
+}
+.guide-item.warning {
+  border-left-color: #ff5252;
 }
 .btn-gold-action {
   width: 100%;
