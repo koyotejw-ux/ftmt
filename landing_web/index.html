@@ -81,7 +81,7 @@
     <div class="nav-content">
       <div class="brand-logo" onclick="switchView('landing')">
         <img src="assets/images/app_icon.png" alt="FortuneMatch Logo" class="logo-img" />
-        <span class="brand-text">✦ FortuneMatch</span>
+        <span class="brand-text">FortuneMatch</span>
       </div>
       <div class="nav-tabs">
         <button class="nav-btn active" id="tabLanding" onclick="switchView('landing')">앱 소개</button>
@@ -182,26 +182,28 @@
   <!-- View 2: Mobile-First Responsive Web Fortune App -->
   <main id="webAppView" class="view-section">
     <div class="webapp-wrapper">
-      <!-- App Header Profile -->
-      <div class="app-header-card">
-        <div class="user-meta">
-          <div class="avatar-badge">✦</div>
-          <div>
-            <div class="coord-title">나의 우주 좌표</div>
-            <div class="coord-sub" id="userCoordLabel">무인(戊寅) · 범띠 · 사자자리</div>
+      <!-- App Header Profile & Calculator (Top Controls) -->
+      <div class="webapp-top-bar">
+        <div class="app-header-card">
+          <div class="user-meta">
+            <div class="avatar-badge">✦</div>
+            <div>
+              <div class="coord-title">나의 우주 좌표</div>
+              <div class="coord-sub" id="userCoordLabel">무인(戊寅) · 범띠 · 사자자리</div>
+            </div>
+          </div>
+          <div class="hearts-badge">
+            <span class="heart-icon">❤</span> <span id="walletHearts">7</span>
           </div>
         </div>
-        <div class="hearts-badge">
-          <span class="heart-icon">❤</span> <span id="walletHearts">7</span>
-        </div>
-      </div>
 
-      <!-- Date Input & Calculator -->
-      <div class="calc-box">
-        <div class="box-title">🪐 내 사주 일주 & 별자리 설정</div>
-        <div class="calc-inputs">
-          <input type="date" id="birthInput" value="1998-08-15" />
-          <button class="btn-calc" onclick="calculateMySign()">좌표 갱신</button>
+        <!-- Date Input & Calculator -->
+        <div class="calc-box">
+          <div class="box-title">🪐 내 사주 일주 & 별자리 설정</div>
+          <div class="calc-inputs">
+            <input type="date" id="birthInput" value="1998-08-15" />
+            <button class="btn-calc" onclick="calculateMySign()">좌표 갱신</button>
+          </div>
         </div>
       </div>
 
@@ -211,12 +213,14 @@
         <h2>오늘의 운세 & 인연 궁합</h2>
       </div>
 
-      <!-- Card 1: 오늘의 운세 & 타로 리딩 -->
-      <div class="app-card fortune-live-card">
-        <div class="card-head">
-          <div class="card-badge gold">DAILY FORTUNE</div>
-          <h3>✦ 오늘의 도파민 운세 & 타로</h3>
-        </div>
+      <!-- Responsive Two-Column Grid on Wide Screens -->
+      <div class="dashboard-grid">
+        <!-- Card 1: 오늘의 운세 & 타로 리딩 -->
+        <div class="app-card fortune-live-card">
+          <div class="card-head">
+            <div class="card-badge gold">DAILY FORTUNE</div>
+            <h3>✦ 오늘의 도파민 운세 & 타로</h3>
+          </div>
 
         <!-- 3D Tarot Stage -->
         <div class="tarot-stage">
@@ -295,6 +299,7 @@
           </div>
         </div>
       </div>
+      <!-- /dashboard-grid -->
 
       <!-- Launch Full Flutter Web App Card -->
       <div class="launch-app-card">
