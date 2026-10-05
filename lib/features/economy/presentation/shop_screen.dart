@@ -85,48 +85,72 @@ class ShopScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             backgroundColor: const Color(0xFF00E5FF).withValues(alpha: 0.08),
             border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.4)),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.play_circle_fill, color: Color(0xFF00E5FF), size: 36),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppI18n.tr('watch_ad_free', currentRegion),
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF00E5FF).withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
                       ),
-                      const SizedBox(height: 2),
-                      const Text(
-                        '+2 Hearts Instantly',
-                        style: TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00E5FF),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  ),
-                  onPressed: () async {
-                    final rewarded = await AdManager.instance.showRewardedAd(context, region: currentRegion);
-                    if (rewarded) {
-                      await wallet.addHearts(2);
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '2'),
-                            ),
+                      child: const Icon(Icons.play_circle_fill, color: Color(0xFF00E5FF), size: 28),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppI18n.tr('watch_ad_free', currentRegion),
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                           ),
-                        );
+                          const SizedBox(height: 3),
+                          const Text(
+                            '+2 Hearts Instantly',
+                            style: TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF00E5FF),
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      elevation: 2,
+                    ),
+                    onPressed: () async {
+                      final rewarded = await AdManager.instance.showRewardedAd(context, region: currentRegion);
+                      if (rewarded) {
+                        await wallet.addHearts(2);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '2'),
+                              ),
+                            ),
+                          );
+                        }
                       }
-                    }
-                  },
-                  child: const Text('+2', style: TextStyle(fontWeight: FontWeight.bold)),
+                    },
+                    icon: const Icon(Icons.video_collection_outlined, size: 18),
+                    label: Text(
+                      AppI18n.tr('watch_ad_free', currentRegion),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                  ),
                 ),
               ],
             ),
