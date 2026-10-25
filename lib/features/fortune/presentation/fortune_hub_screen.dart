@@ -35,6 +35,7 @@ class FortuneHubScreen extends StatefulWidget {
 class _FortuneHubScreenState extends State<FortuneHubScreen> {
   late DateTime _selectedBirth;
   String? _selectedCity;
+  String? _selectedPersonName;
 
   @override
   void initState() {
@@ -42,6 +43,36 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
     final profile = widget.profileRepo.profile;
     _selectedBirth = profile.birthDateTime;
     _selectedCity = profile.city;
+    _selectedPersonName = profile.name;
+
+    // First time onboarding check: guide user to input their real coordinates
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!widget.profileRepo.hasProfile && mounted) {
+        ProfileEditDialog.show(
+          context,
+          initialProfile: UserProfile(
+            name: '',
+            birthDateTime: DateTime(2000, 1, 1, 12, 0),
+            city: _getCitiesForRegion(widget.currentRegion).first,
+          ),
+          region: widget.currentRegion,
+          isForSelf: true,
+          title: widget.currentRegion == SupportedRegion.korea
+              ? '✦ 우주 좌표(프로필) 등록 가이드'
+              : '✦ Setup Cosmic Coordinates',
+          onSaved: (p) async {
+            await widget.profileRepo.saveProfile(p);
+            if (mounted) {
+              setState(() {
+                _selectedBirth = p.birthDateTime;
+                _selectedCity = p.city;
+                _selectedPersonName = p.name;
+              });
+            }
+          },
+        );
+      }
+    });
   }
 
   List<String> _getCitiesForRegion(SupportedRegion region) {
@@ -145,6 +176,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     selectedCity: _currentCity,
                     selectedTarotCards: tarotCards?.cast(),
                     region: widget.currentRegion,
+                    userName: _selectedPersonName ?? widget.profileRepo.profile.name,
                   ),
                 ),
               );
@@ -214,10 +246,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                                 setSheetState(() {
                                   _selectedBirth = p.birthDateTime;
                                   _selectedCity = p.city;
+                                  _selectedPersonName = p.name;
                                 });
                                 setState(() {
                                   _selectedBirth = p.birthDateTime;
                                   _selectedCity = p.city;
+                                  _selectedPersonName = p.name;
                                 });
                               },
                             );
@@ -250,7 +284,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     ),
                     const SizedBox(height: 14),
 
-                    // Quick Toggle / Mode Pill
+                    // Quick Toggle / Mode Pill: Self vs Vault Selection
                     Row(
                       children: [
                         Expanded(
@@ -260,6 +294,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                               setSheetState(() {
                                 _selectedBirth = my.birthDateTime;
                                 _selectedCity = my.city;
+                                _selectedPersonName = my.name;
+                              });
+                              setState(() {
+                                _selectedBirth = my.birthDateTime;
+                                _selectedCity = my.city;
+                                _selectedPersonName = my.name;
                               });
                             },
                             child: Container(
@@ -298,26 +338,132 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           onTap: () {
                             final vault = widget.profileRepo.getSavedVaultProfiles();
                             if (vault.isNotEmpty) {
-                              final first = vault.first;
-                              setSheetState(() {
-                                _selectedBirth = first.birthDateTime;
-                                _selectedCity = first.city;
-                              });
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: const Color(0xFF0D1224),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                                ),
+                                builder: (vaultCtx) => SafeArea(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              widget.currentRegion == SupportedRegion.korea
+                                                  ? '운세를 볼 인연 선택'
+                                                  : 'Select Person for Reading',
+                                              style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(Icons.close, color: Colors.white70, size: 20),
+                                              onPressed: () => Navigator.of(vaultCtx).pop(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 12),
+                                        ...vault.map((p) => ListTile(
+                                              tileColor: Colors.white.withValues(alpha: 0.05),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                              leading: const Icon(Icons.person, color: Color(0xFF00E5FF)),
+                                              title: Text(p.localizedName(widget.currentRegion), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                              subtitle: Text(
+                                                '${p.birthDateTime.year}.${p.birthDateTime.month.toString().padLeft(2, '0')}.${p.birthDateTime.day.toString().padLeft(2, '0')} · ${p.city}',
+                                                style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
+                                              ),
+                                              onTap: () {
+                                                Navigator.of(vaultCtx).pop();
+                                                setSheetState(() {
+                                                  _selectedBirth = p.birthDateTime;
+                                                  _selectedCity = p.city;
+                                                  _selectedPersonName = p.name;
+                                                });
+                                                setState(() {
+                                                  _selectedBirth = p.birthDateTime;
+                                                  _selectedCity = p.city;
+                                                  _selectedPersonName = p.name;
+                                                });
+                                              },
+                                            )),
+                                        const SizedBox(height: 10),
+                                        ListTile(
+                                          tileColor: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.1),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                            side: const BorderSide(color: SpaceNavyTheme.goldBorder),
+                                          ),
+                                          leading: const Icon(Icons.person_add_alt_1, color: SpaceNavyTheme.goldChampagne),
+                                          title: Text(
+                                            widget.currentRegion == SupportedRegion.korea
+                                                ? '+ 새로운 인연 직접 등록하기'
+                                                : '+ Register New Person with Guide',
+                                            style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontWeight: FontWeight.bold),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(vaultCtx).pop();
+                                            ProfileEditDialog.show(
+                                              context,
+                                              initialProfile: UserProfile(
+                                                name: '',
+                                                birthDateTime: DateTime(2000, 1, 1, 12, 0),
+                                                city: _getCitiesForRegion(widget.currentRegion).first,
+                                              ),
+                                              region: widget.currentRegion,
+                                              isForSelf: false,
+                                              title: widget.currentRegion == SupportedRegion.korea
+                                                  ? '✦ 인연(상대방) 정보 등록 가이드'
+                                                  : '✦ Register Partner Info',
+                                              onSaved: (newPerson) async {
+                                                await widget.profileRepo.addVaultProfile(newPerson);
+                                                setSheetState(() {
+                                                  _selectedBirth = newPerson.birthDateTime;
+                                                  _selectedCity = newPerson.city;
+                                                  _selectedPersonName = newPerson.name;
+                                                });
+                                                setState(() {
+                                                  _selectedBirth = newPerson.birthDateTime;
+                                                  _selectedCity = newPerson.city;
+                                                  _selectedPersonName = newPerson.name;
+                                                });
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
                             } else {
+                              // Vault empty: Open guide dialog directly to add a real person
                               ProfileEditDialog.show(
                                 context,
                                 initialProfile: UserProfile(
-                                  name: AppI18n.tr('profile_default_other', widget.currentRegion),
-                                  birthDateTime: DateTime(1996, 5, 10, 12, 0),
-                                  city: 'Seoul',
+                                  name: '',
+                                  birthDateTime: DateTime(2000, 1, 1, 12, 0),
+                                  city: _getCitiesForRegion(widget.currentRegion).first,
                                 ),
                                 region: widget.currentRegion,
                                 isForSelf: false,
+                                title: widget.currentRegion == SupportedRegion.korea
+                                    ? '✦ 인연(상대방) 정보 등록 가이드'
+                                    : '✦ Register Partner Info',
                                 onSaved: (p) async {
                                   await widget.profileRepo.addVaultProfile(p);
                                   setSheetState(() {
                                     _selectedBirth = p.birthDateTime;
                                     _selectedCity = p.city;
+                                    _selectedPersonName = p.name;
+                                  });
+                                  setState(() {
+                                    _selectedBirth = p.birthDateTime;
+                                    _selectedCity = p.city;
+                                    _selectedPersonName = p.name;
                                   });
                                 },
                               );
@@ -326,16 +472,24 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.05),
+                              color: (_selectedBirth != widget.profileRepo.profile.birthDateTime)
+                                  ? const Color(0xFF00E5FF).withValues(alpha: 0.15)
+                                  : Colors.white.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.white24),
+                              border: Border.all(
+                                color: (_selectedBirth != widget.profileRepo.profile.birthDateTime)
+                                    ? const Color(0xFF00E5FF)
+                                    : Colors.white24,
+                              ),
                             ),
                             child: Row(
                               children: [
                                 const Icon(Icons.group, color: Color(0xFF00E5FF), size: 16),
                                 const SizedBox(width: 4),
                                 Text(
-                                  AppI18n.tr('view_mode_other', widget.currentRegion),
+                                  _selectedPersonName != null && _selectedPersonName != widget.profileRepo.profile.name
+                                      ? '$_selectedPersonName'
+                                      : AppI18n.tr('view_mode_other', widget.currentRegion),
                                   style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
                                 ),
                               ],
@@ -416,6 +570,9 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                             setSheetState(() {
                               _selectedBirth = DateTime(picked.year, picked.month, picked.day, time.hour, time.minute);
                             });
+                            setState(() {
+                              _selectedBirth = DateTime(picked.year, picked.month, picked.day, time.hour, time.minute);
+                            });
                           }
                         }
                       },
@@ -473,12 +630,93 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 0. User Profile Quick Badge & Edit Trigger
+          // 0. User Profile Quick Badge & Edit Trigger (or Onboarding Guide)
           StreamBuilder<UserProfile?>(
             stream: widget.profileRepo.profileStream,
             initialData: widget.profileRepo.profile,
             builder: (context, snapshot) {
               final profile = snapshot.data ?? widget.profileRepo.profile;
+
+              if (!widget.profileRepo.hasProfile) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: GlassBox(
+                    onTap: () {
+                      ProfileEditDialog.show(
+                        context,
+                        initialProfile: UserProfile(
+                          name: '',
+                          birthDateTime: DateTime(2000, 1, 1, 12, 0),
+                          city: _getCitiesForRegion(widget.currentRegion).first,
+                        ),
+                        region: widget.currentRegion,
+                        isForSelf: true,
+                        title: widget.currentRegion == SupportedRegion.korea
+                            ? '✦ 우주 좌표(프로필) 등록 가이드'
+                            : '✦ Setup Cosmic Coordinates',
+                        onSaved: (p) async {
+                          await widget.profileRepo.saveProfile(p);
+                          setState(() {
+                            _selectedBirth = p.birthDateTime;
+                            _selectedCity = p.city;
+                            _selectedPersonName = p.name;
+                          });
+                        },
+                      );
+                    },
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    backgroundColor: const Color(0xFF141B33).withValues(alpha: 0.85),
+                    border: Border.all(color: SpaceNavyTheme.goldChampagne, width: 1.5),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.person_add, color: SpaceNavyTheme.goldChampagne, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.currentRegion == SupportedRegion.korea
+                                    ? '✦ 나만의 우주 좌표를 등록하세요'
+                                    : '✦ Register Your Cosmic Coordinates',
+                                style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontWeight: FontWeight.bold, fontSize: 13),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                widget.currentRegion == SupportedRegion.korea
+                                    ? '생년월일시와 출생 도시를 입력하여 정밀 사주·별자리 운세를 시작하세요'
+                                    : 'Set your birth time and city to unlock your 1:1 tailored destiny readings',
+                                style: const TextStyle(color: Color(0xFFB0B9D0), fontSize: 11),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: SpaceNavyTheme.goldChampagne,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            widget.currentRegion == SupportedRegion.korea ? '등록하기' : 'Register',
+                            style: const TextStyle(color: Colors.black, fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: GlassBox(
@@ -529,6 +767,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                               setState(() {
                                 _selectedBirth = updated.birthDateTime;
                                 _selectedCity = updated.city;
+                                _selectedPersonName = updated.name;
                               });
                             },
                           );
@@ -570,9 +809,10 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
 
           const SizedBox(height: 12),
 
-          // 2. Dopamine Snack Teaser Card
+          // 2. Dopamine Snack Teaser Card (Real-time dynamic daily golden hour)
           SnackTeaserCard(
             currentRegion: widget.currentRegion,
+            birthDate: _selectedBirth,
             onTap: () {
               _analyzeFortuneWithAd(
                 title: AppI18n.tr('wealth_golden_time', widget.currentRegion),
@@ -745,7 +985,8 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                   final menu = menus[index];
                   final isTarot = menu == FortuneSubMenu.tarot ||
                       menu == FortuneSubMenu.threeCardTarot ||
-                      menu == FortuneSubMenu.tarotMarseille;
+                      menu == FortuneSubMenu.tarotMarseille ||
+                      menu == FortuneSubMenu.bloodTypeTarot;
 
                   return GlassBox(
                     onTap: () {

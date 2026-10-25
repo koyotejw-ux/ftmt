@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   final Map<MatchSubMenu, String> _selectedItemsB = {};
 
   MatchResult? _matchResult;
+  StreamSubscription<UserProfile?>? _profileSub;
 
   @override
   void initState() {
@@ -52,6 +54,14 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
     _initDefaultSelections();
     _updateMatchPreview();
+
+    // Listen to real-time user profile updates (e.g. from ProfileEditDialog or Vault)
+    _profileSub = widget.profileRepo.profileStream.listen((_) {
+      if (mounted) {
+        _initDefaultSelections();
+        _updateMatchPreview();
+      }
+    });
   }
 
   void _initDefaultSelections() {
@@ -148,6 +158,7 @@ class _MatchHubScreenState extends State<MatchHubScreen>
 
   @override
   void dispose() {
+    _profileSub?.cancel();
     _sparkController.dispose();
     super.dispose();
   }
@@ -476,9 +487,18 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      AppI18n.tr('match_pick_from_vault', widget.currentRegion),
-                                      style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          AppI18n.tr('match_pick_from_vault', widget.currentRegion),
+                                          style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.close, color: Colors.white70, size: 20),
+                                          onPressed: () => Navigator.of(sheetCtx).pop(),
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 14),
                                     ...vault.map((p) => ListTile(
@@ -508,14 +528,86 @@ class _MatchHubScreenState extends State<MatchHubScreen>
                                             _updateMatchPreview();
                                           },
                                         )),
+                                    const SizedBox(height: 10),
+                                    ListTile(
+                                      tileColor: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        side: const BorderSide(color: SpaceNavyTheme.goldBorder),
+                                      ),
+                                      leading: const Icon(Icons.person_add_alt_1, color: SpaceNavyTheme.goldChampagne),
+                                      title: Text(
+                                        widget.currentRegion == SupportedRegion.korea
+                                            ? '+ 새로운 인연 직접 등록하기'
+                                            : '+ Register New Person with Guide',
+                                        style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontWeight: FontWeight.bold),
+                                      ),
+                                      onTap: () {
+                                        Navigator.of(sheetCtx).pop();
+                                        ProfileEditDialog.show(
+                                          context,
+                                          initialProfile: UserProfile(
+                                            name: '',
+                                            birthDateTime: DateTime(2000, 1, 1, 12, 0),
+                                            city: 'Seoul',
+                                          ),
+                                          region: widget.currentRegion,
+                                          isForSelf: false,
+                                          title: widget.currentRegion == SupportedRegion.korea
+                                              ? '✦ 상대방 정보 등록 가이드'
+                                              : '✦ Register Partner Info',
+                                          onSaved: (newPerson) async {
+                                            await widget.profileRepo.addVaultProfile(newPerson);
+                                            setState(() {
+                                              _selectedItemsB[MatchSubMenu.westernZodiac] = newPerson.localizedWesternZodiacItem(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.sajuIlju] = newPerson.localizedSajuIlju(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.zodiacAnimal] = newPerson.localizedZodiacAnimal(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.bloodType] = newPerson.localizedBloodType(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.zodiacElement] = newPerson.localizedZodiacElement(widget.currentRegion);
+                                              _selectedItemsB[MatchSubMenu.numerologyLifePath] = newPerson.localizedLifePathNumber(widget.currentRegion);
+                                              if (newPerson.mbti != null) {
+                                                _selectedItemsB[MatchSubMenu.sixteenType] = newPerson.mbti!;
+                                              }
+                                            });
+                                            _updateMatchPreview();
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           );
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(AppI18n.tr('vault_empty_notice', widget.currentRegion))),
+                          // Clean guide when vault is empty
+                          ProfileEditDialog.show(
+                            context,
+                            initialProfile: UserProfile(
+                              name: '',
+                              birthDateTime: DateTime(2000, 1, 1, 12, 0),
+                              city: 'Seoul',
+                            ),
+                            region: widget.currentRegion,
+                            isForSelf: false,
+                            title: widget.currentRegion == SupportedRegion.korea
+                                ? '✦ 상대방(연인/친구) 정보 등록 가이드'
+                                : '✦ Register Partner Info',
+                            onSaved: (personB) async {
+                              await widget.profileRepo.addVaultProfile(personB);
+                              setState(() {
+                                _selectedItemsB[MatchSubMenu.westernZodiac] = personB.localizedWesternZodiacItem(widget.currentRegion);
+                                _selectedItemsB[MatchSubMenu.sajuIlju] = personB.localizedSajuIlju(widget.currentRegion);
+                                _selectedItemsB[MatchSubMenu.zodiacAnimal] = personB.localizedZodiacAnimal(widget.currentRegion);
+                                _selectedItemsB[MatchSubMenu.bloodType] = personB.localizedBloodType(widget.currentRegion);
+                                _selectedItemsB[MatchSubMenu.zodiacElement] = personB.localizedZodiacElement(widget.currentRegion);
+                                _selectedItemsB[MatchSubMenu.numerologyLifePath] = personB.localizedLifePathNumber(widget.currentRegion);
+                                if (personB.mbti != null) {
+                                  _selectedItemsB[MatchSubMenu.sixteenType] = personB.mbti!;
+                                }
+                              });
+                              _updateMatchPreview();
+                            },
                           );
                         }
                       },

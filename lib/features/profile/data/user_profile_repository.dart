@@ -308,23 +308,8 @@ class UserProfileRepository {
             .toList();
       } catch (_) {}
     }
-    // Default preset contacts in vault
-    return [
-      UserProfile(
-        name: '김서연 (연인)',
-        birthDateTime: DateTime(1997, 3, 22, 9, 15),
-        city: 'Seoul',
-        bloodType: 'B',
-        mbti: 'INTJ',
-      ),
-      UserProfile(
-        name: '이민호 (친구)',
-        birthDateTime: DateTime(1994, 11, 5, 18, 0),
-        city: 'Seoul',
-        bloodType: 'O',
-        mbti: 'INFJ',
-      ),
-    ];
+    // No sample contacts - clean user-driven vault
+    return [];
   }
 
   /// Add a person to vault

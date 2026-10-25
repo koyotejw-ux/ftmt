@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/astronomy/daily_transit_engine.dart';
 import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
@@ -7,15 +8,23 @@ import '../../../core/theme/space_navy_theme.dart';
 class SnackTeaserCard extends StatelessWidget {
   final VoidCallback onTap;
   final SupportedRegion currentRegion;
+  final DateTime? birthDate;
 
   const SnackTeaserCard({
     super.key,
     required this.onTap,
     this.currentRegion = SupportedRegion.korea,
+    this.birthDate,
   });
 
   @override
   Widget build(BuildContext context) {
+    final effectiveBirth = birthDate ?? DateTime(1995, 8, 15, 14, 30);
+    final transit = DailyTransitEngine.calculateDailyTransit(
+      birthDate: effectiveBirth,
+      region: currentRegion,
+    );
+
     return GlassBox(
       onTap: onTap,
       padding: const EdgeInsets.all(18),
@@ -74,13 +83,13 @@ class SnackTeaserCard extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
-                const Text(
-                  '14:30 ~ 16:00',
-                  style: TextStyle(
+                Text(
+                  transit.goldenHours,
+                  style: const TextStyle(
                     color: Color(0xFF00E5FF),
-                    fontSize: 18,
+                    fontSize: 17,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 1.1,
+                    letterSpacing: 1.0,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -111,7 +120,7 @@ class SnackTeaserCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  AppI18n.tr('energy_warning_snack', currentRegion),
+                  transit.energyWarning,
                   style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12, height: 1.3),
                 ),
               ),

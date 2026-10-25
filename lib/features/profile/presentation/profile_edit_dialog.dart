@@ -169,6 +169,44 @@ class _ProfileEditDialogState extends State<ProfileEditDialog> {
             ),
             const SizedBox(height: 16),
 
+            // Educational Guidance Banner
+            Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.info_outline, color: SpaceNavyTheme.goldChampagne, size: 18),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.region == SupportedRegion.korea
+                              ? '정밀 운세 좌표 설정 가이드'
+                              : 'Cosmic Coordinates Input Guide',
+                          style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          widget.region == SupportedRegion.korea
+                              ? '정확한 생년월일시와 출생 도시는 진태양시(경도 시차)를 실시간 보정하여, 왜곡 없는 1:1 맞춤 사주·별자리·타로 운명 지도를 생성하기 위한 필수 데이터입니다.'
+                              : 'Exact birth date, time, and birth city are required to calculate true solar time offsets, aligning your precise Four Pillars and astronomical natal degrees.',
+                          style: const TextStyle(color: Color(0xFFB0B9D0), fontSize: 11, height: 1.35),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             // Live Calculated Preview Card
             Container(
               padding: const EdgeInsets.all(12),

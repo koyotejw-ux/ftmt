@@ -30,11 +30,14 @@ class _VaultScreenState extends State<VaultScreen> {
       context,
       initialProfile: UserProfile(
         name: '',
-        birthDateTime: DateTime(1996, 5, 10, 12, 0),
+        birthDateTime: DateTime(2000, 1, 1, 12, 0),
         city: 'Seoul',
       ),
       region: widget.currentRegion,
       isForSelf: false,
+      title: widget.currentRegion == SupportedRegion.korea
+          ? '✦ 인연(상대방) 정보 등록 가이드'
+          : '✦ Register Partner Info',
       onSaved: (person) async {
         await widget.profileRepo.addVaultProfile(person);
         setState(() {});
@@ -88,7 +91,9 @@ class _VaultScreenState extends State<VaultScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  myProfile.localizedName(widget.currentRegion),
+                                  widget.profileRepo.hasProfile
+                                      ? myProfile.localizedName(widget.currentRegion)
+                                      : (widget.currentRegion == SupportedRegion.korea ? '우주 좌표(프로필) 미등록' : 'Unregistered Profile'),
                                   style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -97,16 +102,18 @@ class _VaultScreenState extends State<VaultScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: SpaceNavyTheme.goldChampagne,
+                                  color: widget.profileRepo.hasProfile ? SpaceNavyTheme.goldChampagne : const Color(0xFF00E5FF),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: const Text('ME', style: TextStyle(color: Colors.black, fontSize: 9, fontWeight: FontWeight.bold)),
+                                child: Text(widget.profileRepo.hasProfile ? 'ME' : 'GUIDE', style: const TextStyle(color: Colors.black, fontSize: 9, fontWeight: FontWeight.bold)),
                               ),
                             ],
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${myProfile.birthDateTime.year}.${myProfile.birthDateTime.month.toString().padLeft(2, '0')}.${myProfile.birthDateTime.day.toString().padLeft(2, '0')} ${myProfile.birthDateTime.hour.toString().padLeft(2, '0')}:${myProfile.birthDateTime.minute.toString().padLeft(2, '0')}',
+                            widget.profileRepo.hasProfile
+                                ? '${myProfile.birthDateTime.year}.${myProfile.birthDateTime.month.toString().padLeft(2, '0')}.${myProfile.birthDateTime.day.toString().padLeft(2, '0')} ${myProfile.birthDateTime.hour.toString().padLeft(2, '0')}:${myProfile.birthDateTime.minute.toString().padLeft(2, '0')}'
+                                : (widget.currentRegion == SupportedRegion.korea ? '가이드를 눌러 생년월일시와 출생지를 직접 등록하세요' : 'Tap to register your birth time & city with guide'),
                             style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12),
                           ),
                         ],
@@ -116,16 +123,25 @@ class _VaultScreenState extends State<VaultScreen> {
                       onPressed: () {
                         ProfileEditDialog.show(
                           context,
-                          initialProfile: myProfile,
+                          initialProfile: widget.profileRepo.hasProfile
+                              ? myProfile
+                              : UserProfile(
+                                  name: '',
+                                  birthDateTime: DateTime(2000, 1, 1, 12, 0),
+                                  city: 'Seoul',
+                                ),
                           region: widget.currentRegion,
                           isForSelf: true,
+                          title: widget.currentRegion == SupportedRegion.korea
+                              ? '✦ 우주 좌표(프로필) 등록 가이드'
+                              : '✦ Setup Cosmic Coordinates',
                           onSaved: (p) async {
                             await widget.profileRepo.saveProfile(p);
                             setState(() {});
                           },
                         );
                       },
-                      icon: const Icon(Icons.edit, color: SpaceNavyTheme.goldChampagne, size: 20),
+                      icon: Icon(widget.profileRepo.hasProfile ? Icons.edit : Icons.add_circle, color: SpaceNavyTheme.goldChampagne, size: 22),
                     ),
                   ],
                 ),
@@ -243,66 +259,117 @@ class _VaultScreenState extends State<VaultScreen> {
 
           const SizedBox(height: 10),
 
-          ...vaultContacts.asMap().entries.map((entry) {
-            final idx = entry.key;
-            final p = entry.value;
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: GlassBox(
-                padding: const EdgeInsets.all(16),
-                child: Row(
+          if (vaultContacts.isEmpty)
+            GlassBox(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+              child: Center(
+                child: Column(
                   children: [
                     Container(
-                      width: 44,
-                      height: 44,
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.06),
+                        color: Colors.white.withValues(alpha: 0.05),
                         border: Border.all(color: SpaceNavyTheme.goldBorder),
                       ),
-                      child: const Center(
-                        child: Icon(Icons.person, color: SpaceNavyTheme.goldChampagne, size: 22),
-                      ),
+                      child: const Icon(Icons.people_outline, color: SpaceNavyTheme.goldChampagne, size: 28),
                     ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(p.localizedName(widget.currentRegion), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
-                          const SizedBox(height: 3),
-                          Text(
-                            '${p.birthDateTime.year}.${p.birthDateTime.month.toString().padLeft(2, '0')}.${p.birthDateTime.day.toString().padLeft(2, '0')} · ${p.localizedSunSign(widget.currentRegion)}',
-                            style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
-                          ),
-                        ],
-                      ),
+                    const SizedBox(height: 12),
+                    Text(
+                      widget.currentRegion == SupportedRegion.korea
+                          ? '보관함에 등록된 인연이 없습니다'
+                          : 'No Contacts Saved in Vault',
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF00E5FF).withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.currentRegion == SupportedRegion.korea
+                          ? '가이드를 통해 연인, 친구, 가족의 생년월일을 등록하여\n정밀 사주·별자리 및 궁합을 실시간으로 확인해보세요.'
+                          : 'Register partner, friend, or family birth data via guide\nto explore tailored compatibility and destiny readings.',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12, height: 1.4),
+                    ),
+                    const SizedBox(height: 14),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: SpaceNavyTheme.goldChampagne,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: Text(
+                      onPressed: _addNewProfile,
+                      icon: const Icon(Icons.person_add_alt_1, size: 16),
+                      label: Text(
                         widget.currentRegion == SupportedRegion.korea
-                            ? p.localizedSajuIlju(widget.currentRegion).split('(').first
-                            : p.localizedWesternZodiacItem(widget.currentRegion).split('(').first,
-                        style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
+                            ? '가이드로 새 인연 등록하기'
+                            : 'Register New Person with Guide',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete_outline, color: Colors.white30, size: 18),
-                      onPressed: () async {
-                        await widget.profileRepo.deleteVaultProfile(idx);
-                        setState(() {});
-                      },
                     ),
                   ],
                 ),
               ),
-            );
-          }),
+            )
+          else
+            ...vaultContacts.asMap().entries.map((entry) {
+              final idx = entry.key;
+              final p = entry.value;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: GlassBox(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.06),
+                          border: Border.all(color: SpaceNavyTheme.goldBorder),
+                        ),
+                        child: const Center(
+                          child: Icon(Icons.person, color: SpaceNavyTheme.goldChampagne, size: 22),
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(p.localizedName(widget.currentRegion), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                            const SizedBox(height: 3),
+                            Text(
+                              '${p.birthDateTime.year}.${p.birthDateTime.month.toString().padLeft(2, '0')}.${p.birthDateTime.day.toString().padLeft(2, '0')} · ${p.localizedSunSign(widget.currentRegion)}',
+                              style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF00E5FF).withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          widget.currentRegion == SupportedRegion.korea
+                              ? p.localizedSajuIlju(widget.currentRegion).split('(').first
+                              : p.localizedWesternZodiacItem(widget.currentRegion).split('(').first,
+                          style: const TextStyle(color: Color(0xFF00E5FF), fontSize: 11, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete_outline, color: Colors.white30, size: 18),
+                        onPressed: () async {
+                          await widget.profileRepo.deleteVaultProfile(idx);
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
 
           const SizedBox(height: 24),
 
