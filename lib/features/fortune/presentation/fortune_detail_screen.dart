@@ -7,10 +7,14 @@ import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
+import '../../ads/ad_banner_widget.dart';
+import '../../ads/ad_manager.dart';
+import '../../economy/data/heart_wallet_repository.dart';
+import '../../economy/presentation/heart_shop_bottom_sheet.dart';
 import '../domain/tarot_deck.dart';
 import '../domain/tarot_reading_engine.dart';
 
-class FortuneDetailScreen extends StatelessWidget {
+class FortuneDetailScreen extends StatefulWidget {
   final String title;
   final String category;
   final FortuneSubMenu? menu;
@@ -19,6 +23,7 @@ class FortuneDetailScreen extends StatelessWidget {
   final String selectedCity;
   final SupportedRegion region;
   final String? userName;
+  final HeartWalletRepository? wallet;
 
   const FortuneDetailScreen({
     super.key,
@@ -30,7 +35,25 @@ class FortuneDetailScreen extends StatelessWidget {
     this.selectedCity = '서울',
     this.region = SupportedRegion.korea,
     this.userName,
+    this.wallet,
   });
+
+  @override
+  State<FortuneDetailScreen> createState() => _FortuneDetailScreenState();
+}
+
+class _FortuneDetailScreenState extends State<FortuneDetailScreen> {
+  bool _isSecretUnlocked = false;
+
+  String get title => widget.title;
+  String get category => widget.category;
+  FortuneSubMenu? get menu => widget.menu;
+  List<TarotCard>? get selectedTarotCards => widget.selectedTarotCards;
+  DateTime get birthTime => widget.birthTime;
+  String get selectedCity => widget.selectedCity;
+  SupportedRegion get region => widget.region;
+  String? get userName => widget.userName;
+  HeartWalletRepository? get wallet => widget.wallet;
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +312,14 @@ class FortuneDetailScreen extends StatelessWidget {
                 ),
               ),
             ],
-
+            _buildSecretVipCard(transit),
+            const SizedBox(height: 20),
+            if (wallet != null)
+              AdBannerWidget(
+                wallet: wallet!,
+                currentRegion: region,
+                margin: EdgeInsets.zero,
+              ),
             const SizedBox(height: 40),
           ],
         ),
@@ -667,6 +697,236 @@ class FortuneDetailScreen extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSecretVipCard(DailyTransitData transit) {
+    final isVip = wallet?.hasVipPass ?? false;
+    final isRevealed = _isSecretUnlocked || isVip;
+
+    final directions = {
+      SupportedRegion.korea: ['동남쪽 (SE - 목화 상생의 길방)', '남서쪽 (SW - 토금 번영의 길방)', '동북쪽 (NE - 간방 귀인의 기운)', '정남쪽 (S - 광명과 성취의 방위)'],
+      SupportedRegion.japan: ['南東 (SE - 調和と発展)', '南西 (SW - 安定と繁栄)', '北東 (NE - 貴人の加護)', '正南 (S - 飛躍の光)'],
+    };
+    final luckyDirList = directions[region] ?? ['South-East (Harmony & Expansion)', 'South-West (Stability & Growth)', 'North-East (Noble Protector)', 'South (Radiant Success)'];
+    final luckyDir = luckyDirList[(birthTime.day + transit.personalDayNumber) % luckyDirList.length];
+
+    final numSeed = (birthTime.month + birthTime.day + transit.personalDayNumber) % 9 + 1;
+    final luckyNums = '$numSeed, ${(numSeed + 3) % 9 + 1}, ${(numSeed + 7) % 9 + 1}';
+
+    final colorSeed = (birthTime.day + transit.personalDayNumber) % 5;
+    final luckyColors = [
+      '에메랄드 그린 (Emerald Green - 목/성장)',
+      '루비 레드 (Ruby Red - 화/열정)',
+      '샴페인 앰버 (Champagne Amber - 토/신뢰)',
+      '퓨어 플래티넘 (Pure Platinum - 금/결단)',
+      '미드나잇 사파이어 (Midnight Sapphire - 수/지혜)',
+    ];
+    final luckyColor = luckyColors[colorSeed];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            const Icon(Icons.stars_rounded, color: SpaceNavyTheme.goldChampagne, size: 20),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                AppI18n.tr('secret_vip_key_title', region),
+                style: const TextStyle(
+                  color: SpaceNavyTheme.goldChampagne,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            if (isVip)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFE5C07B), Color(0xFFFFB300)],
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Text('VIP UNLOCKED', style: TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold)),
+              ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        if (!isRevealed)
+          GlassBox(
+            backgroundColor: const Color(0xFF141B33).withValues(alpha: 0.85),
+            border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.6)),
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              children: [
+                const Icon(Icons.lock_person_outlined, color: SpaceNavyTheme.goldChampagne, size: 40),
+                const SizedBox(height: 12),
+                Text(
+                  AppI18n.tr('secret_vip_key_locked_desc', region),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Color(0xFFD6DFEF), fontSize: 13, height: 1.5),
+                ),
+                const SizedBox(height: 18),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF00E5FF),
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          elevation: 3,
+                        ),
+                        onPressed: () async {
+                          final messenger = ScaffoldMessenger.of(context);
+                          final rewarded = await AdManager.instance.showRewardedAd(context, region: region);
+                          if (rewarded) {
+                            if (wallet != null) {
+                              await wallet!.addHearts(1);
+                            }
+                            if (mounted) {
+                              setState(() => _isSecretUnlocked = true);
+                              messenger.showSnackBar(
+                                const SnackBar(content: Text('✨ 시크릿 비책이 성공적으로 잠금 해제되었습니다! (+하트 1개 지급)')),
+                              );
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.video_collection_rounded, size: 18),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppI18n.tr('unlock_with_ad_btn', region),
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: SpaceNavyTheme.goldChampagne,
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          elevation: 3,
+                        ),
+                        onPressed: () async {
+                          if (wallet != null && (wallet!.hearts > 0 || wallet!.hasVipPass)) {
+                            await wallet!.consumeHeart();
+                            if (mounted) {
+                              setState(() => _isSecretUnlocked = true);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('❤️ 하트 1개로 시크릿 비책을 열람했습니다.')),
+                              );
+                            }
+                          } else {
+                            if (wallet != null) {
+                              HeartShopBottomSheet.show(context, wallet!, currentRegion: region);
+                            }
+                          }
+                        },
+                        icon: const Icon(Icons.favorite, size: 18),
+                        label: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            AppI18n.tr('unlock_with_heart_btn', region),
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        else
+          GlassBox(
+            backgroundColor: const Color(0xFF0F1528).withValues(alpha: 0.9),
+            border: Border.all(color: SpaceNavyTheme.goldChampagne, width: 1.5),
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.lock_open_rounded, color: Color(0xFF00E5FF), size: 20),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'CELESTIAL SECRET UNLOCKED',
+                      style: TextStyle(
+                        color: Color(0xFF00E5FF),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 12,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                _buildSecretAttributeRow(Icons.explore, AppI18n.tr('lucky_direction', region), luckyDir, const Color(0xFF00E5FF)),
+                const SizedBox(height: 10),
+                _buildSecretAttributeRow(Icons.format_list_numbered, AppI18n.tr('lucky_numbers', region), luckyNums, const Color(0xFFE5C07B)),
+                const SizedBox(height: 10),
+                _buildSecretAttributeRow(Icons.palette, AppI18n.tr('lucky_color', region), luckyColor, const Color(0xFFFF4081)),
+                const SizedBox(height: 16),
+                const Divider(color: Colors.white12),
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.shield_moon_sharp, color: SpaceNavyTheme.goldChampagne, size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            region == SupportedRegion.korea ? '🛡️ 오늘의 귀인 & 위기 탈출 처방' : '🛡️ Crisis Navigation Secret',
+                            style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontWeight: FontWeight.bold, fontSize: 13),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            transit.actionTip,
+                            style: const TextStyle(color: Color(0xFFF0F4FC), fontSize: 13, height: 1.5),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildSecretAttributeRow(IconData icon, String label, String value, Color color) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 16),
+        const SizedBox(width: 8),
+        Text(
+          '$label: ',
+          style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

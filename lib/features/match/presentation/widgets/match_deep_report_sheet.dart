@@ -3,15 +3,20 @@ import '../../../../core/localization/app_i18n.dart';
 import '../../../../core/localization/geo_detector.dart';
 import '../../../../core/theme/glass_box.dart';
 import '../../../../core/theme/space_navy_theme.dart';
+import '../../../ads/ad_banner_widget.dart';
+import '../../../ads/ad_manager.dart';
+import '../../../economy/data/heart_wallet_repository.dart';
+import '../../../economy/presentation/heart_shop_bottom_sheet.dart';
 import '../../domain/match_item_engine.dart';
 import '../../domain/sixteen_type_matrix.dart';
 
-class MatchDeepReportSheet extends StatelessWidget {
+class MatchDeepReportSheet extends StatefulWidget {
   final MatchSubMenu menu;
   final String itemA;
   final String itemB;
   final MatchResult result;
   final SupportedRegion region;
+  final HeartWalletRepository? wallet;
 
   const MatchDeepReportSheet({
     super.key,
@@ -20,6 +25,7 @@ class MatchDeepReportSheet extends StatelessWidget {
     required this.itemB,
     required this.result,
     required this.region,
+    this.wallet,
   });
 
   static void show(
@@ -29,6 +35,7 @@ class MatchDeepReportSheet extends StatelessWidget {
     required String itemB,
     required MatchResult result,
     required SupportedRegion region,
+    HeartWalletRepository? wallet,
   }) {
     showModalBottomSheet(
       context: context,
@@ -40,9 +47,23 @@ class MatchDeepReportSheet extends StatelessWidget {
         itemB: itemB,
         result: result,
         region: region,
+        wallet: wallet,
       ),
     );
   }
+
+  @override
+  State<MatchDeepReportSheet> createState() => _MatchDeepReportSheetState();
+}
+
+class _MatchDeepReportSheetState extends State<MatchDeepReportSheet> {
+  bool _isGoldenKeyUnlocked = false;
+
+  MatchSubMenu get menu => widget.menu;
+  String get itemA => widget.itemA;
+  String get itemB => widget.itemB;
+  MatchResult get result => widget.result;
+  SupportedRegion get region => widget.region;
 
   @override
   Widget build(BuildContext context) {
@@ -270,12 +291,112 @@ class MatchDeepReportSheet extends StatelessWidget {
                       iconColor: const Color(0xFFFF4081),
                     ),
                     const SizedBox(height: 10),
-                    _buildInsightCard(
-                      borderColor: const Color(0xFFFF4081).withValues(alpha: 0.4),
-                      content: _generateGoldenKey(),
-                    ),
+                    if (_isGoldenKeyUnlocked || (widget.wallet?.hasVipPass ?? false))
+                      _buildInsightCard(
+                        borderColor: const Color(0xFFFF4081).withValues(alpha: 0.4),
+                        content: _generateGoldenKey(),
+                      )
+                    else
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF141B33).withValues(alpha: 0.9),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.5)),
+                        ),
+                        child: Column(
+                          children: [
+                            const Icon(Icons.lock_clock, color: SpaceNavyTheme.goldChampagne, size: 36),
+                            const SizedBox(height: 10),
+                            Text(
+                              region == SupportedRegion.korea
+                                  ? '✨ 두 분의 인연을 황금빛으로 이끄는 단 하나의 절대 비결이 잠겨 있습니다.'
+                                  : '✨ The Golden Secret to eternal harmony is locked.',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Color(0xFFD6DFEF), fontSize: 13, height: 1.4),
+                            ),
+                            const SizedBox(height: 14),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF00E5FF),
+                                      foregroundColor: Colors.black,
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                    ),
+                                    onPressed: () async {
+                                      final messenger = ScaffoldMessenger.of(context);
+                                      final rewarded = await AdManager.instance.showRewardedAd(context, region: region);
+                                      if (rewarded) {
+                                        if (widget.wallet != null) {
+                                          await widget.wallet!.addHearts(1);
+                                        }
+                                        if (mounted) {
+                                          setState(() => _isGoldenKeyUnlocked = true);
+                                          messenger.showSnackBar(
+                                            const SnackBar(content: Text('✨ 황금 비결이 잠금 해제되었습니다! (+하트 1개 지급)')),
+                                          );
+                                        }
+                                      }
+                                    },
+                                    icon: const Icon(Icons.video_collection_rounded, size: 16),
+                                    label: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppI18n.tr('unlock_with_ad_btn', region),
+                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: SpaceNavyTheme.goldChampagne,
+                                      foregroundColor: Colors.black,
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                    ),
+                                    onPressed: () async {
+                                      if (widget.wallet != null && (widget.wallet!.hearts > 0 || widget.wallet!.hasVipPass)) {
+                                        await widget.wallet!.consumeHeart();
+                                        if (mounted) {
+                                          setState(() => _isGoldenKeyUnlocked = true);
+                                        }
+                                      } else {
+                                        if (widget.wallet != null) {
+                                          HeartShopBottomSheet.show(context, widget.wallet!, currentRegion: region);
+                                        }
+                                      }
+                                    },
+                                    icon: const Icon(Icons.favorite, size: 16),
+                                    label: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        AppI18n.tr('unlock_with_heart_btn', region),
+                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
+                    if (widget.wallet != null)
+                      AdBannerWidget(
+                        wallet: widget.wallet!,
+                        currentRegion: region,
+                        margin: EdgeInsets.zero,
+                      ),
+                    const SizedBox(height: 20),
 
                     // Close Button
                     SizedBox(

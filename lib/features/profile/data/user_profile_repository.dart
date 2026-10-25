@@ -29,28 +29,6 @@ class UserProfile {
     if (name.isEmpty || name == '나 (본인)' || name == '나' || name == 'Me' || name.contains('본인') || name.contains('Myself')) {
       return AppI18n.tr('profile_default_self', region);
     }
-    if (name.contains('김서연') || name.contains('연인') || name.contains('Partner') || name.contains('Lover')) {
-      switch (region.languageCode) {
-        case 'ko': return '김서연 (연인)';
-        case 'ja': return 'ソヨン (恋人)';
-        case 'de': return 'Sophia (Partner)';
-        case 'fr': return 'Sophia (Partenaire)';
-        case 'es': return 'Sofía (Pareja)';
-        case 'it': return 'Sofia (Partner)';
-        default: return 'Sophia (Partner)';
-      }
-    }
-    if (name.contains('이민호') || name.contains('친구') || name.contains('Friend')) {
-      switch (region.languageCode) {
-        case 'ko': return '이민호 (친구)';
-        case 'ja': return 'ミホ (友達)';
-        case 'de': return 'Lucas (Freund)';
-        case 'fr': return 'Lucas (Ami)';
-        case 'es': return 'Lucas (Amigo)';
-        case 'it': return 'Luca (Amico)';
-        default: return 'Lucas (Friend)';
-      }
-    }
     return name;
   }
 

@@ -12,6 +12,8 @@ import '../../profile/data/user_profile_repository.dart';
 import '../../profile/presentation/profile_edit_dialog.dart';
 import '../domain/sixteen_type_matrix.dart';
 import '../domain/match_item_engine.dart';
+import '../../ads/ad_manager.dart';
+import '../../ads/ad_banner_widget.dart';
 import 'radar_chart_view.dart';
 import 'story_share_widget.dart';
 import 'widgets/match_deep_report_sheet.dart';
@@ -180,31 +182,13 @@ class _MatchHubScreenState extends State<MatchHubScreen>
   }
 
   Future<void> _unlockDeepMatchAnalysis() async {
-    if (widget.wallet.hearts <= 0 && !widget.wallet.hasVipPass) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppI18n.tr('out_of_hearts_title', widget.currentRegion))),
-        );
-        HeartShopBottomSheet.show(context, widget.wallet, currentRegion: widget.currentRegion);
-      }
-      return;
-    }
+    final menus = GeoDetector.getMatchMenus(widget.currentRegion);
+    final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
+    final a = _getItemA(currentMenu);
+    final b = _getItemB(currentMenu);
 
-    await widget.wallet.consumeHeart();
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppI18n.tr('match_unlocked_snack', widget.currentRegion)),
-          duration: const Duration(seconds: 1),
-        ),
-      );
-
-      final menus = GeoDetector.getMatchMenus(widget.currentRegion);
-      final currentMenu = menus[_selectedTabIndex.clamp(0, menus.length - 1)];
-      final a = _getItemA(currentMenu);
-      final b = _getItemB(currentMenu);
-
-      if (_matchResult != null) {
+    void openSheet() {
+      if (_matchResult != null && mounted) {
         MatchDeepReportSheet.show(
           context,
           menu: currentMenu,
@@ -212,9 +196,123 @@ class _MatchHubScreenState extends State<MatchHubScreen>
           itemB: b,
           result: _matchResult!,
           region: widget.currentRegion,
+          wallet: widget.wallet,
         );
       }
     }
+
+    if (widget.wallet.hearts <= 0 && !widget.wallet.hasVipPass) {
+      // High-Converting Unlock Paywall BottomSheet
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: const Color(0xFF0D1224),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        builder: (sheetCtx) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(22),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 44,
+                  height: 4,
+                  decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2)),
+                ),
+                const SizedBox(height: 18),
+                const Icon(Icons.favorite_border, color: Colors.pinkAccent, size: 40),
+                const SizedBox(height: 12),
+                Text(
+                  AppI18n.tr('match_paywall_title', widget.currentRegion),
+                  style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  AppI18n.tr('match_paywall_desc', widget.currentRegion),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 13, height: 1.4),
+                ),
+                const SizedBox(height: 22),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF00E5FF),
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 13),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 4,
+                    ),
+                    onPressed: () async {
+                      Navigator.of(sheetCtx).pop();
+                      final rewarded = await AdManager.instance.showRewardedAd(context, region: widget.currentRegion);
+                      if (rewarded) {
+                        await widget.wallet.addHearts(2);
+                        await widget.wallet.consumeHeart();
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('✨ 광고 시청 완료! 심층 궁합 리포트를 즉시 열람합니다.')),
+                          );
+                          openSheet();
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.video_collection_rounded, size: 20),
+                    label: Text(
+                      AppI18n.tr('charge_free_now', widget.currentRegion),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: SpaceNavyTheme.goldChampagne,
+                      side: const BorderSide(color: SpaceNavyTheme.goldChampagne),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      Navigator.of(sheetCtx).pop();
+                      HeartShopBottomSheet.show(context, widget.wallet, currentRegion: widget.currentRegion);
+                    },
+                    icon: const Icon(Icons.shopping_bag_outlined, size: 18),
+                    label: Text(
+                      AppI18n.tr('go_to_shop', widget.currentRegion),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      return;
+    }
+
+    // Has hearts or VIP -> Interstitial Ad with 3-minute cooldown
+    await AdManager.instance.showInterstitialAd(
+      context,
+      isNoAds: widget.wallet.hasNoAds,
+      region: widget.currentRegion,
+      onComplete: () async {
+        await widget.wallet.consumeHeart();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppI18n.tr('match_unlocked_snack', widget.currentRegion)),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+          openSheet();
+        }
+      },
+    );
   }
 
   String get _currentLabelA {
@@ -790,9 +888,13 @@ class _MatchHubScreenState extends State<MatchHubScreen>
               ),
             ),
           ],
-
+          const SizedBox(height: 16),
+          AdBannerWidget(
+            wallet: widget.wallet,
+            currentRegion: widget.currentRegion,
+            margin: EdgeInsets.zero,
+          ),
           const SizedBox(height: 30),
-
         ],
       ),
     );

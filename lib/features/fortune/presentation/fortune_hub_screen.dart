@@ -3,6 +3,7 @@ import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
+import '../../ads/ad_banner_widget.dart';
 import '../../ads/ad_manager.dart';
 import '../../economy/data/heart_wallet_repository.dart';
 import '../../economy/presentation/heart_shop_bottom_sheet.dart';
@@ -177,6 +178,7 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
                     selectedTarotCards: tarotCards?.cast(),
                     region: widget.currentRegion,
                     userName: _selectedPersonName ?? widget.profileRepo.profile.name,
+                    wallet: widget.wallet,
                   ),
                 ),
               );
@@ -1035,7 +1037,12 @@ class _FortuneHubScreenState extends State<FortuneHubScreen> {
               );
             },
           ),
-
+          const SizedBox(height: 16),
+          AdBannerWidget(
+            wallet: widget.wallet,
+            currentRegion: widget.currentRegion,
+            margin: EdgeInsets.zero,
+          ),
           const SizedBox(height: 30),
         ],
       ),

@@ -7,6 +7,7 @@ import 'core/theme/space_navy_theme.dart';
 import 'features/economy/data/heart_wallet_repository.dart';
 import 'features/profile/data/user_profile_repository.dart';
 import 'features/fortune_splash_screen.dart';
+import 'features/ads/ad_banner_widget.dart';
 import 'features/fortune/presentation/fortune_hub_screen.dart';
 import 'features/match/presentation/match_hub_screen.dart';
 import 'features/economy/presentation/shop_screen.dart';
@@ -199,46 +200,56 @@ class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
           index: _currentIndex,
           children: screens,
         ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFF070A12).withValues(alpha: 0.95),
-            border: const Border(
-              top: BorderSide(color: SpaceNavyTheme.goldBorder, width: 1.0),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AdBannerWidget(
+              wallet: widget.wallet,
+              currentRegion: widget.currentRegion,
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             ),
-          ),
-          child: NavigationBar(
-            backgroundColor: Colors.transparent,
-            selectedIndex: _currentIndex,
-            indicatorColor: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2),
-            onDestinationSelected: (idx) => setState(() => _currentIndex = idx),
-            destinations: [
-              NavigationDestination(
-                icon: const Icon(Icons.auto_awesome_outlined, color: Colors.white60),
-                selectedIcon: const Icon(Icons.auto_awesome, color: SpaceNavyTheme.goldChampagne),
-                label: AppI18n.tr('nav_fortune', widget.currentRegion),
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF070A12).withValues(alpha: 0.95),
+                border: const Border(
+                  top: BorderSide(color: SpaceNavyTheme.goldBorder, width: 1.0),
+                ),
               ),
-              NavigationDestination(
-                icon: const Icon(Icons.favorite_border, color: Colors.white60),
-                selectedIcon: const Icon(Icons.favorite, color: Colors.pinkAccent),
-                label: AppI18n.tr('nav_match', widget.currentRegion),
+              child: NavigationBar(
+                backgroundColor: Colors.transparent,
+                selectedIndex: _currentIndex,
+                indicatorColor: SpaceNavyTheme.goldChampagne.withValues(alpha: 0.2),
+                onDestinationSelected: (idx) => setState(() => _currentIndex = idx),
+                destinations: [
+                  NavigationDestination(
+                    icon: const Icon(Icons.auto_awesome_outlined, color: Colors.white60),
+                    selectedIcon: const Icon(Icons.auto_awesome, color: SpaceNavyTheme.goldChampagne),
+                    label: AppI18n.tr('nav_fortune', widget.currentRegion),
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.favorite_border, color: Colors.white60),
+                    selectedIcon: const Icon(Icons.favorite, color: Colors.pinkAccent),
+                    label: AppI18n.tr('nav_match', widget.currentRegion),
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white60),
+                    selectedIcon: const Icon(Icons.shopping_bag, color: SpaceNavyTheme.goldChampagne),
+                    label: AppI18n.tr('nav_shop', widget.currentRegion),
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.folder_shared_outlined, color: Colors.white60),
+                    selectedIcon: const Icon(Icons.folder_shared, color: Color(0xFF00E5FF)),
+                    label: AppI18n.tr('nav_vault', widget.currentRegion),
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.settings_outlined, color: Colors.white60),
+                    selectedIcon: const Icon(Icons.settings, color: Colors.white),
+                    label: AppI18n.tr('nav_settings', widget.currentRegion),
+                  ),
+                ],
               ),
-              NavigationDestination(
-                icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white60),
-                selectedIcon: const Icon(Icons.shopping_bag, color: SpaceNavyTheme.goldChampagne),
-                label: AppI18n.tr('nav_shop', widget.currentRegion),
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.folder_shared_outlined, color: Colors.white60),
-                selectedIcon: const Icon(Icons.folder_shared, color: Color(0xFF00E5FF)),
-                label: AppI18n.tr('nav_vault', widget.currentRegion),
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.settings_outlined, color: Colors.white60),
-                selectedIcon: const Icon(Icons.settings, color: Colors.white),
-                label: AppI18n.tr('nav_settings', widget.currentRegion),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
