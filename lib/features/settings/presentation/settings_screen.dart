@@ -302,7 +302,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: const TextStyle(color: Colors.white60, fontSize: 12),
                     ),
                     const Text(
-                      'v1.0.0+1 (Local-First Pro)',
+                      'v1.0.1+2 (Local-First Pro)',
                       style: TextStyle(color: SpaceNavyTheme.cyanNeon, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ],
