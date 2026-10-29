@@ -23,6 +23,8 @@ dependencies:
   sensors_plus: ^6.1.1
   google_fonts: ^6.2.1
   flutter_animate: ^4.5.2
+  google_mobile_ads: ^7.0.0
+  in_app_purchase: ^3.2.0
 
 
 dev_dependencies:

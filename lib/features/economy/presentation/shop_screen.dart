@@ -5,6 +5,7 @@ import '../../../core/theme/glass_box.dart';
 import '../../../core/theme/space_navy_theme.dart';
 import '../../ads/ad_manager.dart';
 import '../data/heart_wallet_repository.dart';
+import '../data/iap_service.dart';
 
 class ShopScreen extends StatelessWidget {
   final HeartWalletRepository wallet;
@@ -168,8 +169,8 @@ class ShopScreen extends StatelessWidget {
                   isPopular: false,
                   currentRegion: currentRegion,
                   onBuy: () async {
-                    await wallet.addHearts(10);
-                    if (context.mounted) {
+                    final success = await IapService.instance.buyProduct(IapProductCatalog.heartPack10);
+                    if (success && context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -189,8 +190,8 @@ class ShopScreen extends StatelessWidget {
                   isPopular: true,
                   currentRegion: currentRegion,
                   onBuy: () async {
-                    await wallet.addHearts(30);
-                    if (context.mounted) {
+                    final success = await IapService.instance.buyProduct(IapProductCatalog.heartPack30);
+                    if (success && context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -243,8 +244,8 @@ class ShopScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     onPressed: () async {
-                      await wallet.unlockVipMasterPass();
-                      if (context.mounted) {
+                      final success = await IapService.instance.buyProduct(IapProductCatalog.lifetimeVipMaster);
+                      if (success && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('👑 VIP Master Pass Activated!')),
                         );

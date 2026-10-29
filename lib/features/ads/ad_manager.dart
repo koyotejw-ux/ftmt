@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import '../../core/constants/ad_constants.dart';
 import '../../core/localization/geo_detector.dart';
 
 class AdManager {
@@ -8,6 +10,18 @@ class AdManager {
 
   DateTime? _lastInterstitialShownTime;
   static const Duration _interstitialCooldown = Duration(minutes: 3);
+  bool _isInitialized = false;
+
+  /// Initialize Google Mobile Ads SDK
+  Future<void> initialize() async {
+    if (_isInitialized) return;
+    try {
+      await MobileAds.instance.initialize();
+      _isInitialized = true;
+    } catch (e) {
+      debugPrint('[AdManager] MobileAds initialize failed: $e');
+    }
+  }
 
   /// Check if interstitial ad is ready under 3-minute cooldown policy
   bool canShowInterstitial(bool isNoAds) {
@@ -16,33 +30,125 @@ class AdManager {
     return DateTime.now().difference(_lastInterstitialShownTime!) >= _interstitialCooldown;
   }
 
-  /// Trigger simulated interstitial ad modal
-  Future<void> showInterstitialAd(BuildContext context, {required VoidCallback onComplete, required bool isNoAds, SupportedRegion? region}) async {
+  /// Trigger real AdMob interstitial ad with fallback
+  Future<void> showInterstitialAd(
+    BuildContext context, {
+    required VoidCallback onComplete,
+    required bool isNoAds,
+    SupportedRegion? region,
+  }) async {
     if (isNoAds || !canShowInterstitial(isNoAds)) {
       onComplete();
       return;
     }
 
     _lastInterstitialShownTime = DateTime.now();
+    final completer = Completer<void>();
 
-    // Show high-end interstitial transition dialog
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => _SimulatedInterstitialDialog(region: region),
-    );
+    try {
+      await InterstitialAd.load(
+        adUnitId: AdConstants.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              onAdDismissedFullScreenContent: (ad) {
+                ad.dispose();
+                if (!completer.isCompleted) completer.complete();
+              },
+              onAdFailedToShowFullScreenContent: (ad, error) {
+                ad.dispose();
+                if (!completer.isCompleted) completer.complete();
+              },
+            );
+            ad.show();
+          },
+          onAdFailedToLoad: (error) async {
+            debugPrint('[AdManager] Interstitial failed to load: $error. Falling back to dialog.');
+            if (context.mounted) {
+              await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (ctx) => _SimulatedInterstitialDialog(region: region),
+              );
+            }
+            if (!completer.isCompleted) completer.complete();
+          },
+        ),
+      );
+    } catch (e) {
+      debugPrint('[AdManager] Interstitial error: $e');
+      if (context.mounted) {
+        await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (ctx) => _SimulatedInterstitialDialog(region: region),
+        );
+      }
+      if (!completer.isCompleted) completer.complete();
+    }
 
+    await completer.future;
     onComplete();
   }
 
-  /// Show Rewarded Ad simulation for +2 hearts
+  /// Show Rewarded Ad: attempts real AdMob Rewarded Video first, falls back gracefully
   Future<bool> showRewardedAd(BuildContext context, {SupportedRegion? region}) async {
-    final result = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => _SimulatedRewardedDialog(region: region),
-    );
-    return result ?? false;
+    final completer = Completer<bool>();
+    bool rewardEarned = false;
+
+    try {
+      await RewardedAd.load(
+        adUnitId: AdConstants.rewardedAdUnitId,
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              onAdDismissedFullScreenContent: (ad) {
+                ad.dispose();
+                if (!completer.isCompleted) completer.complete(rewardEarned);
+              },
+              onAdFailedToShowFullScreenContent: (ad, error) {
+                ad.dispose();
+                if (!completer.isCompleted) completer.complete(false);
+              },
+            );
+            ad.show(
+              onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+                rewardEarned = true;
+              },
+            );
+          },
+          onAdFailedToLoad: (error) async {
+            debugPrint('[AdManager] RewardedAd failed to load: $error. Falling back to dialog.');
+            if (context.mounted) {
+              final result = await showDialog<bool>(
+                context: context,
+                barrierDismissible: false,
+                builder: (ctx) => _SimulatedRewardedDialog(region: region),
+              );
+              if (!completer.isCompleted) completer.complete(result ?? false);
+            } else {
+              if (!completer.isCompleted) completer.complete(false);
+            }
+          },
+        ),
+      );
+    } catch (e) {
+      debugPrint('[AdManager] RewardedAd load error: $e');
+      if (context.mounted) {
+        final result = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (ctx) => _SimulatedRewardedDialog(region: region),
+        );
+        if (!completer.isCompleted) completer.complete(result ?? false);
+      } else {
+        if (!completer.isCompleted) completer.complete(false);
+      }
+    }
+
+    return await completer.future;
   }
 }
 

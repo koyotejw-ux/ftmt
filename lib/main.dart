@@ -13,6 +13,8 @@ import 'features/match/presentation/match_hub_screen.dart';
 import 'features/economy/presentation/shop_screen.dart';
 import 'features/economy/presentation/vault_screen.dart';
 import 'features/settings/presentation/settings_screen.dart';
+import 'features/ads/ad_manager.dart';
+import 'features/economy/data/iap_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,11 @@ void main() async {
 
   final wallet = await HeartWalletRepository.create();
   final profileRepo = await UserProfileRepository.create();
+
+  // Initialize Google Mobile Ads & Google Play In-App Billing
+  await AdManager.instance.initialize();
+  await IapService.instance.initialize(wallet);
+
   runApp(FortuneMatchApp(wallet: wallet, profileRepo: profileRepo));
 }
 
