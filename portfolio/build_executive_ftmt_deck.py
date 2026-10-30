@@ -289,13 +289,17 @@ def draw_slide_header(draw, slide_num, category_en, title_white, title_gold, sub
     draw.text((100 + w_white, 116), title_gold, font=font_title, fill=(255, 215, 0))
     draw.text((100, 164), subtitle_kr, font=get_font(14.5, 'regular'), fill=(163, 176, 204))
 
-def draw_slide_footer(draw, slide_num, total_slides=12):
-    draw.line([(100, 995), (1820, 995)], fill=(229, 192, 123, 40), width=1)
-    draw.text((100, 1018), "FORTUNEMATCH", font=get_font(11, 'bold'), fill=(255, 215, 0))
-    draw.text((230, 1018), "·   Behance Enterprise Case Study  ·  Cosmic Zodiac & Saju Intelligence Engine", font=get_font(11, 'medium'), fill=(163, 176, 204))
-    draw.text((960, 1018), "60fps Live Interactive Engine  ·  Five-Elements Vector Math  ·  Google Play Live", font=get_font(10.5, 'medium'), fill=(163, 176, 204), anchor='mt')
+def draw_slide_footer(draw, slide_num, total_slides=12, dark=True):
+    col_line = (229, 192, 123, 40) if dark else (226, 232, 240)
+    col_brand = (255, 215, 0) if dark else (180, 83, 9)
+    col_txt = (163, 176, 204) if dark else (100, 116, 139)
+    col_page = (163, 176, 204) if dark else (15, 23, 42)
+    draw.line([(100, 995), (1820, 995)], fill=col_line, width=1)
+    draw.text((100, 1018), "FORTUNEMATCH", font=get_font(11, 'bold'), fill=col_brand)
+    draw.text((230, 1018), "·   Behance Enterprise Case Study  ·  Cosmic Zodiac & Saju Intelligence Engine", font=get_font(11, 'medium'), fill=col_txt)
+    draw.text((960, 1018), "60fps Live Interactive Engine  ·  Five-Elements Vector Math  ·  Google Play Live", font=get_font(10.5, 'medium'), fill=col_txt, anchor='mt')
     page_str = f"PAGE {slide_num:02d} / {total_slides:02d}"
-    draw.text((1820, 1018), page_str, font=get_num_font(11.5, 'black'), fill=(163, 176, 204), anchor='rt')
+    draw.text((1820, 1018), page_str, font=get_num_font(11.5, 'black'), fill=col_page, anchor='rt')
 
 def save_slide(img, num):
     for d in OUT_DIRS:
