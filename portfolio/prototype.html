@@ -357,11 +357,23 @@
     /* Fullscreen Mobile Responsiveness */
     @media (max-width: 768px) {
       .proto-navbar {
-        padding: 0 14px;
-        height: 50px;
+        padding: 0 12px;
+        height: 48px;
+        gap: 8px;
       }
-      .proto-brand strong {
+      .proto-brand {
         display: none;
+      }
+      .flow-pill-group {
+        overflow-x: auto;
+        max-width: calc(100vw - 140px);
+        scrollbar-width: none;
+      }
+      .flow-pill-group::-webkit-scrollbar {
+        display: none;
+      }
+      .iphone-status-bar {
+        display: none; /* Real phone has its own native status bar */
       }
       .device-stage {
         padding: 0;
