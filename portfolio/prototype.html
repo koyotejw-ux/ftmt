@@ -330,6 +330,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       position: relative;
+      padding-top: 44px; /* Authentic iOS Status Bar / Dynamic Island Safe Area */
+      padding-bottom: 16px; /* Home Indicator Safe Area */
+      box-sizing: border-box;
     }
 
     .simulator-viewport iframe {
