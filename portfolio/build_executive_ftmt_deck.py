@@ -35,6 +35,31 @@ def get_font(size, weight='bold'):
 def get_num_font(size, weight='black'):
     return get_font(size, weight)
 
+FLUTTER_MATERIAL_FONT = r"C:\flutter\bin\cache\artifacts\material_fonts\MaterialIcons-Regular.otf"
+
+def get_material_icon_font(size):
+    if os.path.exists(FLUTTER_MATERIAL_FONT):
+        try:
+            return ImageFont.truetype(FLUTTER_MATERIAL_FONT, int(round(size)))
+        except:
+            pass
+    return get_font(size, 'bold')
+
+# High-Contrast Design System Semantic Palette (Cosmic Obsidian Theme)
+# WCAG AAA / AA compliant contrast against dark backgrounds (7, 10, 18) & (14, 20, 36)
+C_TITLE_WHITE = (248, 250, 252, 255)   # Slate-50 Pure High-Contrast White
+C_GOLD_HERO   = (255, 215, 0, 255)     # Imperial Gold Primary
+C_GOLD_MUTED  = (229, 192, 123, 255)   # Warm Gold Sub-accent
+C_TEXT_BODY   = (226, 232, 240, 255)   # Slate-200 Crisp Readable Body Text (Replaces dim 163, 176, 204)
+C_TEXT_MUTED  = (186, 198, 222, 255)   # Slate-300 Readable Secondary Text (Never invisible)
+C_CYAN_ACCENT = (0, 229, 255, 255)     # Neon Cyan Accent
+C_PURPLE_ACC  = (216, 180, 254, 255)   # Soft Lavender Purple
+C_GREEN_ACC   = (52, 211, 153, 255)    # Emerald Jade Green
+C_RED_ACC     = (255, 140, 140, 255)   # Coral Rose Red
+C_BORDER_GOLD = (229, 192, 123, 80)    # Card Outline Gold Border
+C_BG_CARD     = (14, 20, 36, 240)      # Glass Card Background
+C_BG_CONTAINER= (24, 32, 54, 255)      # Inner Pod Background
+
 def wrap_text_by_words(text, font, max_width, draw):
     lines = []
     paragraphs = text.split('\n')
@@ -204,11 +229,11 @@ def draw_behavior_slider(draw, x, y, w, label, left_txt, right_txt, ratio, theme
     }
     col = theme_colors.get(theme, theme_colors['gold'])
     
-    draw.text((x, y), label, font=get_font(10.5, 'bold'), fill=(244, 246, 252))
-    draw.text((x + 85, y + 1), left_txt, font=get_font(9, 'medium'), fill=(163, 176, 204))
+    draw.text((x, y), label, font=get_font(10.5, 'bold'), fill=C_TITLE_WHITE)
+    draw.text((x + 85, y + 1), left_txt, font=get_font(9, 'medium'), fill=C_TEXT_BODY)
     r_bbox = draw.textbbox((0, 0), right_txt, font=get_font(9, 'medium'))
     r_w = r_bbox[2] - r_bbox[0]
-    draw.text((x + w - r_w, y + 1), right_txt, font=get_font(9, 'medium'), fill=(163, 176, 204))
+    draw.text((x + w - r_w, y + 1), right_txt, font=get_font(9, 'medium'), fill=C_TEXT_BODY)
     
     track_x = x + 140
     track_w = w - 150 - r_w
@@ -285,23 +310,26 @@ def draw_slide_header(draw, slide_num, category_en, title_white, title_gold, sub
         
     font_title = get_font(35, 'bold')
     w_white = draw.textlength(title_white, font=font_title)
-    draw.text((100, 116), title_white, font=font_title, fill=(244, 246, 252))
-    draw.text((100 + w_white, 116), title_gold, font=font_title, fill=(255, 215, 0))
-    draw.text((100, 164), subtitle_kr, font=get_font(14.5, 'regular'), fill=(163, 176, 204))
+    draw.text((100, 116), title_white, font=font_title, fill=C_TITLE_WHITE)
+    draw.text((100 + w_white, 116), title_gold, font=font_title, fill=C_GOLD_HERO)
+    draw.text((100, 164), subtitle_kr, font=get_font(14.5, 'medium'), fill=C_TEXT_BODY)
 
-def draw_slide_footer(draw, slide_num, total_slides=12, dark=True):
-    col_line = (229, 192, 123, 40) if dark else (226, 232, 240)
-    col_brand = (255, 215, 0) if dark else (180, 83, 9)
-    col_txt = (163, 176, 204) if dark else (100, 116, 139)
-    col_page = (163, 176, 204) if dark else (15, 23, 42)
-    draw.line([(100, 995), (1820, 995)], fill=col_line, width=1)
-    draw.text((100, 1018), "FORTUNEMATCH", font=get_font(11, 'bold'), fill=col_brand)
-    draw.text((230, 1018), "·   Behance Enterprise Case Study  ·  Cosmic Zodiac & Saju Intelligence Engine", font=get_font(11, 'medium'), fill=col_txt)
-    draw.text((960, 1018), "60fps Live Interactive Engine  ·  Five-Elements Vector Math  ·  Google Play Live", font=get_font(10.5, 'medium'), fill=col_txt, anchor='mt')
+def draw_slide_footer(draw, slide_num, total_slides=12):
+    draw.line([(100, 995), (1820, 995)], fill=(229, 192, 123, 60), width=1)
+    draw.text((100, 1018), "FORTUNEMATCH", font=get_font(11, 'bold'), fill=C_GOLD_HERO)
+    draw.text((230, 1018), "·   Behance Enterprise Case Study  ·  Cosmic Zodiac & Saju Intelligence Engine", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
+    draw.text((960, 1018), "60fps Live Interactive Engine  ·  Five-Elements Vector Math  ·  Google Play 비공개 테스트 (출시 임박)", font=get_font(10.5, 'medium'), fill=C_TEXT_MUTED, anchor='mt')
     page_str = f"PAGE {slide_num:02d} / {total_slides:02d}"
-    draw.text((1820, 1018), page_str, font=get_num_font(11.5, 'black'), fill=col_page, anchor='rt')
+    draw.text((1820, 1018), page_str, font=get_num_font(11.5, 'black'), fill=C_TEXT_BODY, anchor='rt')
 
 def save_slide(img, num):
+    # Ensure 100% opaque slide without partial alpha that causes PDF viewers to blend against white canvas
+    if img.mode == 'RGBA':
+        bg = Image.new('RGBA', img.size, (7, 10, 18, 255))
+        final_img = Image.alpha_composite(bg, img).convert('RGB')
+    else:
+        final_img = img.convert('RGB')
+        
     for d in OUT_DIRS:
-        img.save(f"{d}/slide_{num:02d}.png")
-    print(f"Slide {num:02d} saved to all target directories.")
+        final_img.save(f"{d}/slide_{num:02d}.png", quality=100)
+    print(f"Slide {num:02d} saved to all target directories (100% solid RGB, 0% alpha leak).")

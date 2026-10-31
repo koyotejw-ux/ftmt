@@ -5,7 +5,9 @@ from build_executive_ftmt_deck import (
     W, H, MOCKUP_DIR, get_font, get_num_font, wrap_text_by_words,
     draw_diamond, draw_arrow, draw_dashed_line, draw_dashed_arrow,
     draw_pill_badge, draw_donut_chart_on_base, draw_behavior_slider,
-    create_cosmic_base, draw_slide_header, draw_slide_footer, save_slide
+    create_cosmic_base, draw_slide_header, draw_slide_footer, save_slide,
+    C_TITLE_WHITE, C_GOLD_HERO, C_GOLD_MUTED, C_TEXT_BODY, C_TEXT_MUTED,
+    C_CYAN_ACCENT, C_PURPLE_ACC, C_GREEN_ACC, C_RED_ACC, C_BORDER_GOLD
 )
 
 # ==============================================================
@@ -17,32 +19,32 @@ def make_slide_01():
     # Top Kicker & Metadata
     draw_pill_badge(draw, left_x=100, cy=78, text="COSMIC ASTRO LAB · 2026 CASE STUDY", font=get_font(11.5, 'bold'), theme='gold', has_dot=True, pad_x=12, height=28)
     
-    meta_txt = "Lead UX/UI Designer & Architect · Android App Live · Astro-Quant 60fps Suite"
+    meta_txt = "Lead UX/UI Designer & Service Planner · Android App Live · Cosmic Design System"
     w_meta = draw.textlength(meta_txt, font=get_font(13.5, 'medium'))
-    draw.text((1820 - w_meta, 70), meta_txt, font=get_font(13.5, 'medium'), fill=(163, 176, 204))
+    draw.text((1820 - w_meta, 70), meta_txt, font=get_font(13.5, 'medium'), fill=C_TEXT_BODY)
     
     # 2. Main Title (Centered-Left, Simple, Clean, Impactful)
-    draw.text((100, 170), "FORTUNEMATCH AI PLATFORM", font=get_font(15, 'bold'), fill=(255, 215, 0))
+    draw.text((100, 170), "FORTUNEMATCH SERVICE & UX/UI DESIGN", font=get_font(15, 'bold'), fill=C_GOLD_HERO)
     
     # Big Clean Headline (56pt Black)
     title_p1 = "우주의 주파수를 잇다, "
     title_p2 = "운명의 인연을 찾다."
     w_p1 = draw.textlength(title_p1, font=get_font(56, 'black'))
-    draw.text((100, 206), title_p1, font=get_font(56, 'black'), fill=(244, 246, 252))
-    draw.text((100 + w_p1, 206), title_p2, font=get_font(56, 'black'), fill=(255, 215, 0))
+    draw.text((100, 206), title_p1, font=get_font(56, 'black'), fill=C_TITLE_WHITE)
+    draw.text((100 + w_p1, 206), title_p2, font=get_font(56, 'black'), fill=C_GOLD_HERO)
     
     # Clean Subtitle (1-2 sentences)
     sub1 = "난해한 한자 나열과 비과학적 미신 공포 마케팅을 배제하고,"
     sub2 = "0.3초 고유 우주 좌표와 5각형 오행 실시간 레이더로 92% 정밀 궁합을 증명하는 럭셔리 매칭 솔루션"
-    draw.text((100, 290), sub1, font=get_font(16.5, 'regular'), fill=(163, 176, 204))
-    draw.text((100, 318), sub2, font=get_font(16.5, 'semibold'), fill=(229, 192, 123))
+    draw.text((100, 290), sub1, font=get_font(16.5, 'medium'), fill=C_TEXT_BODY)
+    draw.text((100, 318), sub2, font=get_font(16.5, 'semibold'), fill=C_GOLD_MUTED)
     
     # 4 Status Badges (Clean Theme)
     badges = [
         ("LEAD UX/UI ARCHITECT 100%", "gold"),
-        ("GOOGLE PLAY (ANDROID) LIVE", "green"),
-        ("60FPS LIVE INTERACTIVE SUITE", "purple"),
-        ("0.3s ASTRO-QUANT & 5-ELEMENTS", "cyan")
+        ("GOOGLE PLAY CLOSED TEST (출시 임박)", "green"),
+        ("60FPS TACTILE PROTOTYPE", "purple"),
+        ("DESIGN SYSTEM & ATOMIC KIT", "cyan")
     ]
     bx = 100
     for b_text, b_theme in badges:
@@ -56,9 +58,9 @@ def make_slide_01():
     draw.rounded_rectangle([100, h_box_y, 100 + h_box_w, h_box_y + h_box_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 70), width=1)
     
     # Card Header
-    draw_pill_badge(draw, left_x=128, cy=h_box_y + 36, text="PRODUCT MISSION", font=get_font(10.5, 'bold'), theme='gold', has_dot=False, pad_x=10, height=24)
-    draw.text((270, h_box_y + 26), "미신을 걷어내고 데이터 기반의 관계 케미스트리를 풀다", font=get_font(15.5, 'bold'), fill=(244, 246, 252))
-    draw.line([(128, h_box_y + 60), (100 + h_box_w - 28, h_box_y + 60)], fill=(229, 192, 123, 40), width=1)
+    draw_pill_badge(draw, left_x=128, cy=h_box_y + 36, text="SERVICE MISSION", font=get_font(10.5, 'bold'), theme='gold', has_dot=False, pad_x=10, height=24)
+    draw.text((270, h_box_y + 26), "미신을 걷어내고 데이터 기반의 관계 케미스트리를 풀다", font=get_font(15.5, 'bold'), fill=C_TITLE_WHITE)
+    draw.line([(128, h_box_y + 60), (100 + h_box_w - 28, h_box_y + 60)], fill=(229, 192, 123, 50), width=1)
     
     key_points = [
         ("01", "0.3초 고유 우주 좌표 (Astro-Coordinate)", "생년월일시 입력 즉시 4주 8글자를 우주 주파수 메타포로 치환하여 1초 조망"),
@@ -69,10 +71,10 @@ def make_slide_01():
     
     k_y = h_box_y + 78
     for num, k_title, k_desc in key_points:
-        draw.rounded_rectangle([128, k_y, 160, k_y + 26], radius=6, fill=(24, 32, 54, 255), outline=(229, 192, 123, 50), width=1)
-        draw.text((144, k_y + 13), num, font=get_font(11, 'bold'), fill=(255, 215, 0), anchor='mm')
-        draw.text((172, k_y + 3), k_title, font=get_font(13.5, 'bold'), fill=(244, 246, 252))
-        draw.text((172, k_y + 25), k_desc, font=get_font(11.5, 'regular'), fill=(163, 176, 204))
+        draw.rounded_rectangle([128, k_y, 160, k_y + 26], radius=6, fill=(24, 32, 54, 255), outline=(229, 192, 123, 70), width=1)
+        draw.text((144, k_y + 13), num, font=get_font(11, 'bold'), fill=C_GOLD_HERO, anchor='mm')
+        draw.text((172, k_y + 3), k_title, font=get_font(13.5, 'bold'), fill=C_TITLE_WHITE)
+        draw.text((172, k_y + 25), k_desc, font=get_font(11.5, 'medium'), fill=C_TEXT_BODY)
         k_y += 66
         
     # Dual Angled 19.5:9 Smartphone Mockups (Centered-Right, Clean & Elegant)
@@ -116,23 +118,23 @@ def make_slide_01():
     # Project Spec Bar at Bottom
     bar_y = 856
     bar_h = 108
-    draw.rounded_rectangle([100, bar_y, 1820, bar_y + bar_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 70), width=1)
+    draw.rounded_rectangle([100, bar_y, 1820, bar_y + bar_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 80), width=1)
     
     col_w = 1720 // 4
     specs = [
-        ("PROJECT ROLE", "Lead UX/UI Designer & Architect", "기획(PM) · 브랜드 아이덴티티 · UI/UX 디자인 · 60fps 프로토타입"),
-        ("PERIOD & SPRINT", "2026.06 - 2026.10 (5개월)", "우주 좌표 알고리즘 설계 -> 12슬라이드 시스템 구축 -> 스토어 정식 출시"),
-        ("TECH STACK", "Five-Elements & 60fps WebGL", "오행 5각형 레이더 벡터 연산 · 물리 엔진 타로 · CanvasKit"),
-        ("PLATFORM RELEASE", "Google Play Live (Android)", "Android 상용 출시 (실서비스 운영) & Web 60fps 인터랙티브 시뮬레이터")
+        ("PROJECT ROLE", "Lead UX/UI Designer & Service Planner", "서비스 기획 · 브랜드 아이덴티티 · 디자인 시스템 · UI/UX 프로토타입"),
+        ("PERIOD & SPRINT", "2026.06 - 2026.10 (5개월)", "사용자 리서치 -> 5-Elements UX 설계 -> 12-Slide 포트폴리오 완성"),
+        ("DESIGN TOOL & SYSTEM", "Figma · Pretendard · Material OTF", "Cosmic Luxury 토큰 · R8/R12/R16 라운딩 체계 · 8pt 베이스라인"),
+        ("PLATFORM RELEASE", "Google Play 비공개 테스트 (출시 임박)", "Android 최종 비공개 테스트 중 & Web 60fps 인터랙티브 시뮬레이터")
     ]
     
     for i, (cat, val_bold, val_desc) in enumerate(specs):
         cx = 100 + i * col_w
         if i > 0:
-            draw.line([(cx, bar_y + 18), (cx, bar_y + bar_h - 18)], fill=(229, 192, 123, 40), width=1)
-        draw.text((cx + 28, bar_y + 18), cat, font=get_font(11, 'bold'), fill=(255, 215, 0))
-        draw.text((cx + 28, bar_y + 40), val_bold, font=get_font(15, 'bold'), fill=(244, 246, 252))
-        draw.text((cx + 28, bar_y + 66), val_desc, font=get_font(11.5, 'regular'), fill=(163, 176, 204))
+            draw.line([(cx, bar_y + 18), (cx, bar_y + bar_h - 18)], fill=(229, 192, 123, 50), width=1)
+        draw.text((cx + 28, bar_y + 18), cat, font=get_font(11, 'bold'), fill=C_GOLD_HERO)
+        draw.text((cx + 28, bar_y + 40), val_bold, font=get_font(15, 'bold'), fill=C_TITLE_WHITE)
+        draw.text((cx + 28, bar_y + 66), val_desc, font=get_font(11.5, 'medium'), fill=C_TEXT_BODY)
         
     draw_slide_footer(draw, 1)
     save_slide(base, 1)
@@ -159,14 +161,14 @@ def make_slide_02():
     
     # CARD 1: MARKET TREND (Large Donut Chart - 74.2%)
     c1_x = 100
-    draw.rounded_rectangle([c1_x, sy, c1_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
+    draw.rounded_rectangle([c1_x, sy, c1_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw.rounded_rectangle([c1_x, sy + 18, c1_x + 5, sy + card_h - 18], radius=2, fill=(239, 68, 68))
     
-    draw_pill_badge(draw, left_x=c1_x + 24, cy=sy + 26, text="MARKET TREND", font=get_font(10, 'bold'), theme='red', has_dot=False, pad_x=8, height=22)
-    draw.text((c1_x + 24, sy + 58), "한자 나열과 텍스트 인지부하", font=get_font(16.5, 'bold'), fill=(244, 246, 252))
-    draw.text((c1_x + 24, sy + 88), "개인 사용자 10명 중 7명 이상이 난해한 한자 설명에 지쳐\n핵심 요약을 파악하지 못하고 첫 화면에서 이탈합니다.", font=get_font(11.5, 'regular'), fill=(163, 176, 204), spacing=4)
+    draw_pill_badge(draw, left_x=c1_x + 24, cy=sy + 26, text="UX FRICTION TREND", font=get_font(10, 'bold'), theme='red', has_dot=False, pad_x=8, height=22)
+    draw.text((c1_x + 24, sy + 58), "한자 나열과 텍스트 인지 부하", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
+    draw.text((c1_x + 24, sy + 88), "사용자 10명 중 7명 이상이 난해한 고전 한자 설명에 지쳐\n핵심 관계 요약을 파악하지 못하고 첫 화면에서 이탈합니다.", font=get_font(11.5, 'medium'), fill=C_TEXT_BODY, spacing=4)
     draw.text((c1_x + 24, sy + 144), "74.2%", font=get_num_font(38, 'black'), fill=(239, 68, 68))
-    draw.text((c1_x + 24, sy + 188), "텍스트 이탈률 (2030 사용자 N=520)", font=get_font(11, 'bold'), fill=(163, 176, 204))
+    draw.text((c1_x + 24, sy + 188), "UI 텍스트 이탈률 (2030 사용자 N=520)", font=get_font(11, 'bold'), fill=C_TEXT_MUTED)
     
     cx_donut = c1_x + card_w - 95
     cy_donut = sy + 116
@@ -175,54 +177,54 @@ def make_slide_02():
     draw_pill_badge(draw, cx=cx_donut, cy=sy + 32, text="N=520 실태조사", font=get_font(9, 'bold'), theme='red', has_dot=False, pad_x=8, height=20)
     
     draw.text((cx_donut, cy_donut - 6), "74%", font=get_num_font(18, 'black'), fill=(239, 68, 68), anchor='mm')
-    draw.text((cx_donut, cy_donut + 14), "이탈률", font=get_font(9.5, 'bold'), fill=(163, 176, 204), anchor='mm')
+    draw.text((cx_donut, cy_donut + 14), "이탈률", font=get_font(9.5, 'bold'), fill=C_TEXT_MUTED, anchor='mm')
     
     # CARD 2: BEHAVIOR TREND (Horizontal Bar Chart)
     c2_x = c1_x + card_w + gap
-    draw.rounded_rectangle([c2_x, sy, c2_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
+    draw.rounded_rectangle([c2_x, sy, c2_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw.rounded_rectangle([c2_x, sy + 18, c2_x + 5, sy + card_h - 18], radius=2, fill=(255, 215, 0))
     
-    draw_pill_badge(draw, left_x=c2_x + 24, cy=sy + 26, text="BEHAVIOR TREND", font=get_font(10, 'bold'), theme='gold', has_dot=False, pad_x=8, height=22)
-    draw.text((c2_x + 24, sy + 58), "미신적 공포 마케팅의 피로감", font=get_font(16.5, 'bold'), fill=(244, 246, 252))
-    draw.text((c2_x + 24, sy + 88), "액운이나 살을 강조하는 불안 마케팅으로 인해\n친구들과 공유하거나 일상적 힐링으로 소비하기 꺼려집니다.", font=get_font(11.5, 'regular'), fill=(163, 176, 204), spacing=4)
-    draw.text((c2_x + 24, sy + 144), "85% -> 12%", font=get_num_font(30, 'black'), fill=(255, 215, 0))
-    draw.text((c2_x + 24, sy + 188), "부정 감정 86% 감소 (인터뷰 실측)", font=get_font(11, 'bold'), fill=(16, 185, 129))
+    draw_pill_badge(draw, left_x=c2_x + 24, cy=sy + 26, text="EMOTIONAL UX TREND", font=get_font(10, 'bold'), theme='gold', has_dot=False, pad_x=8, height=22)
+    draw.text((c2_x + 24, sy + 58), "미신적 공포 마케팅의 피로감", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
+    draw.text((c2_x + 24, sy + 88), "액운이나 살을 강조하는 불안 마케팅으로 인해\n친구들과 공유하거나 일상적 힐링으로 소비하기 꺼려집니다.", font=get_font(11.5, 'medium'), fill=C_TEXT_BODY, spacing=4)
+    draw.text((c2_x + 24, sy + 144), "85% -> 12%", font=get_num_font(30, 'black'), fill=C_GOLD_HERO)
+    draw.text((c2_x + 24, sy + 188), "부정 감정 86% 감소 (인터뷰 실측)", font=get_font(11, 'bold'), fill=C_GREEN_ACC)
     
     bx = c2_x + card_w - 170
     b_w = 145
     draw_pill_badge(draw, cx=bx + b_w // 2, cy=sy + 32, text="감정 피로도 비교", font=get_font(9, 'bold'), theme='gold', has_dot=False, pad_x=8, height=20)
     
-    draw.text((bx, sy + 57), "기존 사주 앱", font=get_font(10, 'bold'), fill=(163, 176, 204))
+    draw.text((bx, sy + 57), "기존 사주 앱", font=get_font(10, 'bold'), fill=C_TEXT_MUTED)
     w_85 = draw.textlength("85%", font=get_num_font(11.5, 'bold'))
     draw.text((bx + b_w - w_85, sy + 57), "85%", font=get_num_font(11.5, 'bold'), fill=(239, 68, 68))
     draw.rounded_rectangle([bx, sy + 75, bx + b_w, sy + 75 + 16], radius=8, fill=(48, 20, 28))
     draw.rounded_rectangle([bx, sy + 75, bx + int(b_w * 0.85), sy + 75 + 16], radius=8, fill=(239, 68, 68))
     
-    draw.text((bx, sy + 101), "포춘매치 힐링", font=get_font(10, 'bold'), fill=(255, 215, 0))
+    draw.text((bx, sy + 101), "포춘매치 힐링", font=get_font(10, 'bold'), fill=C_GOLD_HERO)
     w_12 = draw.textlength("12%", font=get_num_font(11.5, 'bold'))
-    draw.text((bx + b_w - w_12, sy + 101), "12%", font=get_num_font(11.5, 'bold'), fill=(16, 185, 129))
+    draw.text((bx + b_w - w_12, sy + 101), "12%", font=get_num_font(11.5, 'bold'), fill=C_GREEN_ACC)
     draw.rounded_rectangle([bx, sy + 119, bx + b_w, sy + 119 + 16], radius=8, fill=(20, 26, 42))
-    draw.rounded_rectangle([bx, sy + 119, bx + int(b_w * 0.12), sy + 119 + 16], radius=8, fill=(16, 185, 129))
+    draw.rounded_rectangle([bx, sy + 119, bx + int(b_w * 0.12), sy + 119 + 16], radius=8, fill=C_GREEN_ACC)
     draw_pill_badge(draw, cx=bx + b_w // 2, cy=sy + 166, text="도파민 힐링 · 86% 개선", font=get_font(9.5, 'bold'), theme='green', has_dot=False, pad_x=10, height=24, solid=True)
     
     # CARD 3: INDUSTRY GAP (Vertical Bar Chart)
     c3_x = c2_x + card_w + gap
-    draw.rounded_rectangle([c3_x, sy, c3_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
-    draw.rounded_rectangle([c3_x, sy + 18, c3_x + 5, sy + card_h - 18], radius=2, fill=(0, 229, 255))
+    draw.rounded_rectangle([c3_x, sy, c3_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
+    draw.rounded_rectangle([c3_x, sy + 18, c3_x + 5, sy + card_h - 18], radius=2, fill=C_CYAN_ACCENT)
     
-    draw_pill_badge(draw, left_x=c3_x + 24, cy=sy + 26, text="INDUSTRY GAP", font=get_font(10, 'bold'), theme='cyan', has_dot=False, pad_x=8, height=22)
-    draw.text((c3_x + 24, sy + 58), "관계 케미스트리의 시각화 부재", font=get_font(16.5, 'bold'), fill=(244, 246, 252))
-    draw.text((c3_x + 24, sy + 88), "국내 모든 운세 앱은 단순 점수(75점)만 나열할 뿐,\n'어떤 오행이 상호 보완되는가'를 보여주지 못함.", font=get_font(11.5, 'regular'), fill=(163, 176, 204), spacing=4)
-    draw.text((c3_x + 24, sy + 144), "0 / 16개", font=get_num_font(38, 'black'), fill=(0, 229, 255))
-    draw.text((c3_x + 24, sy + 188), "국내 16대 운세 앱 전수조사 (오행 레이더 0%)", font=get_font(11, 'bold'), fill=(163, 176, 204))
+    draw_pill_badge(draw, left_x=c3_x + 24, cy=sy + 26, text="SERVICE GAP", font=get_font(10, 'bold'), theme='cyan', has_dot=False, pad_x=8, height=22)
+    draw.text((c3_x + 24, sy + 58), "관계 케미스트리의 시각화 부재", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
+    draw.text((c3_x + 24, sy + 88), "국내 주요 운세 앱은 단순 점수(75점)만 나열할 뿐,\n'어떤 오행이 상호 보완되는가'를 시각화하지 못함.", font=get_font(11.5, 'medium'), fill=C_TEXT_BODY, spacing=4)
+    draw.text((c3_x + 24, sy + 144), "0 / 16개", font=get_num_font(38, 'black'), fill=C_CYAN_ACCENT)
+    draw.text((c3_x + 24, sy + 188), "국내 16대 운세 앱 전수조사 (오행 레이더 0%)", font=get_font(11, 'bold'), fill=C_TEXT_MUTED)
     
     draw_pill_badge(draw, cx=c3_x + card_w - 90, cy=sy + 32, text="시각화 지원율", font=get_font(9, 'bold'), theme='cyan', has_dot=False, pad_x=8, height=20)
     col_w_chart = 36
     draw.rounded_rectangle([c3_x + card_w - 120, sy + 70, c3_x + card_w - 120 + col_w_chart, sy + 160], radius=4, fill=(28, 36, 56))
-    draw.text((c3_x + card_w - 102, sy + 172), "기존(0%)", font=get_font(9.5, 'bold'), fill=(163, 176, 204), anchor='mm')
+    draw.text((c3_x + card_w - 102, sy + 172), "기존(0%)", font=get_font(9.5, 'bold'), fill=C_TEXT_MUTED, anchor='mm')
     
-    draw.rounded_rectangle([c3_x + card_w - 65, sy + 70, c3_x + card_w - 65 + col_w_chart, sy + 160], radius=4, fill=(0, 229, 255))
-    draw.text((c3_x + card_w - 47, sy + 172), "본앱(100%)", font=get_font(9.5, 'bold'), fill=(0, 229, 255), anchor='mm')
+    draw.rounded_rectangle([c3_x + card_w - 65, sy + 70, c3_x + card_w - 65 + col_w_chart, sy + 160], radius=4, fill=C_CYAN_ACCENT)
+    draw.text((c3_x + card_w - 47, sy + 172), "본앱(100%)", font=get_font(9.5, 'bold'), fill=C_CYAN_ACCENT, anchor='mm')
     
     # 2. BOTTOM: SWOT Matrix & Strategic Outcomes
     b_y = 500
@@ -324,15 +326,20 @@ def make_slide_03():
     )
     
     # 1. TOP-LEFT: 2x2 Target Segmentation Matrix
-    t_x = 100
+    col_w = 845
+    gap_x = 30
+    col1_x = 100
+    col2_x = col1_x + col_w + gap_x # 975 (ends at 975 + 845 = 1820)
+    
+    t_x = col1_x
     t_y = 234
-    t_w = 780
+    t_w = col_w
     t_h = 378
     draw.rounded_rectangle([t_x, t_y, t_x + t_w, t_y + t_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
     draw.text((t_x + 24, t_y + 18), "TARGET SEGMENTATION MATRIX (타깃 세그먼트 분석)", font=get_font(14, 'bold'), fill=(244, 246, 252))
     draw.text((t_x + 24, t_y + 38), "관계 지향성과 데이터 시각화 수용도에 따른 4대 사용자 유형 분류", font=get_font(11.5, 'medium'), fill=(163, 176, 204))
     
-    grid_w = 540
+    grid_w = 560
     grid_h = 260
     grid_x = t_x + (t_w - grid_w) // 2
     grid_y = t_y + 76
@@ -381,86 +388,85 @@ def make_slide_03():
     draw.text((q4_x + 12, q4_y + 44), "전통 철학관 방문자", font=get_font(13, 'bold'), fill=(203, 213, 225))
     draw.text((q4_x + 12, q4_y + 68), "• 고액 상담 경험 있으나 모바일 편의성 추구\n• 솔루션 : 신뢰도 높은 정밀 일주 분석", font=get_font(11, 'regular'), fill=(163, 176, 204), spacing=3)
     
-    # 2. TOP-RIGHT: Competitive Benchmark Table
-    c_x = 910
+    # 2. TOP-RIGHT: Competitive Benchmark Table (Strictly aligned to col2_x=975, w=845)
+    c_x = col2_x
     c_y = 234
-    c_w = 810
+    c_w = col_w
     c_h = 378
     draw.rounded_rectangle([c_x, c_y, c_x + c_w, c_y + c_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
     draw.text((c_x + 24, c_y + 18), "COMPETITIVE BENCHMARK (경쟁사 비교 분석)", font=get_font(14, 'bold'), fill=(244, 246, 252))
     draw.text((c_x + 24, c_y + 38), "국내 주요 운세/타로 솔루션 대비 포춘매치의 5대 핵심 차별점", font=get_font(11.5, 'medium'), fill=(163, 176, 204))
     
     tbl_x = c_x + 20
-    tbl_w = c_w - 40
+    tbl_w = c_w - 40 # 805
     th_y = c_y + 64
     th_h = 36
     th_cy = th_y + th_h // 2
     
     x1 = tbl_x + 16
-    x2 = tbl_x + 155
-    x3 = tbl_x + 335
-    col4_x = tbl_x + 520
-    col4_w = tbl_w - 520
+    x2 = tbl_x + 160
+    x3 = tbl_x + 345
+    col4_x = tbl_x + 525
+    col4_w = tbl_w - 525 # 280
     
     draw.rounded_rectangle([tbl_x, th_y, tbl_x + tbl_w, th_y + th_h], radius=8, fill=(24, 32, 54))
     draw.rounded_rectangle([col4_x, th_y - 2, col4_x + col4_w, th_y + th_h + 5 * 46 + 4], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 200), width=1)
     
-    draw.text((x1, th_cy), "비교 차원 (Dimensions)", font=get_font(11.5, 'bold'), fill=(163, 176, 204), anchor='lm')
-    draw.text((x2, th_cy), "전통 철학관 웹", font=get_font(11.5, 'bold'), fill=(163, 176, 204), anchor='lm')
-    draw.text((x3, th_cy), "기존 운세 앱 (점신 등)", font=get_font(11.5, 'bold'), fill=(163, 176, 204), anchor='lm')
+    draw.text((x1, th_cy), "비교 차원 (UX Dimensions)", font=get_font(11.5, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
+    draw.text((x2, th_cy), "전통 철학관 웹", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
+    draw.text((x3, th_cy), "기존 운세 앱 (점신 등)", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
     draw_pill_badge(draw, cx=col4_x + col4_w // 2, cy=th_cy, text="FORTUNEMATCH (본 앱)", font=get_font(11, 'bold'), theme='gold', solid=True, has_dot=True, height=26, pad_x=12)
     
     rows = [
-        ("입력 방식", "복잡한 간지 수기 입력", "반복적인 생년월일 타이핑", "0.3s 고유 우주 좌표 원터치"),
-        ("시각화 엔진", "흑백 텍스트 테이블", "단순 점수 게이지 바", "5각형 실시간 오행 레이더 차트"),
-        ("관계 매칭", "단순 길흉 판정 (대길/흉)", "단일 퍼센티지 나열", "92% 정밀 오행 중첩 케미스트리"),
-        ("인터랙션", "정적 텍스트 페이지", "단순 버튼 탭", "3D 셔플 & 60fps 햅틱 타로"),
-        ("프라이버시", "서버 DB 이름/생년월일 보관", "광고 트래커 연동", "100% 온디바이스 시크릿 볼트")
+        ("입력 UX 방식", "복잡한 간지 수기 입력", "반복적인 생년월일 타이핑", "0.3s 고유 우주 좌표 원터치"),
+        ("데이터 시각화", "흑백 한자 텍스트 테이블", "단순 점수 게이지 바", "5각형 실시간 오행 레이더 차트"),
+        ("관계 매칭 UX", "단순 길흉 판정 (대길/흉)", "단일 퍼센티지 나열", "92% 정밀 오행 중첩 케미스트리"),
+        ("감성 인터랙션", "정적 텍스트 페이지", "단순 버튼 탭", "3D 셔플 & 60fps 햅틱 타로"),
+        ("프라이버시 UI", "서버 DB 이름/생년월일 수집", "광고 트래커 연동", "100% 온디바이스 시크릿 볼트")
     ]
     
     row_h = 46
     for idx, (dim, m1, m2, m3) in enumerate(rows):
         ry = th_y + th_h + idx * row_h
         rcy = ry + row_h // 2
-        draw.line([(tbl_x, ry), (tbl_x + tbl_w, ry)], fill=(229, 192, 123, 30), width=1)
-        draw.text((x1, rcy), dim, font=get_font(11, 'bold'), fill=(244, 246, 252), anchor='lm')
-        draw.text((x2, rcy), m1, font=get_font(10.5, 'regular'), fill=(163, 176, 204), anchor='lm')
-        draw.text((x3, rcy), m2, font=get_font(10.5, 'regular'), fill=(163, 176, 204), anchor='lm')
-        draw.text((col4_x + 18, rcy), m3, font=get_font(11, 'bold'), fill=(255, 215, 0), anchor='lm')
+        draw.line([(tbl_x, ry), (tbl_x + tbl_w, ry)], fill=(229, 192, 123, 40), width=1)
+        draw.text((x1, rcy), dim, font=get_font(11, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
+        draw.text((x2, rcy), m1, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
+        draw.text((x3, rcy), m2, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
+        draw.text((col4_x + 18, rcy), m3, font=get_font(11, 'bold'), fill=C_GOLD_HERO, anchor='lm')
         
-    # 3. BOTTOM: 2 Senior Persona Cards with Behavior Sliders
+    # 3. BOTTOM: 2 Senior Persona Cards (Strictly aligned to col1_x=100 and col2_x=975, w=845)
     p_y = 636
-    p_w = 780
+    p_w = col_w # 845
     p_h = 335
     
-    # Persona A
-    draw.rounded_rectangle([100, p_y, 100 + p_w, p_y + p_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
-    draw_pill_badge(draw, left_x=124, cy=p_y + 24, text="PRIMARY PERSONA · A", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=22)
-    draw.text((320, p_y + 15), "김서윤 (27세, IT 프로덕트 디자이너 / INFP)", font=get_font(14, 'bold'), fill=(244, 246, 252))
-    draw.text((124, p_y + 48), "“난해한 한자 사주 말고, 감각적인 데이터로 나와 상대방의 기운을 확인하고 싶어요.”", font=get_font(12, 'semibold'), fill=(255, 215, 0))
+    # Persona A (Left Column: 100 to 945)
+    draw.rounded_rectangle([col1_x, p_y, col1_x + p_w, p_y + p_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
+    b_p1 = draw_pill_badge(draw, left_x=col1_x + 24, cy=p_y + 24, text="PRIMARY PERSONA · A", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=22)
+    draw.text((b_p1[2] + 16, p_y + 24), "김서윤 (27세, IT 프로덕트 디자이너 / INFP)", font=get_font(13.5, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
+    draw.text((col1_x + 24, p_y + 54), "“난해한 한자 사주 말고, 감각적인 데이터로 나와 상대방의 기운을 확인하고 싶어요.”", font=get_font(12, 'semibold'), fill=C_GOLD_HERO)
     
-    draw_behavior_slider(draw, 124, p_y + 82, p_w - 48, "비주얼 민감도", "낮음", "극도로 높음", 0.95, theme='gold')
-    draw_behavior_slider(draw, 124, p_y + 112, p_w - 48, "데이터 수용도", "직관형", "분석형", 0.85, theme='cyan')
-    draw_behavior_slider(draw, 124, p_y + 142, p_w - 48, "소셜 공유 의향", "혼자만 봄", "적극 공유", 0.80, theme='purple')
+    draw_behavior_slider(draw, col1_x + 24, p_y + 86, p_w - 48, "비주얼 민감도", "낮음", "극도로 높음", 0.95, theme='gold')
+    draw_behavior_slider(draw, col1_x + 24, p_y + 116, p_w - 48, "데이터 수용도", "직관형", "분석형", 0.85, theme='cyan')
+    draw_behavior_slider(draw, col1_x + 24, p_y + 146, p_w - 48, "소셜 공유 의향", "혼자만 봄", "적극 공유", 0.80, theme='purple')
     
-    draw.text((124, p_y + 184), "• Goals : 감각적인 5각형 레이더로 결핍된 오행을 채우고, 데이트 상대와의 궁합 조율", font=get_font(11, 'regular'), fill=(203, 213, 225))
-    draw.text((124, p_y + 208), "• Frustrations : 불길한 말로 겁주는 미신 마케팅과 글자만 빽빽한 기존 앱의 피로감", font=get_font(11, 'regular'), fill=(255, 140, 140))
-    draw.text((124, p_y + 232), "• Tech Stack : iPhone 16 Pro, Figma, Instagram Story 바이럴 헤비 유저", font=get_font(11, 'regular'), fill=(163, 176, 204))
+    draw.text((col1_x + 24, p_y + 188), "• Goals : 감각적인 5각형 레이더로 결핍된 오행을 채우고, 데이트 상대와의 궁합 조율", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
+    draw.text((col1_x + 24, p_y + 212), "• Frustrations : 불길한 말로 겁주는 미신 마케팅과 글자만 빽빽한 기존 앱의 피로감", font=get_font(11, 'medium'), fill=C_RED_ACC)
+    draw.text((col1_x + 24, p_y + 236), "• Design Context : iPhone 16 Pro, Figma, Instagram Story 감성 비주얼 헤비 유저", font=get_font(11, 'medium'), fill=C_TEXT_MUTED)
     
-    # Persona B
-    p2_x = 100 + p_w + 60
-    draw.rounded_rectangle([p2_x, p_y, p2_x + p_w, p_y + p_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
-    draw_pill_badge(draw, left_x=p2_x + 24, cy=p_y + 24, text="SECONDARY PERSONA · B", font=get_font(9.5, 'bold'), theme='purple', has_dot=True, pad_x=8, height=22)
-    draw.text((p2_x + 240, p_y + 15), "이도현 (31세, 스타트업 전략 마케터 / ENTP)", font=get_font(14, 'bold'), fill=(244, 246, 252))
-    draw.text((p2_x + 24, p_y + 48), "“단순한 미신 말고, 두 사람의 성향이 어떻게 맞물리는지 과학적으로 보고 싶어요.”", font=get_font(12, 'semibold'), fill=(216, 180, 254))
+    # Persona B (Right Column: 975 to 1820)
+    draw.rounded_rectangle([col2_x, p_y, col2_x + p_w, p_y + p_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
+    b_p2 = draw_pill_badge(draw, left_x=col2_x + 24, cy=p_y + 24, text="SECONDARY PERSONA · B", font=get_font(9.5, 'bold'), theme='purple', has_dot=True, pad_x=8, height=22)
+    draw.text((b_p2[2] + 16, p_y + 24), "이도현 (31세, 스타트업 전략 기획자 / ENTP)", font=get_font(13.5, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
+    draw.text((col2_x + 24, p_y + 54), "“단순한 미신 말고, 두 사람의 성향이 어떻게 맞물리는지 과학적으로 보고 싶어요.”", font=get_font(12, 'semibold'), fill=C_PURPLE_ACC)
     
-    draw_behavior_slider(draw, p2_x + 24, p_y + 82, p_w - 48, "비주얼 민감도", "낮음", "극도로 높음", 0.75, theme='gold')
-    draw_behavior_slider(draw, p2_x + 24, p_y + 112, p_w - 48, "데이터 수용도", "직관형", "분석형", 0.90, theme='cyan')
-    draw_behavior_slider(draw, p2_x + 24, p_y + 142, p_w - 48, "소셜 공유 의향", "혼자만 봄", "적극 공유", 0.90, theme='purple')
+    draw_behavior_slider(draw, col2_x + 24, p_y + 86, p_w - 48, "비주얼 민감도", "낮음", "극도로 높음", 0.75, theme='gold')
+    draw_behavior_slider(draw, col2_x + 24, p_y + 116, p_w - 48, "데이터 수용도", "직관형", "분석형", 0.90, theme='cyan')
+    draw_behavior_slider(draw, col2_x + 24, p_y + 146, p_w - 48, "소셜 공유 의향", "혼자만 봄", "적극 공유", 0.90, theme='purple')
     
-    draw.text((p2_x + 24, p_y + 184), "• Goals : 팀원/파트너와의 상호 보완성을 정량적 오행 스코어로 파악하여 커뮤니케이션 개선", font=get_font(11, 'regular'), fill=(203, 213, 225))
-    draw.text((p2_x + 24, p_y + 208), "• Frustrations : 왜 잘 맞는지 근거를 설명해주지 않는 불친절한 1회성 점수 결과", font=get_font(11, 'regular'), fill=(255, 140, 140))
-    draw.text((p2_x + 24, p_y + 232), "• Tech Stack : Galaxy S24 Ultra, Notion, Threads, 프라이버시 민감 성향", font=get_font(11, 'regular'), fill=(163, 176, 204))
+    draw.text((col2_x + 24, p_y + 188), "• Goals : 파트너와의 상호 보완성을 정량적 오행 스코어로 파악하여 커뮤니케이션 개선", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
+    draw.text((col2_x + 24, p_y + 212), "• Frustrations : 왜 잘 맞는지 근거를 설명해주지 않는 불친절한 1회성 점수 결과", font=get_font(11, 'medium'), fill=C_RED_ACC)
+    draw.text((col2_x + 24, p_y + 236), "• Design Context : Galaxy S24 Ultra, Notion, Threads, 정보 구조 및 프라이버시 민감", font=get_font(11, 'medium'), fill=C_TEXT_MUTED)
     
     draw_slide_footer(draw, 3)
     save_slide(base, 3)
@@ -480,26 +486,30 @@ def make_slide_04():
         subtitle_kr="우주 좌표부터 5각형 오행 레이더, 정밀 궁합, 도파민 타로, 시크릿 볼트까지 이어지는 5대 핵심 도메인 계층 구조"
     )
     
-    # Legend Box on Top Right
-    leg_x, leg_y, leg_w, leg_h = 1270, 72, 550, 78
+    # Legend Box on Top Right (1220 to 1820, w=600, h=80 - Matching Slide 05 Clean Grid)
+    leg_x, leg_y, leg_w, leg_h = 1220, 68, 600, 80
     draw.rounded_rectangle([leg_x, leg_y, leg_x + leg_w, leg_y + leg_h], radius=10, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
-    draw_pill_badge(draw, left_x=leg_x + 16, cy=leg_y + 20, text="IA NOTATION", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
-    draw.text((leg_x + 120, leg_y + 20), "화면 및 컴포넌트 표기 범례", font=get_font(11, 'bold'), fill=(244, 246, 252), anchor='lm')
+    draw_pill_badge(draw, left_x=leg_x + 14, cy=leg_y + 18, text="IA NOTATION", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
+    draw.text((leg_x + 130, leg_y + 18), "화면 및 컴포넌트 표기 범례", font=get_font(11, 'bold'), fill=(244, 246, 252), anchor='lm')
     
-    draw.rounded_rectangle([leg_x + 16, leg_y + 44, leg_x + 66, leg_y + 68], radius=4, fill=(24, 32, 54), outline=(100, 116, 139), width=1)
-    draw.text((leg_x + 41, leg_y + 56), "Page", font=get_font(8.5, 'bold'), fill=(203, 213, 225), anchor='mm')
-    draw.text((leg_x + 74, leg_y + 56), "기본 화면", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+    # 1. 기본 화면 (Page)
+    draw.rounded_rectangle([leg_x + 14, leg_y + 44, leg_x + 64, leg_y + 68], radius=4, fill=(24, 32, 54), outline=(100, 116, 139), width=1)
+    draw.text((leg_x + 39, leg_y + 56), "Page", font=get_font(8.5, 'bold'), fill=(203, 213, 225), anchor='mm')
+    draw.text((leg_x + 72, leg_y + 56), "기본 화면", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
     
-    draw.rounded_rectangle([leg_x + 146, leg_y + 44, leg_x + 224, leg_y + 68], radius=4, fill=(35, 30, 15), outline=(229, 192, 123), width=1)
-    draw.text((leg_x + 185, leg_y + 56), "BottomSheet", font=get_font(8, 'bold'), fill=(255, 215, 0), anchor='mm')
-    draw.text((leg_x + 232, leg_y + 56), "액션 시트", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+    # 2. 바텀시트 (BottomSheet)
+    draw.rounded_rectangle([leg_x + 146, leg_y + 44, leg_x + 230, leg_y + 68], radius=4, fill=(35, 30, 15), outline=(229, 192, 123), width=1)
+    draw.text((leg_x + 188, leg_y + 56), "BottomSheet", font=get_font(8, 'bold'), fill=(255, 215, 0), anchor='mm')
+    draw.text((leg_x + 238, leg_y + 56), "액션 시트", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
     
-    draw.rounded_rectangle([leg_x + 300, leg_y + 44, leg_x + 350, leg_y + 68], radius=4, fill=(24, 32, 54), outline=(100, 116, 139), width=1)
-    draw.text((leg_x + 325, leg_y + 56), "Modal", font=get_font(8.5, 'bold'), fill=(203, 213, 225), anchor='mm')
-    draw.text((leg_x + 358, leg_y + 56), "팝업/모달", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+    # 3. 팝업/모달 (Modal)
+    draw.rounded_rectangle([leg_x + 312, leg_y + 44, leg_x + 362, leg_y + 68], radius=4, fill=(24, 32, 54), outline=(100, 116, 139), width=1)
+    draw.text((leg_x + 337, leg_y + 56), "Modal", font=get_font(8.5, 'bold'), fill=(203, 213, 225), anchor='mm')
+    draw.text((leg_x + 370, leg_y + 56), "팝업/모달", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
     
-    draw_pill_badge(draw, left_x=leg_x + 430, cy=leg_y + 56, text="NEW", font=get_font(8, 'bold'), theme='gold', pad_x=5, height=18)
-    draw.text((leg_x + 470, leg_y + 56), "혁신 기능", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='lm')
+    # 4. 혁신 기능 (NEW Badge - Zero Overlap)
+    b_new = draw_pill_badge(draw, left_x=leg_x + 450, cy=leg_y + 56, text="NEW", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
+    draw.text((b_new[2] + 10, leg_y + 56), "혁신 기능", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='lm')
     
     # Root Node: Level 0 Master Hub
     root_x1, root_y1, root_x2, root_y2 = 640, 234, 1280, 286
@@ -596,16 +606,16 @@ def make_slide_04():
     ]
     for idx, (p_num, p_title, p_desc, p_theme) in enumerate(principles):
         px = 100 + idx * (bp_w + bp_gap)
-        draw.rounded_rectangle([px, bp_y, px + bp_w, bp_y + bp_h], radius=12, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
+        draw.rounded_rectangle([px, bp_y, px + bp_w, bp_y + bp_h], radius=12, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
         draw.rounded_rectangle([px, bp_y + 12, px + 4, bp_y + bp_h - 12], radius=2, fill=(229, 192, 123))
         draw_pill_badge(draw, left_x=px + 18, cy=bp_y + 24, text=f"PRINCIPLE {p_num}", font=get_font(8.5, 'bold'), theme=p_theme, has_dot=True, pad_x=8, height=20)
-        draw.text((px + 18, bp_y + 52), p_title, font=get_font(12.5, 'bold'), fill=(244, 246, 252))
-        draw.line([(px + 18, bp_y + 72), (px + bp_w - 18, bp_y + 72)], fill=(229, 192, 123, 30), width=1)
-        b_lines = wrap_text_by_words(p_desc, get_font(10, 'regular'), bp_w - 36, draw)
+        draw.text((px + 18, bp_y + 52), p_title, font=get_font(12.5, 'bold'), fill=C_TITLE_WHITE)
+        draw.line([(px + 18, bp_y + 72), (px + bp_w - 18, bp_y + 72)], fill=(229, 192, 123, 40), width=1)
+        b_lines = wrap_text_by_words(p_desc, get_font(10.5, 'medium'), bp_w - 36, draw)
         by = bp_y + 84
         for bl in b_lines:
-            draw.text((px + 18, by), bl, font=get_font(10, 'regular'), fill=(163, 176, 204))
-            by += 16
+            draw.text((px + 18, by), bl, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
+            by += 18
             
     draw_slide_footer(draw, 4)
     save_slide(base, 4)
