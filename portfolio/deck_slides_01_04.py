@@ -511,12 +511,12 @@ def make_slide_04():
     b_new = draw_pill_badge(draw, left_x=leg_x + 450, cy=leg_y + 56, text="NEW", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
     draw.text((b_new[2] + 10, leg_y + 56), "혁신 기능", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='lm')
     
-    # Root Node: Level 0 Master Hub
+    # Root Node: Level 0 Master Hub (Intuitive Korean Navigation Hub)
     root_x1, root_y1, root_x2, root_y2 = 640, 234, 1280, 286
     draw.rounded_rectangle([root_x1, root_y1, root_x2, root_y2], radius=12, fill=(14, 20, 36), outline=(229, 192, 123), width=2)
-    draw_pill_badge(draw, cx=root_x1 + 72, cy=root_y1 + 26, text="MASTER HUB", font=get_font(9, 'bold'), theme='gold', pad_x=8, height=24)
-    draw.text((root_x1 + 142, root_y1 + 16), "FORTUNEMATCH SERVICE MASTER HUB (L0)", font=get_font(13.5, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((root_x1 + 142, root_y1 + 37), "모바일 한 손 조작 최적화 및 60fps 오행 벡터 렌더링 통합 엔진", font=get_font(10.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+    b_root = draw_pill_badge(draw, left_x=root_x1 + 20, cy=root_y1 + 26, text="서비스 허브", font=get_font(9, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
+    draw.text((b_root[2] + 16, root_y1 + 16), "포춘매치 모바일 앱 서비스 통합 허브", font=get_font(14, 'bold'), fill=(244, 246, 252), anchor='lm')
+    draw.text((b_root[2] + 16, root_y1 + 37), "하단 탭 내비게이션 기반 5대 핵심 기능 및 화면 계층 구조", font=get_font(10.5, 'medium'), fill=(163, 176, 204), anchor='lm')
     
     cw = 328
     cgap = 20
