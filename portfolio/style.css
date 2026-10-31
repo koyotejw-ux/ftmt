@@ -171,22 +171,25 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
-  background: var(--gold-gradient);
-  color: #070A12;
-  font-size: 12.5px;
-  font-weight: 800;
+  padding: 8px 16px;
+  background: rgba(229, 192, 123, 0.12);
+  border: 1px solid rgba(229, 192, 123, 0.4);
+  color: var(--gold-bright);
+  font-size: 13px;
+  font-weight: 700;
   border-radius: 9999px;
   text-decoration: none;
   cursor: pointer;
-  border: none;
-  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.35);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .btn-live-proto:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+  background: rgba(229, 192, 123, 0.25);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+  transform: translateY(-1px);
 }
 
 .btn-icon {
@@ -210,28 +213,28 @@ body {
 }
 
 .btn-print {
-  background: var(--gold-gradient);
+  background: linear-gradient(135deg, #FFD700 0%, #E5C07B 60%, #C69C53 100%);
   color: #070A12;
   border: none;
-  padding: 8px 18px;
-  font-size: 12.5px;
+  padding: 9px 20px;
+  font-size: 13.5px;
   font-weight: 800;
   border-radius: 9999px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   white-space: nowrap;
   flex-shrink: 0;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(255, 215, 0, 0.35);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(255, 215, 0, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-print:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(255, 215, 0, 0.6);
+  filter: brightness(1.1);
 }
 
 .btn-print:active {
