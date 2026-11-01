@@ -453,9 +453,9 @@ def make_slide_12():
     draw_slide_header(
         draw, 
         slide_num=12, 
-        category_en="LIVE INTERACTIVE PROTOTYPE | FLUTTER WEB ENGINE", 
+        category_en="LIVE INTERACTIVE PROTOTYPE | HIGH-PERFORMANCE WEB ENGINE", 
         title_white="화면을 터치하듯, ", 
-        title_gold="실제 플러터 웹 프로토타입을 직접 조작해 보세요.", 
+        title_gold="실제 라이브 웹 프로토타입을 직접 조작해 보세요.", 
         subtitle_kr="정적인 슬라이드를 넘어 스마트폰 뷰포트에서 4대 핵심 인연 여정을 직접 터치하고 검증할 수 있는 인터랙티브 허브입니다.",
         right_badge=("LIVE ENGINE READY", "green")
     )
@@ -498,8 +498,8 @@ def make_slide_12():
         
     # Left Bottom Spec Strip (x=100, y=856, w=660, h=124) - Dark Glass Card
     draw.rounded_rectangle([100, 856, 760, 980], radius=14, fill=(14, 20, 36, 240), outline=(229, 192, 123, 70), width=1)
-    draw_pill_badge(draw, left_x=120, cy=880, text="FLUTTER WEB PRODUCTION ENGINE", font=get_font(9, 'bold'), theme='gold', pad_x=8, height=20)
-    draw.text((120, 908), "• 60fps Native Web CanvasKit / SkWasm 렌더링 파이프라인 탑재", font=get_font(11, 'medium'), fill=(203, 213, 225))
+    draw_pill_badge(draw, left_x=120, cy=880, text="CROSS-PLATFORM PRODUCTION ENGINE", font=get_font(9, 'bold'), theme='gold', pad_x=8, height=20)
+    draw.text((120, 908), "• 60fps 고성능 Web 그래픽 렌더링 파이프라인 탑재", font=get_font(11, 'medium'), fill=(203, 213, 225))
     draw.text((120, 930), "• 100% 온디바이스 오행 벡터 연산 엔진 (외부 전송 없는 AES-256 보안)", font=get_font(11, 'medium'), fill=(203, 213, 225))
     draw.text((120, 952), "• 반응형 모바일 뷰포트 시뮬레이터 & URL 딥링크 상태 복원 완벽 지원", font=get_font(11, 'medium'), fill=(0, 229, 255))
     
@@ -589,20 +589,21 @@ def make_slide_12():
     qr_card_h = 270
     draw.rounded_rectangle([rx, qr_card_y, rx + rw, qr_card_y + qr_card_h], radius=16, fill=(14, 20, 36, 240), outline=(229, 192, 123, 70), width=1)
     
-    # Generate Real Live QR Code
+    # Generate Real Live QR Code (Crisp White Card)
     try:
         import qrcode
         qr = qrcode.QRCode(version=1, box_size=6, border=2)
         qr.add_data(proto_entry_url)
         qr.make(fit=True)
-        qr_img = qr.make_image(fill_color="#070A12", back_color="#FFD700").convert('RGBA')
+        qr_img = qr.make_image(fill_color="#070A12", back_color="#FFFFFF").convert('RGBA')
         qr_size = 180
         qr_res = qr_img.resize((qr_size, qr_size), Image.Resampling.LANCZOS)
         
         qr_px = rx + 30
         qr_py = qr_card_y + (qr_card_h - qr_size) // 2
         
-        draw.rounded_rectangle([qr_px - 8, qr_py - 8, qr_px + qr_size + 8, qr_py + qr_size + 8], radius=12, fill=(35, 30, 15), outline=(255, 215, 0), width=2)
+        # Crisp Pure White Card Container with Luxury Gold Outline
+        draw.rounded_rectangle([qr_px - 10, qr_py - 10, qr_px + qr_size + 10, qr_py + qr_size + 10], radius=14, fill=(255, 255, 255), outline=(229, 192, 123), width=2)
         base.paste(qr_res, (qr_px, qr_py), qr_res)
         draw = ImageDraw.Draw(base)
     except Exception as e:

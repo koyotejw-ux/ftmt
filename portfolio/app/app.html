@@ -34,5 +34,62 @@
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+    // Tab switching bridge for prototype container
+    window.switchTab = function(index) {
+      const xCoords = [0.10, 0.30, 0.50, 0.70, 0.90];
+      const clickX = window.innerWidth * (xCoords[index] !== undefined ? xCoords[index] : 0.10);
+      const clickY = window.innerHeight - 32;
+      
+      const optsDown = {
+        bubbles: true, cancelable: true, view: window,
+        clientX: clickX, clientY: clickY,
+        screenX: clickX, screenY: clickY,
+        pageX: clickX, pageY: clickY,
+        pointerId: 1, pointerType: 'mouse', button: 0, buttons: 1, isPrimary: true
+      };
+      const optsUp = {
+        bubbles: true, cancelable: true, view: window,
+        clientX: clickX, clientY: clickY,
+        screenX: clickX, screenY: clickY,
+        pageX: clickX, pageY: clickY,
+        pointerId: 1, pointerType: 'mouse', button: 0, buttons: 0, isPrimary: true
+      };
+
+      const fv = document.querySelector('flutter-view');
+      const sr = fv ? fv.shadowRoot : null;
+      const pointEl = (sr && sr.elementFromPoint) ? sr.elementFromPoint(clickX, clickY) : document.elementFromPoint(clickX, clickY);
+
+      const targets = [
+        pointEl,
+        sr ? sr.querySelector('flt-glass-pane') : null,
+        sr ? sr.querySelector('canvas') : null,
+        document.querySelector('flt-glass-pane'),
+        document.querySelector('canvas'),
+        fv,
+        document.body,
+        window
+      ].filter(Boolean);
+
+      targets.forEach(function(t) {
+        try { t.dispatchEvent(new PointerEvent('pointerdown', optsDown)); } catch(e){}
+        try { t.dispatchEvent(new MouseEvent('mousedown', optsDown)); } catch(e){}
+      });
+
+      setTimeout(function() {
+        targets.forEach(function(t) {
+          try { t.dispatchEvent(new PointerEvent('pointerup', optsUp)); } catch(e){}
+          try { t.dispatchEvent(new MouseEvent('mouseup', optsUp)); } catch(e){}
+          try { t.dispatchEvent(new MouseEvent('click', optsUp)); } catch(e){}
+        });
+      }, 50);
+    };
+
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.type === 'SWITCH_TAB') {
+        window.switchTab(e.data.index);
+      }
+    });
+  </script>
 </body>
 </html>
