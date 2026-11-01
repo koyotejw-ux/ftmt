@@ -13,30 +13,37 @@
     :root {
       --sat: env(safe-area-inset-top, 0px);
       --sab: env(safe-area-inset-bottom, 0px);
-      --sal: env(safe-area-inset-left, 0px);
-      --sar: env(safe-area-inset-right, 0px);
       --device-scale: 1;
       --gold-champagne: #E5C07B;
       --gold-bright: #FFD700;
+      --gold-gradient: linear-gradient(135deg, #FFD700 0%, #E5C07B 50%, #C69C53 100%);
       --bg-deep: #070A12;
       --bg-surface: #0E1424;
       --bg-card: #151C33;
+      --bg-card-hover: #1C2646;
       --cyan-neon: #00E5FF;
+      --cyan-glow: rgba(0, 229, 255, 0.35);
       --violet-aurora: #8A2BE2;
+      --magenta-stardust: #FF007F;
+      --text-primary: #F4F6FC;
+      --text-secondary: #A3B0CC;
+      --text-muted: #677598;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     html, body {
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 25%, #10162a 0%, #070a12 60%, #030408 100%);
-      color: #F4F6FC;
+      background: radial-gradient(circle at 50% 20%, #12182e 0%, #070a12 60%, #030408 100%);
+      color: var(--text-primary);
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
       display: flex;
       flex-direction: column;
@@ -52,8 +59,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      background: rgba(14, 20, 36, 0.85);
-      border-bottom: 1px solid rgba(229, 192, 123, 0.22);
+      background: rgba(14, 20, 36, 0.88);
+      border-bottom: 1px solid rgba(229, 192, 123, 0.25);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 100;
@@ -104,37 +111,58 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       padding: 4px 6px;
       border-radius: 9999px;
-      border: 1px solid rgba(229, 192, 123, 0.25);
+      border: 1px solid rgba(229, 192, 123, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
 
     .flow-pill-btn {
       background: transparent;
       border: none;
       color: #A3B0CC;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 700;
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 9999px;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       white-space: nowrap;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
+    .flow-pill-btn span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 10px;
+      font-weight: 800;
+      color: inherit;
+    }
+
     .flow-pill-btn:hover {
       color: #FFFFFF;
       background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
     }
 
     .flow-pill-btn.active {
       background: linear-gradient(135deg, #FFD700 0%, #E5C07B 100%);
       color: #070A12;
-      box-shadow: 0 2px 10px rgba(255, 215, 0, 0.35);
+      box-shadow: 0 2px 14px rgba(255, 215, 0, 0.45);
+      font-weight: 800;
+    }
+
+    .flow-pill-btn.active span {
+      background: #070A12;
+      color: #FFD700;
     }
 
     .proto-nav-right {
@@ -152,7 +180,7 @@
       color: #34D399;
       font-size: 11px;
       font-weight: 800;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 9999px;
       letter-spacing: 0.05em;
     }
@@ -163,36 +191,22 @@
       background: #10B981;
       border-radius: 50%;
       box-shadow: 0 0 8px #10B981;
+      animation: pulseDot 1.5s infinite;
     }
 
-    .btn-proto-icon {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #A3B0CC;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.18s ease;
-      text-decoration: none;
-    }
-
-    .btn-proto-icon:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #FFFFFF;
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
 
     .btn-proto-pdf {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
+      padding: 7px 15px;
       background: linear-gradient(135deg, #FFD700 0%, #E5C07B 100%);
       color: #070A12;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 800;
       border-radius: 9999px;
       text-decoration: none;
@@ -205,13 +219,32 @@
 
     .btn-proto-pdf:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(255, 215, 0, 0.45);
+      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.5);
       filter: brightness(1.08);
     }
 
-    /* ==========================================================================
-       DEVICE STAGE & HEIGHT-ADAPTIVE MOCKUP
-       ========================================================================== */
+    .btn-proto-icon {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #A3B0CC;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s ease;
+      text-decoration: none;
+    }
+
+    .btn-proto-icon:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      transform: scale(1.05);
+    }
+
+    /* Device Stage */
     .device-stage {
       flex: 1;
       width: 100%;
@@ -220,7 +253,7 @@
       justify-content: center;
       overflow: hidden;
       position: relative;
-      padding: 16px 20px;
+      padding: 12px 20px;
     }
 
     .device-scale-wrapper {
@@ -241,9 +274,9 @@
       border-radius: 54px;
       box-shadow: 
         0 0 0 3px #182033,
-        0 0 0 5px rgba(229, 192, 123, 0.6),
-        0 25px 60px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(138, 43, 226, 0.2);
+        0 0 0 5px rgba(229, 192, 123, 0.65),
+        0 25px 65px rgba(0, 0, 0, 0.85),
+        0 0 45px rgba(138, 43, 226, 0.25);
       position: relative;
       display: flex;
       flex-direction: column;
@@ -286,7 +319,7 @@
       top: 0;
       left: 0;
       right: 0;
-      z-index: 50;
+      z-index: 60;
       background: transparent;
       font-size: 14px;
       font-weight: 700;
@@ -302,7 +335,6 @@
       color: #F4F6FC;
     }
 
-    /* Dynamic Island Pill */
     .dynamic-island {
       position: absolute;
       top: 10px;
@@ -318,7 +350,6 @@
       padding: 0 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       pointer-events: auto;
-      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .di-camera {
@@ -344,67 +375,700 @@
       color: #F4F6FC;
     }
 
-    /* Simulator Content Screen (Iframe or Simulator Views) */
+    /* Simulator Content Screen */
     .simulator-viewport {
       flex: 1;
       width: 100%;
       height: 100%;
-      border: none;
       background-color: #070A12;
       overflow-y: auto;
       overflow-x: hidden;
       position: relative;
-      padding-top: 44px; /* Authentic iOS Status Bar / Dynamic Island Safe Area */
-      padding-bottom: 16px; /* Home Indicator Safe Area */
+      padding-top: 44px;
+      padding-bottom: 74px; /* Space for bottom nav */
       box-sizing: border-box;
+      scrollbar-width: none;
     }
 
-    .simulator-viewport iframe {
+    .simulator-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Screen Views */
+    .proto-screen {
+      display: none;
       width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
+      min-height: 100%;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      padding: 12px 16px 24px;
     }
 
-    /* Home Indicator Safe Area Bar */
-    .home-indicator-bar {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 136px;
-      height: 5px;
-      background: var(--gold-champagne);
+    .proto-screen.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Common App Header */
+    .app-screen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding: 4px 2px;
+    }
+
+    .app-brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gold-champagne);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .app-brand-title span.tag-kr {
+      font-size: 10px;
+      background: rgba(0, 229, 255, 0.15);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      color: var(--cyan-neon);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .app-heart-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 0, 127, 0.15);
+      border: 1px solid rgba(255, 0, 127, 0.4);
+      color: #FF5E97;
+      padding: 4px 10px;
       border-radius: 9999px;
-      opacity: 0.85;
-      z-index: 50;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .app-heart-badge:hover {
+      transform: scale(1.05);
+    }
+
+    /* Glass Cards */
+    .app-card {
+      background: var(--bg-surface);
+      border: 1px solid rgba(229, 192, 123, 0.22);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(229, 192, 123, 0.5), transparent);
+    }
+
+    /* Flow 01: Orbit Compass Keyvisual */
+    .orbit-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 0 20px;
+      position: relative;
+    }
+
+    .orbit-wheel {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 1px dashed rgba(229, 192, 123, 0.4);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: spinOrbit 45s linear infinite;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      box-shadow: 0 0 35px rgba(229, 192, 123, 0.15);
+    }
+
+    @keyframes spinOrbit {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .orbit-wheel:active {
+      animation-duration: 8s;
+    }
+
+    .orbit-ring-middle {
+      position: absolute;
+      width: 165px;
+      height: 165px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+    }
+
+    .orbit-core {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2A1B4E 0%, #0D1224 100%);
+      border: 2px solid var(--gold-champagne);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+      z-index: 5;
+    }
+
+    .orbit-core span.core-yin-yang {
+      font-size: 18px;
+      color: var(--gold-bright);
+      line-height: 1;
+    }
+
+    .orbit-core span.core-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: #A3B0CC;
+      margin-top: 2px;
+    }
+
+    .orbit-stems {
+      position: absolute;
+      inset: 0;
       pointer-events: none;
     }
 
-    /* Fullscreen Mobile Responsiveness */
+    .stem-item {
+      position: absolute;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(229, 192, 123, 0.9);
+      text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+    }
+
+    .orbit-hint {
+      font-size: 11px;
+      color: #A3B0CC;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* User Profile Card */
+    .profile-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .profile-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8A2BE2 0%, #00E5FF 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #FFFFFF;
+      box-shadow: 0 0 12px rgba(138, 43, 226, 0.5);
+    }
+
+    .profile-name {
+      font-size: 12px;
+      color: #A3B0CC;
+    }
+
+    .profile-coord {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .btn-edit-badge {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #E2E8F0;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Golden Time Secret Box */
+    .golden-box {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(229, 192, 123, 0.04) 100%);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+    }
+
+    .card-label-gold {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .golden-time-badge {
+      font-size: 18px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .golden-time-badge span {
+      color: var(--gold-bright);
+    }
+
+    .golden-desc {
+      font-size: 12px;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+
+    /* Action Buttons */
+    .btn-gold-cta {
+      width: 100%;
+      background: linear-gradient(135deg, #FFD700 0%, #E5C07B 100%);
+      color: #070A12;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(255, 215, 0, 0.35);
+      transition: all 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-gold-cta:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .btn-gold-cta:active {
+      transform: scale(0.98);
+    }
+
+    /* Tabs Bar inside Mockup */
+    .subtabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .subtabs-bar::-webkit-scrollbar { display: none; }
+
+    .subtab-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(229, 192, 123, 0.2);
+      color: #A3B0CC;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .subtab-btn.active {
+      background: var(--gold-champagne);
+      color: #070A12;
+      border-color: var(--gold-bright);
+      font-weight: 800;
+    }
+
+    /* Chemistry Circles */
+    .chem-circles {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0 16px;
+    }
+
+    .chem-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .chem-circle.my-circle {
+      background: radial-gradient(circle, #25143A 0%, #110B1C 100%);
+      border: 2px solid #8A2BE2;
+      box-shadow: 0 0 18px rgba(138, 43, 226, 0.45);
+    }
+
+    .chem-circle.target-circle {
+      background: radial-gradient(circle, #0D2636 0%, #06121C 100%);
+      border: 2px solid #00E5FF;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.45);
+    }
+
+    .chem-spark {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFD700 0%, #302008 100%);
+      border: 1px solid #FFD700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #070A12;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      animation: pulseSpark 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseSpark {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+    }
+
+    .circle-label {
+      font-size: 10px;
+      color: #A3B0CC;
+    }
+
+    .circle-val {
+      font-size: 14px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    /* Dropdowns */
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    .input-label {
+      font-size: 11px;
+      color: #A3B0CC;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .proto-select {
+      width: 100%;
+      background: rgba(14, 20, 36, 0.9);
+      border: 1px solid rgba(229, 192, 123, 0.3);
+      color: #F4F6FC;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* SVG Radar Chart */
+    .radar-chart-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .radar-svg {
+      width: 220px;
+      height: 190px;
+      overflow: visible;
+    }
+
+    .radar-axis-label {
+      font-size: 10px;
+      font-weight: 800;
+      fill: #A3B0CC;
+      text-anchor: middle;
+    }
+
+    .radar-polygon {
+      fill: rgba(229, 192, 123, 0.3);
+      stroke: #FFD700;
+      stroke-width: 2;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.45));
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Dynamic Score Meter */
+    .score-meter-wrap {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin: 10px 0 6px;
+    }
+
+    .score-meter-bar {
+      height: 100%;
+      width: 96%;
+      background: linear-gradient(90deg, #FF007F, #FFD700, #00E5FF);
+      border-radius: 9999px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+    }
+
+    /* 3D Dopamine Tarot Flip Card */
+    .tarot-stage-wrap {
+      perspective: 1000px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 0 18px;
+    }
+
+    .tarot-3d-card {
+      width: 180px;
+      height: 270px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      border-radius: 16px;
+    }
+
+    .tarot-3d-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .tarot-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+      border: 2px solid rgba(229, 192, 123, 0.5);
+      background: #0E1424;
+    }
+
+    .tarot-face img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tarot-front-face {
+      transform: rotateY(180deg);
+    }
+
+    .tarot-selector-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .chip-tarot {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(229, 192, 123, 0.25);
+      color: #A3B0CC;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip-tarot.active {
+      background: linear-gradient(135deg, #FFD700 0%, #E5C07B 100%);
+      color: #070A12;
+      border-color: #FFD700;
+      font-weight: 800;
+    }
+
+    /* 3-Cards Reading Cards */
+    .rune-card-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(14, 20, 36, 0.7);
+      border: 1px solid rgba(229, 192, 123, 0.2);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+
+    .rune-box {
+      width: 32px;
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--gold-champagne);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--gold-bright);
+      flex-shrink: 0;
+    }
+
+    .rune-info {
+      flex: 1;
+    }
+
+    .rune-phase {
+      font-size: 10px;
+      color: var(--cyan-neon);
+      font-weight: 700;
+    }
+
+    .rune-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .rune-desc {
+      font-size: 11px;
+      color: #94A3B8;
+    }
+
+    /* Persistent Phone Bottom Navigation */
+    .phone-bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(7, 10, 18, 0.96);
+      border-top: 1px solid rgba(229, 192, 123, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 8px 12px;
+      z-index: 50;
+    }
+
+    .bnav-item {
+      background: transparent;
+      border: none;
+      color: #64748B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .bnav-item .bnav-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .bnav-item:hover {
+      color: #CBD5E1;
+    }
+
+    .bnav-item.active {
+      color: var(--gold-bright);
+    }
+
+    .bnav-item.active .bnav-icon {
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+    }
+
+    /* Toast Notification */
+    .proto-toast {
+      position: absolute;
+      top: 58px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(14, 20, 36, 0.95);
+      border: 1px solid var(--gold-bright);
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+      z-index: 90;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .proto-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
       .proto-navbar {
         padding: 0 12px;
-        height: 48px;
+        height: 50px;
         gap: 8px;
       }
-      .proto-brand {
-        display: none;
-      }
+      .proto-brand { display: none; }
       .flow-pill-group {
         overflow-x: auto;
         max-width: calc(100vw - 140px);
         scrollbar-width: none;
       }
-      .flow-pill-group::-webkit-scrollbar {
-        display: none;
-      }
-      .iphone-status-bar {
-        display: none; /* Real phone has its own native status bar */
-      }
-      .device-stage {
-        padding: 0;
-      }
+      .flow-pill-group::-webkit-scrollbar { display: none; }
+      .iphone-status-bar { display: none; }
+      .device-stage { padding: 0; }
       .device-scale-wrapper {
         transform: none !important;
         width: 100%;
@@ -416,10 +1080,7 @@
         border-radius: 0;
         box-shadow: none;
       }
-      .iphone-device::before,
-      .iphone-device::after {
-        display: none;
-      }
+      .iphone-device::before, .iphone-device::after { display: none; }
     }
   </style>
 </head>
@@ -437,16 +1098,16 @@
 
     <!-- Center Flow Switcher Pills -->
     <div class="flow-pill-group" role="tablist">
-      <button class="flow-pill-btn active" id="pill-hub" onclick="switchFlow('hub', this)">
+      <button class="flow-pill-btn active" id="pill-hub" onclick="switchFlow('hub')">
         <span>01</span> 우주 사주 허브
       </button>
-      <button class="flow-pill-btn" id="pill-radar" onclick="switchFlow('radar', this)">
+      <button class="flow-pill-btn" id="pill-radar" onclick="switchFlow('radar')">
         <span>02</span> 오행 레이더 분석
       </button>
-      <button class="flow-pill-btn" id="pill-match" onclick="switchFlow('match', this)">
+      <button class="flow-pill-btn" id="pill-match" onclick="switchFlow('match')">
         <span>03</span> 정밀 궁합 매칭
       </button>
-      <button class="flow-pill-btn" id="pill-tarot" onclick="switchFlow('tarot', this)">
+      <button class="flow-pill-btn" id="pill-tarot" onclick="switchFlow('tarot')">
         <span>04</span> 럭셔리 타로 & 볼트
       </button>
     </div>
@@ -465,7 +1126,7 @@
       <button class="btn-proto-icon" id="btn-fullscreen" title="전체화면 토글 (F)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
       </button>
-      <a href="../index.html" class="btn-proto-icon" title="포트폴리오 스튜디오 메인으로" style="text-decoration:none;">
+      <a href="../index.html" class="btn-proto-icon" title="포트폴리오 스튜디오 메인으로">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </a>
     </div>
@@ -483,18 +1144,15 @@
             <span class="di-camera"></span>
           </div>
           <div class="status-icons">
-            <!-- Cellular -->
             <svg width="16" height="12" viewBox="0 0 18 12" fill="currentColor">
               <rect x="0" y="9" width="3" height="3" rx="0.5"/>
               <rect x="4.5" y="6.5" width="3" height="5.5" rx="0.5"/>
               <rect x="9" y="4" width="3" height="8" rx="0.5"/>
               <rect x="13.5" y="1" width="3" height="11" rx="0.5"/>
             </svg>
-            <!-- Wifi -->
             <svg width="15" height="12" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 18c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-4.9-4.9c2.7-2.7 7.1-2.7 9.8 0l1.4-1.4c-3.5-3.5-9.2-3.5-12.6 0l1.4 1.4zm-2.8-2.8c4.3-4.3 11.2-4.3 15.5 0l1.4-1.4c-5.1-5.1-13.3-5.1-18.4 0l1.5 1.4z"/>
             </svg>
-            <!-- Battery -->
             <svg width="22" height="11" viewBox="0 0 25 12" fill="currentColor">
               <rect x="0.5" y="0.5" width="20" height="11" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
               <rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor"/>
@@ -503,10 +1161,385 @@
           </div>
         </div>
 
-        <!-- Simulator Core Content (Embeds Web App) -->
-        <div class="simulator-viewport">
-          <iframe id="protoIframe" src="app/app.html" title="FortuneMatch Simulator"></iframe>
+        <!-- Toast Notification in Screen -->
+        <div class="proto-toast" id="protoToast">🎉 알림 메시지</div>
+
+        <!-- Simulator Core Content Screen -->
+        <div class="simulator-viewport" id="viewportScroll">
+
+          <!-- ============================================================
+               SCREEN 01: 우주 사주 허브
+               ============================================================ -->
+          <div class="proto-screen active" id="screen-hub">
+            <div class="app-screen-header">
+              <div class="app-brand-title">
+                ✦ FORTUNEMATCH <span class="tag-kr">KR</span>
+              </div>
+              <div class="app-heart-badge" onclick="showToast('💖 보유 복채 하트: ' + heartsCount + '개')">
+                <span>❤</span> <span class="heart-val-display">3</span> <span>+</span>
+              </div>
+            </div>
+
+            <!-- Profile Coordinates -->
+            <div class="app-card profile-card">
+              <div class="profile-info-row">
+                <div class="profile-avatar">戊</div>
+                <div>
+                  <div class="profile-name">나 (본인)님의 우주 좌표</div>
+                  <div class="profile-coord" id="hubCoordTitle">무인(戊寅) · 돼지띠 ♈ 사자자리</div>
+                </div>
+              </div>
+              <button class="btn-edit-badge" onclick="showToast('🪐 사주 생년월일 좌표가 60갑자 엔진과 동기화되어 있습니다.')">수정</button>
+            </div>
+
+            <!-- Interactive Orbit Compass Keyvisual -->
+            <div class="orbit-stage">
+              <div class="orbit-wheel" id="orbitWheel" onclick="spinCompassFast()" title="터치하면 24절기 궤도가 가속 회전합니다">
+                <div class="orbit-ring-middle"></div>
+                <div class="orbit-core">
+                  <span class="core-yin-yang">☯</span>
+                  <span class="core-tag">陰陽</span>
+                </div>
+                <div class="orbit-stems">
+                  <span class="stem-item" style="top:8px; left:50%; transform:translateX(-50%);">甲</span>
+                  <span class="stem-item" style="bottom:8px; left:50%; transform:translateX(-50%);">庚</span>
+                  <span class="stem-item" style="left:8px; top:50%; transform:translateY(-50%);">丙</span>
+                  <span class="stem-item" style="right:8px; top:50%; transform:translateY(-50%);">壬</span>
+                  <span class="stem-item" style="top:32px; left:32px;">戊</span>
+                  <span class="stem-item" style="top:32px; right:32px;">己</span>
+                  <span class="stem-item" style="bottom:32px; left:32px;">乙</span>
+                  <span class="stem-item" style="bottom:32px; right:32px;">癸</span>
+                </div>
+              </div>
+              <div class="orbit-hint">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                24절기 궤도 나침반 터치 시 가속 회전
+              </div>
+            </div>
+
+            <!-- Dopamine Golden Time Card -->
+            <div class="app-card golden-box">
+              <div class="card-label-gold">⚡ 오늘의 도파민 시크릿</div>
+              <div class="golden-time-badge">14:30 ~ 16:00 <span>(금전운 최적)</span></div>
+              <p class="golden-desc">
+                오늘 당신에게 대운의 기운이 집중되는 황금 시간대입니다. 중요한 계약, 제안, 창작 활동에 착수하세요.<br>
+                <strong style="color:#FFA500;">⚠ 주의:</strong> 감정 기복이 심한 화(火) 기운 인물과의 언쟁을 피하세요.
+              </p>
+            </div>
+
+            <!-- Attendance Reward Card -->
+            <div class="app-card">
+              <div style="font-size:13px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">오늘의 무료 복채 출석 보상</div>
+              <div style="font-size:11.5px; color:#A3B0CC; line-height:1.4;">매일 1회 무료 하트 지급! 연속 출석으로 행운의 에너지를 모아보세요.</div>
+              <button class="btn-gold-cta" id="btnClaimHeart" onclick="claimDailyHeart()">
+                <span>🎁</span> 무료 하트 받기 (+1)
+              </button>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               SCREEN 02: 오행 레이더 분석
+               ============================================================ -->
+          <div class="proto-screen" id="screen-radar">
+            <div class="app-screen-header">
+              <div class="app-brand-title">
+                ✦ FORTUNEMATCH <span class="tag-kr">KR</span>
+              </div>
+              <div class="app-heart-badge">
+                <span>❤</span> <span class="heart-val-display">3</span> <span>+</span>
+              </div>
+            </div>
+
+            <!-- Sub Tabs -->
+            <div class="subtabs-bar">
+              <button class="subtab-btn active">사주 일주(日柱) 합·충 궁합</button>
+              <button class="subtab-btn" onclick="switchFlow('match')">전통 12간지 띠 궁합</button>
+              <button class="subtab-btn" onclick="showToast('별자리 궁합 엔진이 로드되었습니다.')">12별자리 (Zodiac) 케미</button>
+            </div>
+
+            <!-- Chemistry Circles -->
+            <div class="chem-circles">
+              <div class="chem-circle my-circle">
+                <span class="circle-label">나 (본인)</span>
+                <span class="circle-val">무인</span>
+              </div>
+              <div class="chem-spark">⚡</div>
+              <div class="chem-circle target-circle">
+                <span class="circle-label">상대방</span>
+                <span class="circle-val" id="radarPartnerLabel">기축</span>
+              </div>
+            </div>
+
+            <!-- Input Controls -->
+            <div class="app-card" style="padding:12px;">
+              <div class="input-group">
+                <label class="input-label">나의 일주(日柱)</label>
+                <select class="proto-select" id="radarMySelect" onchange="updateRadarValues()">
+                  <option value="muin">무인(戊寅) - 양토(陽土)</option>
+                  <option value="gapsul">갑술(甲戌) - 양목(陽木)</option>
+                  <option value="byeongo">병오(丙午) - 양화(陽火)</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin-bottom:0;">
+                <label class="input-label">상대방 일주(日柱)</label>
+                <select class="proto-select" id="radarTargetSelect" onchange="updateRadarValues()">
+                  <option value="gichuk">기축(己丑) - 음토(陰土) · 지지육합</option>
+                  <option value="gyehae">계해(癸亥) - 음수(陰水) · 천간합화</option>
+                  <option value="sinyu">신유(辛酉) - 음금(陰金) · 상극주의</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 5-Elements Radar Card -->
+            <div class="app-card">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <div>
+                  <div style="font-size:11px; color:#A3B0CC;">케미스트리 지수</div>
+                  <div style="font-size:24px; font-weight:800; color:var(--gold-bright);" id="radarScoreVal">77</div>
+                </div>
+                <button class="subtab-btn" style="background:rgba(255,215,0,0.12); color:#FFD700; border-color:#FFD700;" onclick="showToast('📸 9:16 인스타 스토리 규격 카드가 클립보드에 복사되었습니다.')">
+                  9:16 인스타 공유
+                </button>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.35); border-radius:10px; padding:8px 10px; margin-bottom:12px; font-size:11.5px; color:#CBD5E1; line-height:1.4;">
+                <strong style="color:#FFD700;" id="radarHarmonyTitle">천간합(甲己合)과 지지 육합의 길한 인연</strong><br>
+                <span id="radarHarmonyDesc">두 사람의 일주(Day Pillar)가 서로의 부족한 기운을 완벽하게 채워주는 조화로운 궁합입니다.</span>
+              </div>
+
+              <!-- Interactive SVG Radar Chart -->
+              <div class="radar-chart-box">
+                <svg class="radar-svg" viewBox="0 0 200 180">
+                  <!-- Outer Pentagon Grid -->
+                  <polygon points="100,20 176,75 147,165 53,165 24,75" fill="none" stroke="rgba(229,192,123,0.25)" stroke-width="1"/>
+                  <polygon points="100,50 145,83 128,137 72,137 55,83" fill="none" stroke="rgba(229,192,123,0.15)" stroke-width="1"/>
+                  <polygon points="100,75 122,91 114,118 86,118 78,91" fill="none" stroke="rgba(229,192,123,0.1)" stroke-width="1"/>
+                  <!-- Center Rays -->
+                  <line x1="100" y1="100" x2="100" y2="20" stroke="rgba(229,192,123,0.2)"/>
+                  <line x1="100" y1="100" x2="176" y2="75" stroke="rgba(229,192,123,0.2)"/>
+                  <line x1="100" y1="100" x2="147" y2="165" stroke="rgba(229,192,123,0.2)"/>
+                  <line x1="100" y1="100" x2="53" y2="165" stroke="rgba(229,192,123,0.2)"/>
+                  <line x1="100" y1="100" x2="24" y2="75" stroke="rgba(229,192,123,0.2)"/>
+                  <!-- Dynamic Radar Polygon -->
+                  <polygon id="radarPoly" class="radar-polygon" points="100,35 160,80 135,150 65,150 40,80"/>
+                  <!-- Vertex Labels -->
+                  <text x="100" y="12" class="radar-axis-label">열정(火)</text>
+                  <text x="188" y="78" class="radar-axis-label">신뢰(土)</text>
+                  <text x="156" y="178" class="radar-axis-label">소통(水)</text>
+                  <text x="44" y="178" class="radar-axis-label">가치관(金)</text>
+                  <text x="12" y="78" class="radar-axis-label">성장(木)</text>
+                </svg>
+              </div>
+
+              <!-- Energy Boost Chips -->
+              <div style="display:flex; align-items:center; justify-content:center; gap:5px; margin-top:8px;">
+                <button class="chip-tarot" onclick="tweakRadar(1)">열정+10</button>
+                <button class="chip-tarot" onclick="tweakRadar(2)">신뢰+10</button>
+                <button class="chip-tarot" onclick="tweakRadar(3)">소통+10</button>
+                <button class="chip-tarot" onclick="tweakRadar(0)">초기화</button>
+              </div>
+
+              <button class="btn-gold-cta" onclick="showToast('✨ 시크릿 심층 궁합 전문 풀이가 언락되었습니다.')">
+                ✨ 두 사람의 시크릿 심층 궁합 열람 (하트 1개)
+              </button>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               SCREEN 03: 정밀 궁합 매칭
+               ============================================================ -->
+          <div class="proto-screen" id="screen-match">
+            <div class="app-screen-header">
+              <div class="app-brand-title">
+                ✦ FORTUNEMATCH <span class="tag-kr">KR</span>
+              </div>
+              <div class="app-heart-badge">
+                <span>❤</span> <span class="heart-val-display">3</span> <span>+</span>
+              </div>
+            </div>
+
+            <div class="subtabs-bar">
+              <button class="subtab-btn" onclick="switchFlow('radar')">사주 일주(日柱) 합·충 궁합</button>
+              <button class="subtab-btn active">전통 12간지 띠 궁합</button>
+            </div>
+
+            <!-- Target Inyeon Selector -->
+            <div class="app-card" style="padding:12px; margin-bottom:12px;">
+              <label class="input-label">인연의 일주 및 우주 주파수 선택</label>
+              <select class="proto-select" id="matchTargetSelect" onchange="updateMatchTarget()">
+                <option value="계해">계해 (癸亥) - 천생연분 합 (96점) · 水 기운</option>
+                <option value="갑자">갑자 (甲子) - 상생 조화 (84점) · 木 기운</option>
+                <option value="병인">병인 (丙寅) - 열정적 케미 (79점) · 火 기운</option>
+                <option value="신유">신유 (辛酉) - 성격 차이 주의 (55점) · 金 기운</option>
+              </select>
+            </div>
+
+            <!-- Dual Orbit Bubbles -->
+            <div class="chem-circles">
+              <div class="chem-circle my-circle">
+                <span class="circle-label">나 (본인)</span>
+                <span class="circle-val">무인</span>
+                <small style="font-size:9px; color:#A3B0CC;">양토</small>
+              </div>
+              <div class="chem-spark">⚡</div>
+              <div class="chem-circle target-circle">
+                <span class="circle-label">인연 (상대방)</span>
+                <span class="circle-val" id="matchBubbleName">계해</span>
+                <small style="font-size:9px; color:#00E5FF;" id="matchBubbleElem">음수</small>
+              </div>
+            </div>
+
+            <!-- Score Display & Meter Bar -->
+            <div class="app-card" style="text-align:center;">
+              <div style="font-size:11px; color:#A3B0CC; text-transform:uppercase; letter-spacing:0.05em;">우주 주파수 일치율</div>
+              <div style="font-size:36px; font-weight:800; color:var(--gold-bright); margin:4px 0;" id="matchScoreDisplay">96점</div>
+              <div class="score-meter-wrap">
+                <div class="score-meter-bar" id="matchMeterBar" style="width: 96%;"></div>
+              </div>
+              <div style="font-size:12px; font-weight:700; color:#CBD5E1; margin-top:6px;" id="matchBadgeText">천생연분 우주 좌표의 만남</div>
+
+              <!-- 5-Elements Synergy Matrix -->
+              <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; margin:14px 0 10px; background:rgba(0,0,0,0.3); padding:10px; border-radius:12px;">
+                <div>
+                  <div style="font-size:10px; color:#A3B0CC;">오행 조화</div>
+                  <div style="font-size:12px; font-weight:800; color:#FFFFFF;" id="matVal1">무계합화</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; color:#A3B0CC;">관계 에너지</div>
+                  <div style="font-size:12px; font-weight:800; color:#FFD700;" id="matVal2">상생 촉진</div>
+                </div>
+                <div>
+                  <div style="font-size:10px; color:#A3B0CC;">영혼 주파수</div>
+                  <div style="font-size:12px; font-weight:800; color:#00E5FF;" id="matVal3">99.2 MHz</div>
+                </div>
+              </div>
+
+              <p style="font-size:11.5px; color:#94A3B8; text-align:left; line-height:1.45;" id="matchTipContent">
+                무토(戊土)와 계수(癸水)가 만나 무계합화(戊癸合火)를 이루는 최상의 연분입니다. 서로의 부족한 기운을 자연스럽게 채워주는 평생의 파트너입니다.
+              </p>
+
+              <button class="btn-gold-cta" onclick="showToast('✨ 1-Tap 심층 궁합 리포트가 열렸습니다.')">
+                ✨ 1-Tap 심층 궁합 리포트 열람
+              </button>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               SCREEN 04: 럭셔리 타로 & 볼트
+               ============================================================ -->
+          <div class="proto-screen" id="screen-tarot">
+            <div class="app-screen-header">
+              <div class="app-brand-title" style="font-size:14px;">
+                <span style="color:#FFD700; cursor:pointer;" onclick="switchFlow('hub')">❮</span> 신비의 3-CARD 타로 심층 리포트
+              </div>
+              <button class="subtab-btn" style="padding:3px 8px; font-size:10.5px;" onclick="showToast('📤 리포트가 공유되었습니다.')">공유</button>
+            </div>
+
+            <!-- Astronomical Data Box -->
+            <div class="app-card" style="padding:12px; margin-bottom:12px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                <span class="card-label-gold" style="font-size:10px; margin-bottom:0;">ASTRONOMICAL VERIFIED DATA</span>
+                <span style="font-size:10px; color:#A3B0CC;">서울 (Seoul)</span>
+              </div>
+              <div style="font-size:11px; color:#CBD5E1; line-height:1.4;">
+                <strong>정밀 천문 좌표:</strong> Leo 16° ♌ 29' · <strong>표준시 오차:</strong> 동경 135° 기준 -32분 보정<br>
+                <span style="color:#00E5FF;">천문력 기준: 고전 원전 및 행성 간 각도 120° 트라인(Trine) 황금빛 조화 검출</span>
+              </div>
+            </div>
+
+            <!-- 3D Dopamine Interactive Tarot Stage -->
+            <div class="tarot-stage-wrap">
+              <div class="tarot-3d-card" id="tarotCard3D" onclick="flipTarotCard()" title="카드를 터치하면 60fps 3D로 회전합니다">
+                <div class="tarot-face tarot-back-face">
+                  <img src="assets/tarot_back.jpg" alt="Tarot Back" onerror="this.src='app/assets/images/tarot_back.jpg'">
+                </div>
+                <div class="tarot-face tarot-front-face">
+                  <img src="assets/tarot_star.jpg" id="tarotFrontImg" alt="Tarot Front" onerror="this.src='app/assets/images/tarot_star.jpg'">
+                </div>
+              </div>
+              <div class="orbit-hint" style="margin-top:10px;">
+                <span>👆</span> 카드를 터치하여 3D 햅틱 뒤집기 체험
+              </div>
+              <div class="tarot-selector-chips">
+                <button class="chip-tarot active" onclick="pickTarot(0, this)">XVII. The Star</button>
+                <button class="chip-tarot" onclick="pickTarot(1, this)">XIX. The Sun</button>
+                <button class="chip-tarot" onclick="pickTarot(2, this)">X. Wheel</button>
+              </div>
+            </div>
+
+            <!-- 3-Card Reading Result -->
+            <div class="app-card">
+              <div style="font-size:12px; font-weight:800; color:#FFD700; margin-bottom:8px;">
+                3-Card 타로 심층 리딩 (과거 · 현재 · 미래)
+              </div>
+
+              <div class="rune-card-row">
+                <div class="rune-box">ᛟ</div>
+                <div class="rune-info">
+                  <div class="rune-phase">과거의 근원 (Past)</div>
+                  <div class="rune-title">세계 (The World)</div>
+                  <div class="rune-desc">완전한 성취, 통합, 새로운 차원으로의 완성</div>
+                </div>
+              </div>
+
+              <div class="rune-card-row">
+                <div class="rune-box">ᛒ</div>
+                <div class="rune-info">
+                  <div class="rune-phase">현재의 운명 (Present)</div>
+                  <div class="rune-title">여황제 (The Empress)</div>
+                  <div class="rune-desc">풍요, 창조적 결실, 모성애와 따뜻한 사랑</div>
+                </div>
+              </div>
+
+              <div class="rune-card-row">
+                <div class="rune-box">ᛗ</div>
+                <div class="rune-info">
+                  <div class="rune-phase">미래의 결실 (Future)</div>
+                  <div class="rune-title">마법사 (The Magician)</div>
+                  <div class="rune-desc">창조력, 탁월한 실행력, 모든 자원을 활용할 줄 아는 통찰</div>
+                </div>
+              </div>
+
+              <!-- Detailed Divination Box -->
+              <div style="background:rgba(0,0,0,0.3); border-radius:10px; padding:10px; margin-top:8px; font-size:11.5px; color:#CBD5E1; line-height:1.45;">
+                <strong style="color:#00E5FF;">✦ 3-Card 시간 흐름 종합 운세 풀이</strong><br>
+                과거에 머물렀던 [세계]의 기운은 당신에게 새로운 완성의 토대를 놓아주었습니다. 현재는 [여황제]의 역동적 결실의 순간이며, 다가올 미래는 [마법사]의 지혜와 탁월한 실행력으로 큰 성공을 거두게 될 것입니다.<br>
+                <span style="color:#FF5E97; margin-top:4px; display:inline-block;">❤ 애정: 오해가 풀리고 신뢰가 싹틉니다.</span><br>
+                <span style="color:#FFD700;">💲 직업/재물: 결정적 돌파구가 열립니다.</span>
+              </div>
+
+              <!-- Vault Save Button -->
+              <button class="btn-gold-cta" onclick="saveToVault()">
+                <span>🔒</span> 256-bit AES 암호화 시크릿 볼트에 저장하기
+              </button>
+            </div>
+          </div>
+
         </div>
+
+        <!-- Persistent Phone Bottom Navigation Bar -->
+        <nav class="phone-bottom-nav">
+          <button class="bnav-item active" id="bnav-hub" onclick="switchFlow('hub')">
+            <span class="bnav-icon">✦</span>
+            <span>운세</span>
+          </button>
+          <button class="bnav-item" id="bnav-radar" onclick="switchFlow('radar')">
+            <span class="bnav-icon">❤</span>
+            <span>궁합</span>
+          </button>
+          <button class="bnav-item" id="bnav-shop" onclick="showToast('🛍 복채 상점: VIP 하트 충전 패키지가 열렸습니다.')">
+            <span class="bnav-icon">🛍</span>
+            <span>상점</span>
+          </button>
+          <button class="bnav-item" id="bnav-tarot" onclick="switchFlow('tarot')">
+            <span class="bnav-icon">🗂</span>
+            <span>보관함</span>
+          </button>
+          <button class="bnav-item" id="bnav-settings" onclick="showToast('⚙ 온디바이스 로컬 보안 설정 (SQLite AES-256 활성화)')">
+            <span class="bnav-icon">⚙</span>
+            <span>설정</span>
+          </button>
+        </nav>
 
         <!-- Native Home Indicator Bar -->
         <div class="home-indicator-bar"></div>
@@ -515,7 +1548,7 @@
   </main>
 
   <script>
-    // Live Digital Clock
+    // Live Digital Clock in Status Bar
     function updateClock() {
       const now = new Date();
       let hours = now.getHours();
@@ -527,7 +1560,7 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Height-Adaptive Auto-Resizing Engine
+    // Height-Adaptive Auto-Resizing Engine for Simulator
     function autoResizeMockup() {
       const stage = document.getElementById('deviceStage');
       const wrapper = document.getElementById('deviceWrapper');
@@ -536,7 +1569,7 @@
         document.documentElement.style.setProperty('--device-scale', '1');
         return;
       }
-      const availableHeight = stage.clientHeight - 36;
+      const availableHeight = stage.clientHeight - 28;
       const baseHeight = 852;
       let scale = Math.min(1, availableHeight / baseHeight);
       if (scale < 0.45) scale = 0.45;
@@ -547,21 +1580,228 @@
     window.addEventListener('DOMContentLoaded', autoResizeMockup);
     autoResizeMockup();
 
-    // Flow Switcher
-    function switchFlow(flowName, btn) {
+    // Global App State
+    let heartsCount = 3;
+    let isFlipped = false;
+
+    // Toast Notification Engine
+    let toastTimeout = null;
+    function showToast(msg) {
+      const toast = document.getElementById('protoToast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    // =========================================================================
+    // CORE FLOW SWITCHER (Header Pills & Bottom Nav Synced)
+    // =========================================================================
+    function switchFlow(flowName) {
+      // 1. Update Top Pills
       document.querySelectorAll('.flow-pill-btn').forEach(b => b.classList.remove('active'));
+      const activePill = document.getElementById('pill-' + flowName);
+      if (activePill) activePill.classList.add('active');
+
+      // 2. Update Screens
+      document.querySelectorAll('.proto-screen').forEach(s => s.classList.remove('active'));
+      const targetScreen = document.getElementById('screen-' + flowName);
+      if (targetScreen) {
+        targetScreen.classList.add('active');
+        // Scroll viewport to top
+        const viewport = document.getElementById('viewportScroll');
+        if (viewport) viewport.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // 3. Update Phone Bottom Navigation Items
+      document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+      if (flowName === 'hub') {
+        const b = document.getElementById('bnav-hub');
+        if (b) b.classList.add('active');
+      } else if (flowName === 'radar' || flowName === 'match') {
+        const b = document.getElementById('bnav-radar');
+        if (b) b.classList.add('active');
+      } else if (flowName === 'tarot') {
+        const b = document.getElementById('bnav-tarot');
+        if (b) b.classList.add('active');
+      }
+
+      // Play subtle feedback
+      showToast('화면 전환: ' + getFlowTitle(flowName));
+    }
+
+    function getFlowTitle(name) {
+      if (name === 'hub') return '01. 우주 사주 허브';
+      if (name === 'radar') return '02. 오행 레이더 분석';
+      if (name === 'match') return '03. 정밀 인연 궁합 매칭';
+      if (name === 'tarot') return '04. 3D 도파민 타로 리포트';
+      return name;
+    }
+
+    // Orbit Compass Wheel Fast Spin Interaction
+    function spinCompassFast() {
+      const wheel = document.getElementById('orbitWheel');
+      if (!wheel) return;
+      wheel.style.animationDuration = '3s';
+      showToast('🌀 24절기 궤도 나침반이 실시간 정렬 중입니다.');
+      setTimeout(() => {
+        wheel.style.animationDuration = '45s';
+      }, 3000);
+    }
+
+    // Daily Heart Claim
+    function claimDailyHeart() {
+      const btn = document.getElementById('btnClaimHeart');
+      if (btn.dataset.claimed === 'true') {
+        showToast('오늘 출석 보상을 이미 수령하셨습니다.');
+        return;
+      }
+      heartsCount += 1;
+      document.querySelectorAll('.heart-val-display').forEach(el => el.textContent = heartsCount);
+      btn.dataset.claimed = 'true';
+      btn.innerHTML = '<span>✅</span> 출석 완료 (내일 다시 지급)';
+      btn.style.background = 'rgba(255,255,255,0.1)';
+      btn.style.color = '#A3B0CC';
+      showToast('💖 출석 보상! 복채 하트 1개가 적립되었습니다. (현재 ' + heartsCount + '개)');
+    }
+
+    // =========================================================================
+    // FLOW 02: RADAR TWEAKER
+    // =========================================================================
+    const radarData = {
+      default: "100,35 160,80 135,150 65,150 40,80",
+      fire: "100,20 160,80 135,150 65,150 40,80",
+      earth: "100,35 174,75 135,150 65,150 40,80",
+      water: "100,35 160,80 145,162 65,150 40,80"
+    };
+
+    function tweakRadar(type) {
+      const poly = document.getElementById('radarPoly');
+      const score = document.getElementById('radarScoreVal');
+      if (!poly || !score) return;
+      if (type === 1) {
+        poly.setAttribute('points', radarData.fire);
+        score.textContent = '89';
+        showToast('🔥 화(火) 에너지 +10 부스팅 완료 (열정 지수 상승)');
+      } else if (type === 2) {
+        poly.setAttribute('points', radarData.earth);
+        score.textContent = '94';
+        showToast('⛰ 토(土) 에너지 +10 부스팅 완료 (신뢰 지수 상승)');
+      } else if (type === 3) {
+        poly.setAttribute('points', radarData.water);
+        score.textContent = '82';
+        showToast('💧 수(水) 에너지 +10 부스팅 완료 (소통 지수 상승)');
+      } else {
+        poly.setAttribute('points', radarData.default);
+        score.textContent = '77';
+        showToast('오행 레이더 지수가 기본값으로 초기화되었습니다.');
+      }
+    }
+
+    function updateRadarValues() {
+      const targetSelect = document.getElementById('radarTargetSelect');
+      const label = document.getElementById('radarPartnerLabel');
+      const harmonyTitle = document.getElementById('radarHarmonyTitle');
+      const harmonyDesc = document.getElementById('radarHarmonyDesc');
+      const score = document.getElementById('radarScoreVal');
+      if (!targetSelect) return;
+
+      if (targetSelect.value === 'gichuk') {
+        if (label) label.textContent = '기축';
+        if (score) score.textContent = '77';
+        if (harmonyTitle) harmonyTitle.textContent = '천간합(甲己合)과 지지 육합의 길한 인연';
+        if (harmonyDesc) harmonyDesc.textContent = '두 사람의 일주(Day Pillar)가 서로의 부족한 기운을 완벽하게 채워주는 조화로운 궁합입니다.';
+      } else if (targetSelect.value === 'gyehae') {
+        if (label) label.textContent = '계해';
+        if (score) score.textContent = '96';
+        if (harmonyTitle) harmonyTitle.textContent = '무계합화(戊癸合火) 천생연분 최상위 합';
+        if (harmonyDesc) harmonyDesc.textContent = '음양과 오행이 완벽히 결합하여 무한한 시너지를 발생시키는 최고의 운명적 인연입니다.';
+      } else {
+        if (label) label.textContent = '신유';
+        if (score) score.textContent = '55';
+        if (harmonyTitle) harmonyTitle.textContent = '금다토약(金多土弱) 성격 차이 주의';
+        if (harmonyDesc) harmonyDesc.textContent = '서로의 개성이 뚜렷하여 세심한 배려와 조율이 필요한 인연입니다.';
+      }
+      showToast('상대방 일주 변경에 따라 오행 케미스트리가 갱신되었습니다.');
+    }
+
+    // =========================================================================
+    // FLOW 03: MATCH DYNAMIC SELECTOR
+    // =========================================================================
+    const matchData = {
+      '계해': { score: 96, elem: '음수', mat1: '무계합화', mat2: '상생 촉진', mat3: '99.2 MHz', badge: '천생연분 우주 좌표의 만남', tip: '무토(戊土)와 계수(癸水)가 만나 화(火)의 결실을 맺는 천생연분입니다. 서로의 부족한 기운을 자연스럽게 채워줍니다.' },
+      '갑자': { score: 84, elem: '양목', mat1: '목토상생', mat2: '조화 발전', mat3: '86.4 MHz', badge: '상생과 발전의 긍정적 연분', tip: '갑목의 추진력과 무토의 안정성이 만나 든든한 파트너십을 발휘하는 조화로운 인연입니다.' },
+      '병인': { score: 79, elem: '양화', mat1: '화토상생', mat2: '열정 케미', mat3: '81.7 MHz', badge: '뜨거운 열정의 도파민 케미', tip: '병화의 밝은 빛이 무토의 대지를 비추어 따뜻하고 활기찬 관계를 이어갈 수 있습니다.' },
+      '신유': { score: 55, elem: '음금', mat1: '토생금 과다', mat2: '배려 필요', mat3: '62.0 MHz', badge: '성격 차이 조율 및 배려 필요', tip: '서로의 가치관과 성향 차이가 발생할 수 있으므로, 경청과 배려를 통해 신뢰를 쌓아가는 것이 중요합니다.' }
+    };
+
+    function updateMatchTarget() {
+      const select = document.getElementById('matchTargetSelect');
+      const val = select.value;
+      const data = matchData[val] || matchData['계해'];
+
+      document.getElementById('matchBubbleName').textContent = val;
+      document.getElementById('matchBubbleElem').textContent = data.elem;
+      document.getElementById('matchScoreDisplay').textContent = data.score + '점';
+      document.getElementById('matchMeterBar').style.width = data.score + '%';
+      document.getElementById('matchBadgeText').textContent = data.badge;
+      document.getElementById('matVal1').textContent = data.mat1;
+      document.getElementById('matVal2').textContent = data.mat2;
+      document.getElementById('matVal3').textContent = data.mat3;
+      document.getElementById('matchTipContent').textContent = data.tip;
+
+      showToast('인연 우주 주파수 매칭: ' + val + ' (' + data.score + '점)');
+    }
+
+    // =========================================================================
+    // FLOW 04: 3D TAROT FLIP & VAULT
+    // =========================================================================
+    const tarotImages = [
+      'assets/tarot_star.jpg',
+      'assets/tarot_sun.jpg',
+      'assets/tarot_wheel.jpg'
+    ];
+    const tarotFallback = [
+      'app/assets/images/tarot_star.jpg',
+      'app/assets/images/tarot_sun.jpg',
+      'app/assets/images/tarot_wheel.jpg'
+    ];
+
+    function flipTarotCard() {
+      const card = document.getElementById('tarotCard3D');
+      if (!card) return;
+      isFlipped = !isFlipped;
+      if (isFlipped) {
+        card.classList.add('flipped');
+        showToast('✨ 타로 카드가 60fps 3D로 오픈되었습니다!');
+      } else {
+        card.classList.remove('flipped');
+        showToast('카드가 뒤집혔습니다.');
+      }
+    }
+
+    function pickTarot(idx, btn) {
+      document.querySelectorAll('.chip-tarot').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
 
-      const iframe = document.getElementById('protoIframe');
-      if (!iframe) return;
+      const card = document.getElementById('tarotCard3D');
+      const img = document.getElementById('tarotFrontImg');
+      if (img) {
+        img.src = tarotImages[idx];
+        img.onerror = () => { img.src = tarotFallback[idx]; };
+      }
+      if (card) {
+        card.classList.add('flipped');
+        isFlipped = true;
+      }
+      showToast('타로 덱 선택 완료: ' + (btn ? btn.textContent : 'Card ' + idx));
+    }
 
-      // Switch view inside iframe if available
-      try {
-        if (iframe.contentWindow && iframe.contentWindow.switchView) {
-          if (flowName === 'hub') iframe.contentWindow.switchView('landing');
-          else iframe.contentWindow.switchView('webapp');
-        }
-      } catch(e) {}
+    function saveToVault() {
+      showToast('🔒 256-bit AES 암호화되어 시크릿 볼트에 안전하게 보관되었습니다!');
     }
 
     // Fullscreen Toggle
