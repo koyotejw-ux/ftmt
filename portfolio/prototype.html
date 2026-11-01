@@ -467,21 +467,152 @@
       background: rgba(255, 215, 0, 0.18);
     }
 
-    /* Specific Hotspots per Screen */
-    /* Screen 01: Hub */
-    .hotspot-compass {
-      top: 18.5%;
-      left: 19%;
-      width: 62%;
-      height: 30%;
+    /* Live 60fps Dual-Orbit 24-Solar Astral Wheel */
+    .orbit-wheel-stage {
+      position: absolute;
+      top: 31.29%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 59.96%;
+      aspect-ratio: 1 / 1;
       border-radius: 50%;
       cursor: pointer;
+      z-index: 25;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 35px rgba(229, 192, 123, 0.15);
     }
 
-    .hotspot-compass:active {
-      background: rgba(0, 229, 255, 0.15);
+    .orbit-wheel-stage:hover {
+      filter: drop-shadow(0 0 24px rgba(255, 215, 0, 0.6));
     }
 
+    .orbit-wheel-stage:active {
+      transform: translate(-50%, -50%) scale(0.97);
+    }
+
+    /* Outer Ring with Golden Dash */
+    .orbit-ring-outer {
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(229, 192, 123, 0.55);
+      box-shadow: 0 0 16px rgba(229, 192, 123, 0.2);
+      pointer-events: none;
+    }
+
+    /* Mid Neon Cyan Orbit Ring */
+    .orbit-ring-middle {
+      position: absolute;
+      inset: 34px;
+      border-radius: 50%;
+      border: 1.2px solid rgba(0, 229, 255, 0.45);
+      box-shadow: 0 0 14px rgba(0, 229, 255, 0.35);
+      pointer-events: none;
+    }
+
+    /* Outer 12 Earthly Branches (Clockwise Orbit) */
+    .orbit-wheel-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      animation: spinClockwise 40s linear infinite;
+      pointer-events: none;
+    }
+
+    .branch-glyph {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #E5C07B;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* Inner 10 Heavenly Stems (Counter-Clockwise Orbit) */
+    .orbit-wheel-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      animation: spinCounterClockwise 32s linear infinite;
+      pointer-events: none;
+    }
+
+    .stem-glyph {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #00E5FF;
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.75);
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* Center Yin-Yang Core (Static Upright) */
+    .orbit-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2A1B4E 0%, #0D1224 100%);
+      border: 2px solid #E5C07B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.45);
+      z-index: 10;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .orbit-core span.core-yin-yang {
+      font-size: 18px;
+      color: #FFD700;
+      line-height: 1;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+
+    .orbit-core span.core-tag {
+      font-size: 11px;
+      font-weight: 900;
+      color: #FFD700;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+      text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+    }
+
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinCounterClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    /* High-Speed Turbo Acceleration State on Tap */
+    .orbit-wheel-stage.accelerating .orbit-wheel-outer {
+      animation-duration: 3s !important;
+    }
+
+    .orbit-wheel-stage.accelerating .orbit-wheel-inner {
+      animation-duration: 2.4s !important;
+    }
+
+    /* Specific Hotspots per Screen */
+    /* Screen 01: Hub */
     .hotspot-claim-heart {
       top: 80.5%;
       left: 54%;
@@ -788,9 +919,53 @@
           <!-- SCREEN 01: 우주 사주 허브 -->
           <div class="proto-screen active" id="screen-hub">
             <div class="screen-canvas-wrap">
-              <img src="assets/screens/body_01_hub.png" class="screen-authentic-img" alt="Fortune Hub Screen">
+              <img src="assets/screens/body_01_hub_clean.png" class="screen-authentic-img" alt="Fortune Hub Screen">
+              <!-- Live Rotating 24-Solar Astral Compass Wheel (Clockwise Branches + Counter-Clockwise Stems) -->
+              <!-- Live Rotating 24-Solar Astral Compass Wheel (Clockwise Branches + Counter-Clockwise Stems) -->
+              <div class="orbit-wheel-stage" id="orbitWheelStage" onclick="spinCompassFast()" title="24절기 궤도 나침반 (실시간 60fps 회전 중 · 터치 시 가속 회전)">
+                <!-- Golden Dashed Ring -->
+                <div class="orbit-ring-outer"></div>
+                <!-- Mid Cyan Ring -->
+                <div class="orbit-ring-middle"></div>
+
+                <!-- Outer 12 Earthly Branches (Clockwise Orbit) -->
+                <div class="orbit-wheel-outer" id="orbitWheelOuter">
+                  <span class="branch-glyph" style="left: 50.0%; top: 8.5%;">子</span>
+                  <span class="branch-glyph" style="left: 70.8%; top: 14.0%;">丑</span>
+                  <span class="branch-glyph" style="left: 86.0%; top: 29.2%;">寅</span>
+                  <span class="branch-glyph" style="left: 91.5%; top: 50.0%;">卯</span>
+                  <span class="branch-glyph" style="left: 86.0%; top: 70.8%;">辰</span>
+                  <span class="branch-glyph" style="left: 70.8%; top: 86.0%;">巳</span>
+                  <span class="branch-glyph" style="left: 50.0%; top: 91.5%;">午</span>
+                  <span class="branch-glyph" style="left: 29.2%; top: 86.0%;">未</span>
+                  <span class="branch-glyph" style="left: 14.0%; top: 70.8%;">申</span>
+                  <span class="branch-glyph" style="left: 8.5%; top: 50.0%;">酉</span>
+                  <span class="branch-glyph" style="left: 14.0%; top: 29.2%;">戌</span>
+                  <span class="branch-glyph" style="left: 29.2%; top: 14.0%;">亥</span>
+                </div>
+
+                <!-- Inner 10 Heavenly Stems (Counter-Clockwise Orbit) -->
+                <div class="orbit-wheel-inner" id="orbitWheelInner">
+                  <span class="stem-glyph" style="left: 50.0%; top: 23.7%;">甲</span>
+                  <span class="stem-glyph" style="left: 65.4%; top: 28.7%;">乙</span>
+                  <span class="stem-glyph" style="left: 75.0%; top: 41.9%;">丙</span>
+                  <span class="stem-glyph" style="left: 75.0%; top: 58.1%;">丁</span>
+                  <span class="stem-glyph" style="left: 65.4%; top: 71.3%;">戊</span>
+                  <span class="stem-glyph" style="left: 50.0%; top: 76.3%;">己</span>
+                  <span class="stem-glyph" style="left: 34.6%; top: 71.3%;">庚</span>
+                  <span class="stem-glyph" style="left: 25.0%; top: 58.1%;">辛</span>
+                  <span class="stem-glyph" style="left: 25.0%; top: 41.9%;">壬</span>
+                  <span class="stem-glyph" style="left: 34.6%; top: 28.7%;">癸</span>
+                </div>
+
+                <!-- Center Yin-Yang Core (Static Upright) -->
+                <div class="orbit-core">
+                  <span class="core-yin-yang">☯</span>
+                  <span class="core-tag">陰陽</span>
+                </div>
+              </div>
+
               <!-- Interactive Hotspots -->
-              <div class="hotspot hotspot-compass" id="hubCompass" onclick="spinCompassFast()" title="24절기 궤도 나침반 터치 회전 (실시간 우주 좌표 정렬)"></div>
               <div class="hotspot hotspot-claim-heart" onclick="claimDailyHeart()" title="오늘의 무료 복채 출석 보상 받기 (+1❤)"></div>
               <div class="hotspot hotspot-dopamine-time" onclick="showToast('⚡ 14:30 ~ 16:00: 북동쪽 방향에서 귀인을 만나며 재물운 상승 기류')" title="금전운 최적 시간 상세 행동 요령"></div>
               <div class="hotspot hotspot-profile" onclick="showToast('⚙ 우주 만세력 좌표: 무인(戊寅) · 사자자리 · A형')" title="우주 좌표 정보"></div>
@@ -947,24 +1122,19 @@
       return name;
     }
 
-    // Orbit Compass Wheel Fast Spin Interaction
-    let isSpinning = false;
+    // =========================================================================
+    // LIVE 60FPS DUAL-ORBIT ASTRAL COMPASS WHEEL (24-Solar Orbit Engine)
+    // =========================================================================
+    let astralBoostTimeout = null;
     function spinCompassFast() {
-      if (isSpinning) return;
-      isSpinning = true;
-      const compass = document.getElementById('hubCompass');
-      if (compass) {
-        compass.style.transition = 'transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        compass.style.transform = 'rotate(720deg)';
-      }
+      const stage = document.getElementById('orbitWheelStage');
+      if (!stage) return;
+      stage.classList.add('accelerating');
       showToast('🌀 24절기 궤도 나침반 실시간 천문 좌표 정렬 완료 (陰陽 조화)');
-      setTimeout(() => {
-        if (compass) {
-          compass.style.transition = 'none';
-          compass.style.transform = 'rotate(0deg)';
-        }
-        isSpinning = false;
-      }, 1300);
+      if (astralBoostTimeout) clearTimeout(astralBoostTimeout);
+      astralBoostTimeout = setTimeout(() => {
+        stage.classList.remove('accelerating');
+      }, 3500);
     }
 
     // Daily Heart Claim
