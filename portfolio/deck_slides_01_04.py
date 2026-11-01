@@ -34,8 +34,8 @@ def make_slide_01():
     draw.text((100 + w_p1, 206), title_p2, font=get_font(56, 'black'), fill=C_GOLD_HERO)
     
     # Clean Subtitle (1-2 sentences)
-    sub1 = "난해한 한자 나열과 비과학적 미신 공포 마케팅을 배제하고,"
-    sub2 = "0.3초 고유 우주 좌표와 5각형 오행 실시간 레이더로 92% 정밀 궁합을 증명하는 럭셔리 매칭 솔루션"
+    sub1 = "낡은 한자와 미신을 걷어낸 감각적인 우주 사주 솔루션,"
+    sub2 = "0.3초 고유 우주 좌표와 5각형 오행 실시간 레이더로 92% 정밀 궁합을 증명합니다."
     draw.text((100, 290), sub1, font=get_font(16.5, 'medium'), fill=C_TEXT_BODY)
     draw.text((100, 318), sub2, font=get_font(16.5, 'semibold'), fill=C_GOLD_MUTED)
     
@@ -149,9 +149,9 @@ def make_slide_02():
         draw,
         slide_num=2,
         category_en="USER RESEARCH | DESK RESEARCH & MARKET STUDY",
-        title_white="2030 MZ세대 운세 소비 행태와 ",
-        title_gold="기존 전통 사주의 치명적 결함",
-        subtitle_kr="운세 고관여층 520명 정량 데이터 및 국내 16대 운세 앱 전수 조사를 통해 도출한 3대 핵심 위협과 SWOT 전략"
+        title_white="낡은 한자와 미신을 걷어낸 ",
+        title_gold="새로운 시장 기회",
+        subtitle_kr="2030 세대 520명 리서치와 국내 16대 운세 앱 조사를 통해 도출한 3대 혁신 전략"
     )
     
     card_w = 546
@@ -162,7 +162,6 @@ def make_slide_02():
     # CARD 1: MARKET TREND (Large Donut Chart - 74.2%)
     c1_x = 100
     draw.rounded_rectangle([c1_x, sy, c1_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-    draw.rounded_rectangle([c1_x, sy + 18, c1_x + 5, sy + card_h - 18], radius=2, fill=(239, 68, 68))
     
     draw_pill_badge(draw, left_x=c1_x + 24, cy=sy + 26, text="UX FRICTION TREND", font=get_font(10, 'bold'), theme='red', has_dot=False, pad_x=8, height=22)
     draw.text((c1_x + 24, sy + 58), "한자 나열과 텍스트 인지 부하", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
@@ -182,7 +181,6 @@ def make_slide_02():
     # CARD 2: BEHAVIOR TREND (Horizontal Bar Chart)
     c2_x = c1_x + card_w + gap
     draw.rounded_rectangle([c2_x, sy, c2_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-    draw.rounded_rectangle([c2_x, sy + 18, c2_x + 5, sy + card_h - 18], radius=2, fill=(255, 215, 0))
     
     draw_pill_badge(draw, left_x=c2_x + 24, cy=sy + 26, text="EMOTIONAL UX TREND", font=get_font(10, 'bold'), theme='gold', has_dot=False, pad_x=8, height=22)
     draw.text((c2_x + 24, sy + 58), "미신적 공포 마케팅의 피로감", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
@@ -210,7 +208,6 @@ def make_slide_02():
     # CARD 3: INDUSTRY GAP (Vertical Bar Chart)
     c3_x = c2_x + card_w + gap
     draw.rounded_rectangle([c3_x, sy, c3_x + card_w, sy + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-    draw.rounded_rectangle([c3_x, sy + 18, c3_x + 5, sy + card_h - 18], radius=2, fill=C_CYAN_ACCENT)
     
     draw_pill_badge(draw, left_x=c3_x + 24, cy=sy + 26, text="SERVICE GAP", font=get_font(10, 'bold'), theme='cyan', has_dot=False, pad_x=8, height=22)
     draw.text((c3_x + 24, sy + 58), "관계 케미스트리의 시각화 부재", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
@@ -242,7 +239,7 @@ def make_slide_02():
     # S (Strength)
     draw.rounded_rectangle([s_x, s_y, s_x + qw, s_y + qh], radius=10, fill=(12, 38, 28, 255), outline=(16, 185, 129, 200), width=1)
     draw_pill_badge(draw, left_x=s_x + 14, cy=s_y + 22, text="Strength (강점)", font=get_font(10, 'bold'), theme='green', has_dot=False, pad_x=10, height=24, solid=True)
-    s_pts = ["• 0.3초 고유 우주 좌표 및 오행 레이더 시각화", "• 92% 정밀 사주 일주 + 별자리 결합 알고리즘", "• 100% 온디바이스 로컬 암호화 보관"]
+    s_pts = ["01  0.3초 고유 우주 좌표 및 오행 레이더", "02  92% 정밀 사주 일주 + 별자리 결합", "03  100% 온디바이스 로컬 암호화 보관"]
     dy = s_y + 56
     for p in s_pts:
         draw.text((s_x + 14, dy), p, font=get_font(11.5, 'medium'), fill=(52, 211, 153))
@@ -252,7 +249,7 @@ def make_slide_02():
     w_x = s_x + qw + 15
     draw.rounded_rectangle([w_x, s_y, w_x + qw, s_y + qh], radius=10, fill=(48, 16, 24, 255), outline=(239, 68, 68, 200), width=1)
     draw_pill_badge(draw, left_x=w_x + 14, cy=s_y + 22, text="Weakness (약점)", font=get_font(10, 'bold'), theme='red', has_dot=False, pad_x=10, height=24, solid=True)
-    w_pts = ["• 초기 스타트업 브랜드 인지도 제약", "• 출생 시각 모를 시 정오(12시) 보정 필요", "• 명리학 전문가 1:1 상담 부재"]
+    w_pts = ["01  초기 스타트업 브랜드 인지도 제약", "02  출생 시각 모를 시 정오(12시) 보정 필요", "03  명리학 전문가 1:1 상담 부재"]
     dy = s_y + 56
     for p in w_pts:
         draw.text((w_x + 14, dy), p, font=get_font(11.5, 'medium'), fill=(255, 140, 140))
@@ -262,7 +259,7 @@ def make_slide_02():
     o_y = s_y + qh + 10
     draw.rounded_rectangle([s_x, o_y, s_x + qw, o_y + qh], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 200), width=1)
     draw_pill_badge(draw, left_x=s_x + 14, cy=o_y + 22, text="Opportunity (기회)", font=get_font(10, 'bold'), theme='gold', has_dot=False, pad_x=10, height=24, solid=True)
-    o_pts = ["• 2030 MZ세대의 사주/타로 바이럴 공유 88%", "• 복잡한 한자 없는 모던 힐링 디자인 니즈 급증", "• 친구·연인과의 소셜 인연 매칭 수요 폭증"]
+    o_pts = ["01  2030 MZ세대의 사주/타로 바이럴 공유 88%", "02  복잡한 한자 없는 모던 힐링 디자인 니즈", "03  친구·연인과의 소셜 인연 매칭 수요 폭증"]
     dy = o_y + 56
     for p in o_pts:
         draw.text((s_x + 14, dy), p, font=get_font(11.5, 'medium'), fill=(255, 215, 0))
@@ -271,7 +268,7 @@ def make_slide_02():
     # T (Threat)
     draw.rounded_rectangle([w_x, o_y, w_x + qw, o_y + qh], radius=10, fill=(30, 18, 48, 255), outline=(168, 85, 247, 200), width=1)
     draw_pill_badge(draw, left_x=w_x + 14, cy=o_y + 22, text="Threat (위협)", font=get_font(10, 'bold'), theme='purple', has_dot=False, pad_x=10, height=24, solid=True)
-    t_pts = ["• 기존 대형 운세 앱의 마케팅 공세", "• 비과학적 편견에 따른 앱 수명 주기 리스크", "• 생성형 AI 텍스트 챗봇과의 경쟁"]
+    t_pts = ["01  기존 대형 운세 앱의 마케팅 공세", "02  비과학적 편견에 따른 앱 수명 주기 리스크", "03  생성형 AI 텍스트 챗봇과의 경쟁"]
     dy = o_y + 56
     for p in t_pts:
         draw.text((w_x + 14, dy), p, font=get_font(11.5, 'medium'), fill=(216, 180, 254))
@@ -320,9 +317,9 @@ def make_slide_03():
         draw,
         slide_num=3,
         category_en="TARGET & PERSONA | SEGMENTATION MATRIX & BENCHMARK",
-        title_white="타깃 세그먼트 매트릭스와 ",
-        title_gold="경쟁사 벤치마킹 분석",
-        subtitle_kr="2x2 타깃 포지셔닝 매트릭스와 4대 플랫폼 벤치마크, 그리고 대표 페르소나 행동 지표"
+        title_white="명확한 시각화와 소셜 공유를 ",
+        title_gold="원하는 핵심 사용자",
+        subtitle_kr="관계 지향성과 데이터 수용도로 정의한 2x2 타깃 매트릭스와 2인의 핵심 페르소나"
     )
     
     # 1. TOP-LEFT: 2x2 Target Segmentation Matrix
@@ -362,7 +359,7 @@ def make_slide_03():
     draw.rounded_rectangle([q1_x, q1_y, q1_x + qw, q1_y + qh], radius=8, fill=(35, 30, 15, 255), outline=(229, 192, 123, 200), width=1)
     draw_pill_badge(draw, left_x=q1_x + 12, cy=q1_y + 22, text="CORE TARGET", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=22, solid=True)
     draw.text((q1_x + 12, q1_y + 44), "도파민 소셜 매처", font=get_font(13, 'bold'), fill=(255, 215, 0))
-    draw.text((q1_x + 12, q1_y + 68), "• 친구/연인과의 케미스트리 공유 열망\n• 5각형 오행 레이더 & 92% 궁합 최우선 수용", font=get_font(11, 'regular'), fill=(244, 246, 252), spacing=3)
+    draw.text((q1_x + 12, q1_y + 68), "친구/연인과의 케미스트리 공유 열망\n5각형 오행 레이더 & 92% 궁합 최우선 수용", font=get_font(11, 'regular'), fill=(244, 246, 252), spacing=3)
     
     # Q2: Bottom-Right (Primary Target)
     q2_x = q1_x
@@ -370,7 +367,7 @@ def make_slide_03():
     draw.rounded_rectangle([q2_x, q2_y, q2_x + qw, q2_y + qh], radius=8, fill=(10, 36, 48, 255), outline=(0, 229, 255, 200), width=1)
     draw_pill_badge(draw, left_x=q2_x + 12, cy=q2_y + 22, text="PRIMARY TARGET", font=get_font(9.5, 'bold'), theme='cyan', has_dot=True, pad_x=8, height=22, solid=True)
     draw.text((q2_x + 12, q2_y + 44), "데이터 힐링 탐색자", font=get_font(13, 'bold'), fill=(0, 229, 255))
-    draw.text((q2_x + 12, q2_y + 68), "• 복잡한 사주를 시각적으로 이해하고자 함\n• 결핍 오행 보완 팁 적극 활용", font=get_font(11, 'regular'), fill=(244, 246, 252), spacing=3)
+    draw.text((q2_x + 12, q2_y + 68), "복잡한 사주를 시각적으로 이해하고자 함\n결핍 오행 보완 팁 적극 활용", font=get_font(11, 'regular'), fill=(244, 246, 252), spacing=3)
     
     # Q3: Top-Left (Secondary Target)
     q3_x = grid_x
@@ -378,7 +375,7 @@ def make_slide_03():
     draw.rounded_rectangle([q3_x, q3_y, q3_x + qw, q3_y + qh], radius=8, fill=(30, 18, 48, 255), outline=(168, 85, 247, 200), width=1)
     draw_pill_badge(draw, left_x=q3_x + 12, cy=q3_y + 22, text="SECONDARY TARGET", font=get_font(9.5, 'bold'), theme='purple', has_dot=True, pad_x=8, height=22, solid=True)
     draw.text((q3_x + 12, q3_y + 44), "캐주얼 운세 팔로워", font=get_font(13, 'bold'), fill=(216, 180, 254))
-    draw.text((q3_x + 12, q3_y + 68), "• 매일 아침 길시와 행운 아이템 확인\n• 솔루션 : 원터치 데일리 타로 리추얼", font=get_font(11, 'regular'), fill=(244, 246, 252), spacing=3)
+    draw.text((q3_x + 12, q3_y + 68), "매일 아침 길시와 행운 아이템 확인\n솔루션 : 원터치 데일리 타로 리추얼", font=get_font(11, 'regular'), fill=(244, 246, 252), spacing=3)
     
     # Q4: Bottom-Left (Potential Target)
     q4_x = grid_x
@@ -386,7 +383,7 @@ def make_slide_03():
     draw.rounded_rectangle([q4_x, q4_y, q4_x + qw, q4_y + qh], radius=8, fill=(20, 26, 42, 255), outline=(100, 116, 139, 200), width=1)
     draw_pill_badge(draw, left_x=q4_x + 12, cy=q4_y + 22, text="POTENTIAL TARGET", font=get_font(9.5, 'bold'), theme='slate', has_dot=True, pad_x=8, height=22, solid=True)
     draw.text((q4_x + 12, q4_y + 44), "전통 철학관 방문자", font=get_font(13, 'bold'), fill=(203, 213, 225))
-    draw.text((q4_x + 12, q4_y + 68), "• 고액 상담 경험 있으나 모바일 편의성 추구\n• 솔루션 : 신뢰도 높은 정밀 일주 분석", font=get_font(11, 'regular'), fill=(163, 176, 204), spacing=3)
+    draw.text((q4_x + 12, q4_y + 68), "고액 상담 경험 있으나 모바일 편의성 추구\n솔루션 : 신뢰도 높은 정밀 일주 분석", font=get_font(11, 'regular'), fill=(163, 176, 204), spacing=3)
     
     # 2. TOP-RIGHT: Competitive Benchmark Table (Strictly aligned to col2_x=975, w=845)
     c_x = col2_x
@@ -450,9 +447,9 @@ def make_slide_03():
     draw_behavior_slider(draw, col1_x + 24, p_y + 116, p_w - 48, "데이터 수용도", "직관형", "분석형", 0.85, theme='cyan')
     draw_behavior_slider(draw, col1_x + 24, p_y + 146, p_w - 48, "소셜 공유 의향", "혼자만 봄", "적극 공유", 0.80, theme='purple')
     
-    draw.text((col1_x + 24, p_y + 188), "• Goals : 감각적인 5각형 레이더로 결핍된 오행을 채우고, 데이트 상대와의 궁합 조율", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
-    draw.text((col1_x + 24, p_y + 212), "• Frustrations : 불길한 말로 겁주는 미신 마케팅과 글자만 빽빽한 기존 앱의 피로감", font=get_font(11, 'medium'), fill=C_RED_ACC)
-    draw.text((col1_x + 24, p_y + 236), "• Design Context : iPhone 16 Pro, Figma, Instagram Story 감성 비주얼 헤비 유저", font=get_font(11, 'medium'), fill=C_TEXT_MUTED)
+    draw.text((col1_x + 24, p_y + 188), "핵심 목표   감각적인 5각형 레이더로 결핍 오행을 채우고 궁합 조율", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
+    draw.text((col1_x + 24, p_y + 212), "주요 불편   불길한 말로 겁주는 미신 마케팅과 텍스트 과부하", font=get_font(11, 'medium'), fill=C_RED_ACC)
+    draw.text((col1_x + 24, p_y + 236), "사용 맥락   iPhone 16 Pro, Figma, 인스타그램 스토리 헤비 유저", font=get_font(11, 'medium'), fill=C_TEXT_MUTED)
     
     # Persona B (Right Column: 975 to 1820)
     draw.rounded_rectangle([col2_x, p_y, col2_x + p_w, p_y + p_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
@@ -464,9 +461,9 @@ def make_slide_03():
     draw_behavior_slider(draw, col2_x + 24, p_y + 116, p_w - 48, "데이터 수용도", "직관형", "분석형", 0.90, theme='cyan')
     draw_behavior_slider(draw, col2_x + 24, p_y + 146, p_w - 48, "소셜 공유 의향", "혼자만 봄", "적극 공유", 0.90, theme='purple')
     
-    draw.text((col2_x + 24, p_y + 188), "• Goals : 파트너와의 상호 보완성을 정량적 오행 스코어로 파악하여 커뮤니케이션 개선", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
-    draw.text((col2_x + 24, p_y + 212), "• Frustrations : 왜 잘 맞는지 근거를 설명해주지 않는 불친절한 1회성 점수 결과", font=get_font(11, 'medium'), fill=C_RED_ACC)
-    draw.text((col2_x + 24, p_y + 236), "• Design Context : Galaxy S24 Ultra, Notion, Threads, 정보 구조 및 프라이버시 민감", font=get_font(11, 'medium'), fill=C_TEXT_MUTED)
+    draw.text((col2_x + 24, p_y + 188), "핵심 목표   파트너와의 상호 보완성을 정량적 오행 스코어로 파악", font=get_font(11, 'medium'), fill=C_TEXT_BODY)
+    draw.text((col2_x + 24, p_y + 212), "주요 불편   왜 잘 맞는지 근거를 설명해주지 않는 불친절한 결과", font=get_font(11, 'medium'), fill=C_RED_ACC)
+    draw.text((col2_x + 24, p_y + 236), "사용 맥락   Galaxy S24 Ultra, Notion, 정보 구조 및 프라이버시 민감", font=get_font(11, 'medium'), fill=C_TEXT_MUTED)
     
     draw_slide_footer(draw, 3)
     save_slide(base, 3)
@@ -481,9 +478,9 @@ def make_slide_04():
         draw,
         slide_num=4,
         category_en="INFORMATION ARCHITECTURE | SERVICE STRUCTURE",
-        title_white="앞서 도출한 솔루션을 가장 효과적으로 보여주는 ",
-        title_gold="정보 구조(IA) 설계",
-        subtitle_kr="우주 좌표부터 5각형 오행 레이더, 정밀 궁합, 도파민 타로, 시크릿 볼트까지 이어지는 5대 핵심 도메인 계층 구조"
+        title_white="5개 코어 탭으로 완성한 ",
+        title_gold="직관적인 모듈 구조",
+        subtitle_kr="우주 좌표부터 5각형 오행 레이더, 정밀 궁합, 도파민 타로까지 이어지는 계층 설계"
     )
     
     # Legend Box on Top Right (1220 to 1820, w=600, h=80 - Matching Slide 05 Clean Grid)
@@ -511,12 +508,12 @@ def make_slide_04():
     b_new = draw_pill_badge(draw, left_x=leg_x + 450, cy=leg_y + 56, text="NEW", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
     draw.text((b_new[2] + 10, leg_y + 56), "혁신 기능", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='lm')
     
-    # Root Node: Level 0 Master Hub (Intuitive Korean Navigation Hub)
-    root_x1, root_y1, root_x2, root_y2 = 640, 234, 1280, 286
+    # Root Node: Level 0 Master Hub (Compact 460px width with comfortable margins)
+    root_x1, root_y1, root_x2, root_y2 = 730, 234, 1190, 286
     draw.rounded_rectangle([root_x1, root_y1, root_x2, root_y2], radius=12, fill=(14, 20, 36), outline=(229, 192, 123), width=2)
-    b_root = draw_pill_badge(draw, left_x=root_x1 + 20, cy=root_y1 + 26, text="서비스 허브", font=get_font(9, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
-    draw.text((b_root[2] + 16, root_y1 + 16), "포춘매치 모바일 앱 서비스 통합 허브", font=get_font(14, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((b_root[2] + 16, root_y1 + 37), "하단 탭 내비게이션 기반 5대 핵심 기능 및 화면 계층 구조", font=get_font(10.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+    b_root = draw_pill_badge(draw, left_x=root_x1 + 16, cy=root_y1 + 26, text="서비스 허브", font=get_font(9, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
+    draw.text((b_root[2] + 14, root_y1 + 16), "포춘매치 모바일 앱 서비스 통합 허브", font=get_font(13.5, 'bold'), fill=(244, 246, 252), anchor='lm')
+    draw.text((b_root[2] + 14, root_y1 + 37), "하단 탭 내비게이션 기반 5대 핵심 도메인 구조", font=get_font(10, 'medium'), fill=(163, 176, 204), anchor='lm')
     
     cw = 328
     cgap = 20
@@ -607,7 +604,6 @@ def make_slide_04():
     for idx, (p_num, p_title, p_desc, p_theme) in enumerate(principles):
         px = 100 + idx * (bp_w + bp_gap)
         draw.rounded_rectangle([px, bp_y, px + bp_w, bp_y + bp_h], radius=12, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-        draw.rounded_rectangle([px, bp_y + 12, px + 4, bp_y + bp_h - 12], radius=2, fill=(229, 192, 123))
         draw_pill_badge(draw, left_x=px + 18, cy=bp_y + 24, text=f"PRINCIPLE {p_num}", font=get_font(8.5, 'bold'), theme=p_theme, has_dot=True, pad_x=8, height=20)
         draw.text((px + 18, bp_y + 52), p_title, font=get_font(12.5, 'bold'), fill=C_TITLE_WHITE)
         draw.line([(px + 18, bp_y + 72), (px + bp_w - 18, bp_y + 72)], fill=(229, 192, 123, 40), width=1)

@@ -30,20 +30,20 @@ def make_slide_09():
     draw_pill_badge(draw, left_x=lx, cy=78, text="09 CORE FEATURE | COSMIC COMPATIBILITY MATCH ENGINE", font=get_font(10.5, 'bold'), theme='gold', has_dot=True, pad_x=10, height=26)
     
     # Headline
-    t1_a = "원하는 "
-    t1_b = "인연의 생년월일만 입력하면,"
-    font_title = get_font(33, 'extrabold')
+    t1_a = "두 사람의 케미스트리를 증명하는 "
+    t1_b = "정밀 인연 매칭"
+    font_title = get_font(31, 'extrabold')
     w_t1_a = draw.textlength(t1_a, font=font_title)
     draw.text((lx, 116), t1_a, font=font_title, fill=C_TITLE_WHITE)
     draw.text((lx + w_t1_a, 116), t1_b, font=font_title, fill=C_GOLD_HERO)
     
-    t2_a = "92% 정밀 케미스트리와 "
-    t2_b = "관계 조화도를 즉시 분석해요."
+    t2_a = "92% 조화도와 "
+    t2_b = "상생 시너지를 분석해요."
     w_t2_a = draw.textlength(t2_a, font=font_title)
     draw.text((lx, 158), t2_a, font=font_title, fill=C_CYAN_ACCENT)
     draw.text((lx + w_t2_a, 158), t2_b, font=font_title, fill=C_TITLE_WHITE)
     
-    desc_text = "천간의 정신적 공감대와 지지의 생활 습관 일치도, 그리고 5대 오행 상생상극 결합 벡터를 융합하여 단순한 길흉 통보를 넘어 두 사람의 관계 역학과 대화 솔루션을 온디바이스에서 즉각 도출합니다."
+    desc_text = "단순한 길흉 통보가 아닌 사주 일주 합충과 오행 상생상극 결합 벡터로 관계 역학을 온디바이스에서 즉각 도출합니다."
     desc_lines = wrap_text_by_words(desc_text, get_font(12, 'medium'), lw, draw)
     dy = 212
     for dl in desc_lines:
@@ -165,7 +165,7 @@ def make_slide_09():
         draw.rounded_rectangle([tx_step, s1_box_y, tx_step + tw_step, s1_box_y + 160], radius=10, fill=(24, 32, 54), outline=(229, 192, 123, 70), width=1)
         draw_pill_badge(draw, left_x=tx_step + 14, cy=s1_box_y + 18, text="STEP 01", font=get_font(8.5, 'bold'), theme='gold', has_dot=False, pad_x=6, height=18, solid=True)
         draw.text((tx_step + 80, s1_box_y + 11), "인연 생년월일 1-Tap 등록", font=get_font(12, 'bold'), fill=C_TITLE_WHITE)
-        draw.text((tx_step + 14, s1_box_y + 40), "• 상대방 양력/음력 생년월일 원터치 지정\n• 출생시 모름 선택 시 태양시 보정 가드 작동\n• 이름 및 관계 태그(연인/동료) 지정", font=get_font(10, 'medium'), fill=C_TEXT_BODY, spacing=4)
+        draw.text((tx_step + 14, s1_box_y + 40), "상대방 양력/음력 생년월일 원터치 지정\n출생시 모름 선택 시 태양시 보정 가드 작동\n이름 및 관계 태그(연인/동료) 지정", font=get_font(10, 'medium'), fill=C_TEXT_BODY, spacing=4)
         draw.text((tx_step + 14, s1_box_y + 116), "✓ 인지 마찰 제로 1-Tap 바텀시트 전개", font=get_font(9.5, 'bold'), fill=C_GOLD_HERO)
         
         # Step 2 Box
@@ -173,7 +173,7 @@ def make_slide_09():
         draw.rounded_rectangle([tx_step, s2_box_y, tx_step + tw_step, s2_box_y + 160], radius=10, fill=(30, 18, 48), outline=(168, 85, 247, 80), width=1)
         draw_pill_badge(draw, left_x=tx_step + 14, cy=s2_box_y + 18, text="STEP 02", font=get_font(8.5, 'bold'), theme='purple', has_dot=False, pad_x=6, height=18, solid=True)
         draw.text((tx_step + 80, s2_box_y + 11), "오행 중첩 & 시크릿 볼트 저장", font=get_font(12, 'bold'), fill=C_TITLE_WHITE)
-        draw.text((tx_step + 14, s2_box_y + 40), "• 두 사람의 5각형 오행 실시간 중첩 시각화\n• 상생 보완 시너지 및 갈등 예방 대화법 확인\n• SQLite AES-256 로컬 영구 암호화 보관", font=get_font(10, 'medium'), fill=C_TEXT_BODY, spacing=4)
+        draw.text((tx_step + 14, s2_box_y + 40), "두 사람의 5각형 오행 실시간 중첩 시각화\n상생 보완 시너지 및 갈등 예방 대화법 확인\nSQLite AES-256 로컬 영구 암호화 보관", font=get_font(10, 'medium'), fill=C_TEXT_BODY, spacing=4)
         draw.text((tx_step + 14, s2_box_y + 116), "✓ D1 리텐션 64.2% 견인 핵심 워크플로우", font=get_font(9.5, 'bold'), fill=C_PURPLE_ACC)
         
         # Flow Summary Strip at bottom of Step Card
@@ -223,10 +223,10 @@ def make_slide_10():
     draw_slide_header(
         draw,
         slide_num=10,
-        category_en="MOBILE SCREENS | PRODUCTION FLUTTER & FIGMA",
-        title_white="사주 좌표 진단부터 3D 타로까지, ",
-        title_gold="일관된 6대 핵심 상용 화면이에요.",
-        subtitle_kr="사용자의 우주적 인연 여정(User Journey)을 빈틈없이 지원하도록 피그마 디자인 토큰과 플러터 위젯 트리로 구현한 6대 상용 화면입니다."
+        category_en="MOBILE SCREENS | PRODUCTION DESIGN & ARCHITECTURE",
+        title_white="우주 사주부터 3D 타로까지 ",
+        title_gold="완성도 높은 6개 코어 화면",
+        subtitle_kr="우주 사주 허브, 오행 레이더, 정밀 궁합, 3D 타로까지 이어지는 완성도 높은 상용 UI 라인업"
     )
     
     screens = [
@@ -299,10 +299,10 @@ def make_slide_11():
     draw_slide_header(
         draw, 
         slide_num=11, 
-        category_en="BUSINESS IMPACT | QUANTITATIVE TELEMETRY & STRATEGIC RETROSPECTIVE", 
-        title_white="D1 리텐션 64.2%와 92% 정밀 궁합, ", 
-        title_gold="숫자로 검증된 프로덕트 가치예요.", 
-        subtitle_kr="한자 공포 마케팅을 타파한 Before/After 오행 역산 성과와 4대 텔레메트리 지표 및 시니어 프로덕트 회고입니다.",
+        category_en="BUSINESS IMPACT | TELEMETRY & RETROSPECTIVE", 
+        title_white="프로덕트 임팩트와 ", 
+        title_gold="기술적 문제 해결 회고", 
+        subtitle_kr="D1 리텐션 64.2% 검증과 60fps 햅틱 물리 엔진 구현 과정의 엔지니어링 회고",
         right_badge=("EMPIRICAL TEST 100% PASS", "green")
     )
     
@@ -314,7 +314,6 @@ def make_slide_11():
     # Left Card: Traditional Text Saju (Before)
     cx1 = 100
     draw.rounded_rectangle([cx1, card_y, cx1 + card_w, card_y + card_h], radius=16, fill=(14, 20, 36, 230), outline=(239, 68, 68, 120), width=1)
-    draw.rounded_rectangle([cx1, card_y + 14, cx1 + 5, card_y + card_h - 14], radius=3, fill=(239, 68, 68))
     
     draw_pill_badge(draw, left_x=cx1 + 24, cy=card_y + 24, text="BEFORE : TRADITIONAL FORTUNE TEXT", font=get_font(9.5, 'bold'), theme='red', has_dot=True, pad_x=10, height=22)
     draw.text((cx1 + 24, card_y + 50), "한자 나열과 공포 마케팅에 지친 사용자", font=get_font(18, 'bold'), fill=(244, 246, 252))
@@ -336,7 +335,6 @@ def make_slide_11():
     # Right Card: FortuneMatch Cosmic Luxury (After)
     cx2 = 980
     draw.rounded_rectangle([cx2, card_y, cx2 + card_w, card_y + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 120), width=1)
-    draw.rounded_rectangle([cx2, card_y + 14, cx2 + 5, card_y + card_h - 14], radius=3, fill=(255, 215, 0))
     
     draw_pill_badge(draw, left_x=cx2 + 24, cy=card_y + 24, text="AFTER : FORTUNEMATCH DATA UX", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=10, height=22)
     draw.text((cx2 + 24, card_y + 50), "우주 좌표 & 5각형 오행 실시간 레이더", font=get_font(18, 'bold'), fill=(244, 246, 252))
@@ -405,7 +403,7 @@ def make_slide_11():
             "3-PHASE ROADMAP",
             "지속 가능한 엔터프라이즈 로드맵",
             "최종 비공개 테스트 및 출시 임박",
-            "• Phase 1 (Testing) : 우주 사주 허브 & 60fps 오행 레이더 Google Play 최종 비공개 테스트 (출시 임박)\n• Phase 2 (Next) : 커플 캘린더 연동 및 데이트 길시 푸시 알림 고도화\n• Phase 3 (Future) : 서양 점성술 에페메리스 천체력 100년치 정밀 데이터 탑재",
+            "Phase 1 (Testing) : 우주 사주 허브 & 60fps 오행 레이더 Google Play 최종 비공개 테스트 (출시 임박)\nPhase 2 (Next) : 커플 캘린더 연동 및 데이트 길시 푸시 알림 고도화\nPhase 3 (Future) : 서양 점성술 에페메리스 천체력 100년치 정밀 데이터 탑재",
             "비공개 테스트 빌드 인증 통과 ✓",
             "purple", (216, 180, 254)
         )
@@ -454,9 +452,9 @@ def make_slide_12():
         draw, 
         slide_num=12, 
         category_en="LIVE INTERACTIVE PROTOTYPE | HIGH-PERFORMANCE WEB ENGINE", 
-        title_white="화면을 터치하듯, ", 
-        title_gold="실제 라이브 웹 프로토타입을 직접 조작해 보세요.", 
-        subtitle_kr="정적인 슬라이드를 넘어 스마트폰 뷰포트에서 4대 핵심 인연 여정을 직접 터치하고 검증할 수 있는 인터랙티브 허브입니다.",
+        title_white="웹에서 바로 체험하는 ", 
+        title_gold="60fps 인터랙티브 시뮬레이터", 
+        subtitle_kr="정적인 목업을 넘어 실제 브라우저에서 4대 핵심 인연 여정을 직접 조작해 보세요.",
         right_badge=("LIVE ENGINE READY", "green")
     )
     
@@ -499,9 +497,9 @@ def make_slide_12():
     # Left Bottom Spec Strip (x=100, y=856, w=660, h=124) - Dark Glass Card
     draw.rounded_rectangle([100, 856, 760, 980], radius=14, fill=(14, 20, 36, 240), outline=(229, 192, 123, 70), width=1)
     draw_pill_badge(draw, left_x=120, cy=880, text="CROSS-PLATFORM PRODUCTION ENGINE", font=get_font(9, 'bold'), theme='gold', pad_x=8, height=20)
-    draw.text((120, 908), "• 60fps 고성능 Web 그래픽 렌더링 파이프라인 탑재", font=get_font(11, 'medium'), fill=(203, 213, 225))
-    draw.text((120, 930), "• 100% 온디바이스 오행 벡터 연산 엔진 (외부 전송 없는 AES-256 보안)", font=get_font(11, 'medium'), fill=(203, 213, 225))
-    draw.text((120, 952), "• 반응형 모바일 뷰포트 시뮬레이터 & URL 딥링크 상태 복원 완벽 지원", font=get_font(11, 'medium'), fill=(0, 229, 255))
+    draw.text((120, 908), "60fps 고성능 Web 그래픽 렌더링 파이프라인 탑재", font=get_font(11, 'medium'), fill=(203, 213, 225))
+    draw.text((120, 930), "100% 온디바이스 오행 벡터 연산 엔진 (외부 전송 없는 AES-256 보안)", font=get_font(11, 'medium'), fill=(203, 213, 225))
+    draw.text((120, 952), "반응형 모바일 뷰포트 시뮬레이터 & URL 딥링크 상태 복원 완벽 지원", font=get_font(11, 'medium'), fill=(0, 229, 255))
     
     # ---------------------------------------------------------
     # RIGHT: MASTER LAUNCHER + 4 STEPS + QR CODE (x=800 to 1820, w=1020)
@@ -570,7 +568,6 @@ def make_slide_12():
     for idx, (s_title, s_desc, s_theme) in enumerate(step_items):
         sy = step_y_start + idx * (step_card_h + sgap)
         draw.rounded_rectangle([rx, sy, rx + rw, sy + step_card_h], radius=12, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-        draw.rounded_rectangle([rx, sy + 8, rx + 4, sy + step_card_h - 8], radius=2, fill=(229, 192, 123))
         
         draw_pill_badge(draw, left_x=rx + 20, cy=sy + 22, text=f"STEP {idx+1:02d}", font=get_font(8.5, 'bold'), theme=s_theme, has_dot=False, pad_x=6, height=18, solid=True)
         draw.text((rx + 90, sy + 14), s_title, font=get_font(13, 'bold'), fill=C_TITLE_WHITE)
