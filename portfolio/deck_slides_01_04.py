@@ -528,24 +528,25 @@ def make_slide_04():
     b_new = draw_pill_badge(draw, left_x=leg_x + 450, cy=leg_y + 56, text="NEW", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
     draw.text((b_new[2] + 10, leg_y + 56), "혁신 기능", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='lm')
     
-    # Root Node: Level 0 Master Hub (Compact 460px width with comfortable margins)
-    root_x1, root_y1, root_x2, root_y2 = 730, 234, 1190, 286
+    # Root Node: Level 0 Master Hub (Balanced 500px width with comfortable margins)
+    root_x1, root_y1, root_x2, root_y2 = 710, 224, 1210, 280
     draw.rounded_rectangle([root_x1, root_y1, root_x2, root_y2], radius=12, fill=(14, 20, 36), outline=(229, 192, 123), width=2)
-    b_root = draw_pill_badge(draw, left_x=root_x1 + 16, cy=root_y1 + 26, text="서비스 허브", font=get_font(9, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
-    draw.text((b_root[2] + 14, root_y1 + 16), "포춘매치 모바일 앱 서비스 통합 허브", font=get_font(13.5, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((b_root[2] + 14, root_y1 + 37), "하단 탭 내비게이션 기반 5대 핵심 도메인 구조", font=get_font(10, 'medium'), fill=(163, 176, 204), anchor='lm')
+    b_root = draw_pill_badge(draw, left_x=root_x1 + 18, cy=root_y1 + 28, text="서비스 허브", font=get_font(9, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
+    draw.text((b_root[2] + 16, root_y1 + 18), "포춘매치 모바일 앱 서비스 통합 허브", font=get_font(14, 'bold'), fill=(244, 246, 252), anchor='lm')
+    draw.text((b_root[2] + 16, root_y1 + 40), "하단 탭 내비게이션 기반 5대 핵심 도메인 구조", font=get_font(10.5, 'medium'), fill=(163, 176, 204), anchor='lm')
     
     cw = 328
     cgap = 20
     cols_x = [100 + i * (cw + cgap) for i in range(5)]
     col_centers = [cx + cw // 2 for cx in cols_x]
     
-    draw.line([(960, root_y2), (960, 308)], fill=(229, 192, 123), width=2)
-    draw.ellipse([956, 304, 964, 312], fill=(255, 215, 0))
-    draw.line([(col_centers[0], 308), (col_centers[-1], 308)], fill=(229, 192, 123, 180), width=2)
+    # Hub Connector Line with Center Indicator
+    draw.line([(960, root_y2), (960, 304)], fill=(229, 192, 123), width=2)
+    draw.ellipse([956, 300, 964, 308], fill=(255, 215, 0))
+    draw.line([(col_centers[0], 304), (col_centers[-1], 304)], fill=(229, 192, 123, 180), width=2)
     for cx in col_centers:
-        draw.ellipse([cx - 4, 308 - 4, cx + 4, 308 + 4], fill=(255, 215, 0))
-        draw_arrow(draw, (cx, 308), (cx, 330), col=(229, 192, 123), width=2, arrow_size=4)
+        draw.ellipse([cx - 4, 304 - 4, cx + 4, 304 + 4], fill=(255, 215, 0))
+        draw_arrow(draw, (cx, 304), (cx, 326), col=(229, 192, 123), width=2, arrow_size=4)
         
     domains_data = [
         ("1.0 COSMIC HUB", "우주 사주 허브", "탄생 주파수 및 오늘의 길시 조망", [
@@ -577,42 +578,42 @@ def make_slide_04():
     
     for i, (dom_code, dom_name, dom_desc, containers) in enumerate(domains_data):
         cx = cols_x[i]
-        draw.rounded_rectangle([cx, 330, cx + cw, 402], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 180), width=1)
-        draw.text((cx + 18, 344), dom_code, font=get_font(9.5, 'bold'), fill=(255, 215, 0))
-        draw.text((cx + 18, 363), dom_name, font=get_font(13, 'bold'), fill=(244, 246, 252))
-        draw.text((cx + 18, 382), dom_desc, font=get_font(8.5, 'medium'), fill=(163, 176, 204))
+        draw.rounded_rectangle([cx, 326, cx + cw, 398], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 180), width=1)
+        draw.text((cx + 18, 340), dom_code, font=get_font(9.5, 'bold'), fill=(255, 215, 0))
+        draw.text((cx + 18, 359), dom_name, font=get_font(13.5, 'bold'), fill=(244, 246, 252))
+        draw.text((cx + 18, 379), dom_desc, font=get_font(8.5, 'medium'), fill=(163, 176, 204))
         
         tree_x = cx + 16
-        draw.line([(tree_x, 402), (tree_x, 670)], fill=(229, 192, 123, 100), width=2)
+        draw.line([(tree_x, 398), (tree_x, 642)], fill=(229, 192, 123, 100), width=2)
         
         card_w = cw - 32
         card_x = cx + 32
-        cy = 414
-        card_h = 82
-        gap = 10
+        cy = 410
+        card_h = 88
+        gap = 12
         
         for scr_id, view_type, title, desc, is_new in containers:
-            draw.line([(tree_x, cy + 20), (card_x, cy + 20)], fill=(229, 192, 123, 120), width=2)
-            draw.ellipse([tree_x - 3, cy + 20 - 3, tree_x + 3, cy + 20 + 3], fill=(255, 215, 0))
+            draw.line([(tree_x, cy + 22), (card_x, cy + 22)], fill=(229, 192, 123, 120), width=2)
+            draw.ellipse([tree_x - 3, cy + 22 - 3, tree_x + 3, cy + 22 + 3], fill=(255, 215, 0))
             
-            card_bg = (14, 20, 36, 220) if not is_new else (24, 32, 54, 240)
+            card_bg = (14, 20, 36, 230) if not is_new else (24, 32, 54, 245)
             card_bd = (229, 192, 123, 40) if not is_new else (229, 192, 123, 120)
             draw.rounded_rectangle([card_x, cy, card_x + card_w, cy + card_h], radius=8, fill=card_bg, outline=card_bd, width=1)
             
-            draw.text((card_x + 12, cy + 12), scr_id, font=get_font(8, 'bold'), fill=(163, 176, 204))
-            draw.rounded_rectangle([card_x + 85, cy + 10, card_x + 155, cy + 26], radius=4, fill=(35, 30, 15))
-            draw.text((card_x + 120, cy + 18), view_type, font=get_font(7.5, 'bold'), fill=(255, 215, 0), anchor='mm')
+            draw.text((card_x + 14, cy + 12), scr_id, font=get_font(8.5, 'bold'), fill=(163, 176, 204))
+            draw.rounded_rectangle([card_x + 92, cy + 10, card_x + 165, cy + 27], radius=4, fill=(35, 30, 15))
+            draw.text((card_x + 128, cy + 18), view_type, font=get_font(8, 'bold'), fill=(255, 215, 0), anchor='mm')
             
             if is_new:
-                draw_pill_badge(draw, left_x=card_x + card_w - 42, cy=cy + 18, text="NEW", font=get_font(7, 'bold'), theme='gold', pad_x=4, height=16)
+                draw_pill_badge(draw, left_x=card_x + card_w - 44, cy=cy + 18, text="NEW", font=get_font(7, 'bold'), theme='gold', pad_x=4, height=16)
                 
-            draw.text((card_x + 12, cy + 34), title, font=get_font(11, 'bold'), fill=(244, 246, 252))
-            draw.text((card_x + 12, cy + 54), desc, font=get_font(8.5, 'regular'), fill=(163, 176, 204))
+            draw.text((card_x + 14, cy + 37), title, font=get_font(12, 'bold'), fill=(244, 246, 252))
+            draw.text((card_x + 14, cy + 60), desc, font=get_font(9, 'regular'), fill=(163, 176, 204))
             cy += card_h + gap
             
-    # Bottom: 4 IA Principles
-    bp_y = 785
-    bp_h = 160
+    # Bottom: 4 IA Principles (Spacious, balanced height and comfortable padding)
+    bp_y = 750
+    bp_h = 185
     bp_w = 415
     bp_gap = 20
     principles = [
@@ -624,14 +625,14 @@ def make_slide_04():
     for idx, (p_num, p_title, p_desc, p_theme) in enumerate(principles):
         px = 100 + idx * (bp_w + bp_gap)
         draw.rounded_rectangle([px, bp_y, px + bp_w, bp_y + bp_h], radius=12, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-        draw_pill_badge(draw, left_x=px + 18, cy=bp_y + 24, text=f"PRINCIPLE {p_num}", font=get_font(8.5, 'bold'), theme=p_theme, has_dot=True, pad_x=8, height=20)
-        draw.text((px + 18, bp_y + 52), p_title, font=get_font(12.5, 'bold'), fill=C_TITLE_WHITE)
-        draw.line([(px + 18, bp_y + 72), (px + bp_w - 18, bp_y + 72)], fill=(229, 192, 123, 40), width=1)
-        b_lines = wrap_text_by_words(p_desc, get_font(10.5, 'medium'), bp_w - 36, draw)
-        by = bp_y + 84
+        draw_pill_badge(draw, left_x=px + 20, cy=bp_y + 26, text=f"PRINCIPLE {p_num}", font=get_font(8.5, 'bold'), theme=p_theme, has_dot=True, pad_x=8, height=20)
+        draw.text((px + 20, bp_y + 56), p_title, font=get_font(13, 'bold'), fill=C_TITLE_WHITE)
+        draw.line([(px + 20, bp_y + 78), (px + bp_w - 20, bp_y + 78)], fill=(229, 192, 123, 40), width=1)
+        b_lines = wrap_text_by_words(p_desc, get_font(10.5, 'medium'), bp_w - 40, draw)
+        by = bp_y + 94
         for bl in b_lines:
-            draw.text((px + 18, by), bl, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
-            by += 18
+            draw.text((px + 20, by), bl, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
+            by += 20
             
     draw_slide_footer(draw, 4)
     save_slide(base, 4)
