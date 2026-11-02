@@ -22,7 +22,7 @@ def make_slide_05():
         category_en="USER FLOW & EXPERIENCE LOGIC | STATE MACHINE",
         title_white="입력부터 매칭까지 ",
         title_gold="마찰 없는 사용자 여정",
-        subtitle_kr="좌표 자동 연산과 결측치 보정 가드로 이탈률을 0으로 줄인 상태 전이 로직"
+        subtitle_kr="자동 계산과 입력 오류 방지로 이탈을 막는 매끄러운 화면 흐름과 사용자 여정"
     )
     
     # TOP-RIGHT: 서비스 UX 플로우차트 기호 범례 (Clean UX Flow Legend)
@@ -61,11 +61,11 @@ def make_slide_05():
     col_centers = [cx + cw // 2 for cx in cols_x]
     
     stages_info = [
-        ("STAGE 01", "탄생 데이터 입력", "Birth Input & Setup"),
-        ("STAGE 02", "우주 사주 허브", "Cosmic Hub & Coordinates"),
-        ("STAGE 03", "오행 레이더 분석", "Five Elements Analysis"),
-        ("STAGE 04", "정밀 인연 매칭", "Compatibility Chemistry"),
-        ("STAGE 05", "타로 & 시크릿 볼트", "Tarot Reading & Vault")
+        ("STAGE 01", "탄생 정보 입력", "간편 프로필 설정"),
+        ("STAGE 02", "우주 사주 허브", "24절기 궤도 탐색"),
+        ("STAGE 03", "오행 레이더 분석", "에너지 밸런스 진단"),
+        ("STAGE 04", "정밀 인연 매칭", "케미스트리 분석"),
+        ("STAGE 05", "타로 & 안심 보관", "도파민 힐링 리추얼")
     ]
     
     for i, (st_code, st_name, st_en) in enumerate(stages_info):
@@ -73,7 +73,7 @@ def make_slide_05():
         draw.rounded_rectangle([cx, 234, cx + cw, 284], radius=8, fill=(35, 30, 15, 255), outline=(229, 192, 123, 180), width=1)
         draw_pill_badge(draw, left_x=cx + 16, cy=249, text=st_code, font=get_font(7.5, 'bold'), theme='gold', pad_x=5, height=16)
         draw.text((cx + 86, 249), st_name, font=get_font(11, 'bold'), fill=(244, 246, 252), anchor='lm')
-        draw.text((cx + 16, 269), st_en, font=get_font(8.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+        draw.text((cx + 16, 269), st_en, font=get_font(9, 'medium'), fill=(163, 176, 204), anchor='lm')
         
         if i < 4:
             arrow_start_x = cx + cw
@@ -92,7 +92,7 @@ def make_slide_05():
     draw.rounded_rectangle([c0 - nw // 2, 344, c0 + nw // 2, 388], radius=6, fill=(14, 20, 36), outline=(229, 192, 123, 80), width=1)
     b_s = draw_pill_badge(draw, left_x=c0 - 98, cy=358, text="SCREEN", font=get_font(6.5, 'bold'), theme='slate', pad_x=4, height=14)
     draw.text((b_s[2] + 8, 358), "스플래시 & 로컬 환경", font=get_font(9, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((c0, 375), "기기 로컬 암호화 세션 검증", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
+    draw.text((c0, 375), "기존 맞춤 프로필 확인", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
     draw_arrow(draw, (c0, 388), (c0, 406), col=(229, 192, 123), width=2, arrow_size=4)
     
     # Diamond: 최초 실행?
@@ -127,7 +127,7 @@ def make_slide_05():
     
     draw.rounded_rectangle([c0 - nw // 2, 626, c0 + nw // 2, 672], radius=6, fill=(12, 38, 28), outline=(16, 185, 129), width=1)
     b_s = draw_pill_badge(draw, left_x=c0 - 98, cy=640, text="FEEDBACK", font=get_font(6.5, 'bold'), theme='green', pad_x=4, height=14)
-    draw.text((b_s[2] + 8, 640), "메인 좌표 세션 활성화", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
+    draw.text((b_s[2] + 8, 640), "홈 화면 및 탭 활성화", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
     draw.text((c0, 656), "하단 독 네비게이션 4대 탭 노출", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
     
     # Handover to Stage 02
@@ -169,8 +169,8 @@ def make_slide_05():
     
     draw.rounded_rectangle([c1 - nw // 2, 606, c1 + nw // 2, 652], radius=6, fill=(12, 38, 28), outline=(16, 185, 129), width=1)
     b_s = draw_pill_badge(draw, left_x=c1 - 98, cy=620, text="FEEDBACK", font=get_font(6.5, 'bold'), theme='green', pad_x=4, height=14)
-    draw.text((b_s[2] + 8, 620), "오행 분석 파라미터 전달", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
-    draw.text((c1, 636), "천간/지지 오행 비율 0ms 파싱", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
+    draw.text((b_s[2] + 8, 620), "오행 데이터 화면 연동", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
+    draw.text((c1, 636), "사주 오행 에너지 즉각 분석", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
     
     # Handover to Stage 03
     draw_arrow(draw, (cols_x[1] + cw, 629), (cols_x[2], 629), col=(229, 192, 123), width=2, arrow_size=4)
@@ -206,8 +206,8 @@ def make_slide_05():
     
     draw.rounded_rectangle([c2 - nw // 2, 580, c2 + nw // 2, 626], radius=6, fill=(12, 38, 28), outline=(16, 185, 129), width=1)
     b_s = draw_pill_badge(draw, left_x=c2 - 98, cy=594, text="FEEDBACK", font=get_font(6.5, 'bold'), theme='green', pad_x=4, height=14)
-    draw.text((b_s[2] + 8, 594), "오행 데이터 캐싱 완료", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
-    draw.text((c2, 610), "상대방 궁합 연산 시 오행 중첩", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
+    draw.text((b_s[2] + 8, 594), "오행 밸런스 결과 저장", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
+    draw.text((c2, 610), "상대방 궁합 분석 시 즉시 활용", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
     
     # Handover to Stage 04
     draw_arrow(draw, (cols_x[2] + cw, 603), (cols_x[3], 603), col=(229, 192, 123), width=2, arrow_size=4)
@@ -223,8 +223,8 @@ def make_slide_05():
     
     draw.rounded_rectangle([c3 - nw // 2, 360, c3 + nw // 2, 404], radius=6, fill=(35, 30, 15), outline=(229, 192, 123), width=1)
     b_s = draw_pill_badge(draw, left_x=c3 - 98, cy=374, text="ACTION", font=get_font(6.5, 'bold'), theme='gold', pad_x=4, height=14)
-    draw.text((b_s[2] + 8, 374), "상대 생년월일 입력/선택", font=get_font(9, 'bold'), fill=(255, 215, 0), anchor='lm')
-    draw.text((c3, 391), "1-Tap 시트에서 상대 정보 바인딩", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
+    draw.text((b_s[2] + 8, 374), "상대 생년월일 간편 선택", font=get_font(9, 'bold'), fill=(255, 215, 0), anchor='lm')
+    draw.text((c3, 391), "1-Tap 시트에서 상대방 프로필 추가", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
     draw_arrow(draw, (c3, 404), (c3, 422), col=(229, 192, 123), width=2, arrow_size=4)
     
     # Diamond: 상대방 출생시 인지 여부?
@@ -242,8 +242,8 @@ def make_slide_05():
     
     draw.rounded_rectangle([c3 - nw // 2, 580, c3 + nw // 2, 626], radius=6, fill=(12, 38, 28), outline=(16, 185, 129), width=1)
     b_s = draw_pill_badge(draw, left_x=c3 - 98, cy=594, text="FEEDBACK", font=get_font(6.5, 'bold'), theme='green', pad_x=4, height=14)
-    draw.text((b_s[2] + 8, 594), "인연 궁합 볼트 저장", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
-    draw.text((c3, 610), "상대와의 데이트 팁 솔루션 완료", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
+    draw.text((b_s[2] + 8, 594), "인연 궁합 카드 보관", font=get_font(9, 'bold'), fill=(255, 255, 255), anchor='lm')
+    draw.text((c3, 610), "상대와의 맞춤 대화 팁 전달", font=get_font(7.5, 'medium'), fill=(209, 250, 229), anchor='mm')
     
     # Handover to Stage 05
     draw_arrow(draw, (cols_x[3] + cw, 603), (cols_x[4], 603), col=(229, 192, 123), width=2, arrow_size=4)
@@ -271,8 +271,8 @@ def make_slide_05():
     
     draw.rounded_rectangle([c4 - nw // 2, 484, c4 + nw // 2, 528], radius=6, fill=(14, 20, 36), outline=(229, 192, 123, 80), width=1)
     b_s = draw_pill_badge(draw, left_x=c4 - 98, cy=498, text="SCREEN", font=get_font(6.5, 'bold'), theme='slate', pad_x=4, height=14)
-    draw.text((b_s[2] + 8, 498), "시크릿 볼트 기록 암호화", font=get_font(9, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((c4, 515), "온디바이스 SQLite 보관 누적", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
+    draw.text((b_s[2] + 8, 498), "나만의 시크릿 보관함", font=get_font(9, 'bold'), fill=(244, 246, 252), anchor='lm')
+    draw.text((c4, 515), "기기 내 프라이빗 안심 보관", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
     draw_arrow(draw, (c4, 528), (c4, 546), col=(229, 192, 123), width=2, arrow_size=4)
     
     # End Capsule (High contrast: Dark background with crisp gold outline & pure white text)
@@ -285,10 +285,10 @@ def make_slide_05():
     bp_w = 415
     bp_gap = 20
     logic_cards = [
-        ("01", "무한 루프 방지 및 결측치 자동 보정", "출생 시간을 모르는 사용자를 위해 정오(12:00) 기준 일주 보정 알고리즘을 적용하여 진입 차단 방지", "gold"),
-        ("02", "로컬 상태 관리 (Riverpod StateNotifier)", "사용자 프로필, 오늘의 길시, 오행 레이더 수치를 단일 상태 저장소로 바인딩하여 0ms 렌더링", "cyan"),
-        ("03", "햅틱 진동 피드백 엔진 통합", "카드 선택, 레이더 터치, 궁합 산출 완료 순간 기기 햅틱 모터를 구동하여 높은 실물감 부여", "purple"),
-        ("04", "100% 오프라인 캐싱 & 볼트 보안", "네트워크 단절 상태에서도 기존 계산된 좌표와 궁합 리포트를 무손실 열람 가능하도록 설계", "green")
+        ("01", "사용자 입력 오류 사전 방지", "출생 시각을 몰라도 정오(12:00) 기준 스마트 보정을 적용하여 이탈 없이 원활한 진행 안내", "gold"),
+        ("02", "실시간 반응형 데이터 동기화", "사용자 프로필, 오늘의 길시, 오행 수치를 일관되게 연결하여 끊김 없는 화면 전환 제공", "cyan"),
+        ("03", "촉각적 햅틱 인터랙션 설계", "카드 선택, 레이더 터치, 궁합 산출 순간 섬세한 진동 피드백으로 조작 몰입감 극대화", "purple"),
+        ("04", "안심 오프라인 사용 & 프라이빗 보관", "네트워크 연결이 없어도 언제든 저장된 나의 좌표와 인연 리포트를 안전하게 열람", "green")
     ]
     for idx, (l_num, l_title, l_desc, l_theme) in enumerate(logic_cards):
         px = 100 + idx * (bp_w + bp_gap)
@@ -410,10 +410,10 @@ def make_slide_06():
     draw.text((p3_x + 28, sec_y + 390), "오행 상생  나의 토 기운을 상대방이 보완", font=get_font(9, 'medium'), fill=(52, 211, 153))
     
     draw.rounded_rectangle([p3_x + 18, sec_y + 440, p3_x + pw - 18, sec_y + 490], radius=12, fill=(138, 43, 226))
-    draw.text((p3_x + pw // 2, sec_y + 465), "궁합 결과 볼트에 저장 ↗", font=get_font(12, 'bold'), fill=(255, 255, 255), anchor='mm')
+    draw.text((p3_x + pw // 2, sec_y + 465), "궁합 결과 보관함에 저장 ↗", font=get_font(12, 'bold'), fill=(255, 255, 255), anchor='mm')
     
     # Screen 4: 럭셔리 타로
-    draw_wf_chassis(p4_x, "④ SCR-04 · 럭셔리 타로 & 볼트", "gold")
+    draw_wf_chassis(p4_x, "④ SCR-04 · 럭셔리 타로 & 보관함", "gold")
     draw.rounded_rectangle([p4_x + 18, sec_y + 64, p4_x + pw - 18, sec_y + 110], radius=10, fill=(35, 30, 15), outline=(229, 192, 123, 80), width=1)
     draw.text((p4_x + 28, sec_y + 76), "오늘의 메이저 아르카나 타로", font=get_font(10, 'bold'), fill=(255, 215, 0))
     draw.text((p4_x + 28, sec_y + 92), "손끝으로 덱을 셔플하고 1장을 뽑으세요", font=get_font(9.5, 'regular'), fill=(203, 213, 225))
@@ -430,10 +430,10 @@ def make_slide_06():
     draw.text((p4_x + 28, sec_y + 332), "심층 리딩 & 시크릿 조언", font=get_font(9.5, 'bold'), fill=(255, 215, 0))
     draw.text((p4_x + 28, sec_y + 354), "핵심 키워드  성공, 활력, 관계의 명확성", font=get_font(9, 'medium'), fill=(203, 213, 225))
     draw.text((p4_x + 28, sec_y + 372), "관계 조언  솔직한 대화가 운을 열어줌", font=get_font(9, 'medium'), fill=(203, 213, 225))
-    draw.text((p4_x + 28, sec_y + 390), "볼트 보관  온디바이스 자동 암호화 저장", font=get_font(9, 'medium'), fill=(163, 176, 204))
+    draw.text((p4_x + 28, sec_y + 390), "안심 보관  기기 내 프라이빗 자동 저장", font=get_font(9, 'medium'), fill=(163, 176, 204))
     
     draw.rounded_rectangle([p4_x + 18, sec_y + 440, p4_x + pw - 18, sec_y + 490], radius=12, fill=(229, 192, 123))
-    draw.text((p4_x + pw // 2, sec_y + 465), "시크릿 볼트 기록 확인 ↗", font=get_font(12, 'bold'), fill=(7, 10, 18), anchor='mm')
+    draw.text((p4_x + pw // 2, sec_y + 465), "시크릿 보관함 기록 확인 ↗", font=get_font(12, 'bold'), fill=(7, 10, 18), anchor='mm')
     
     # Bottom: 4 Ergonomic System Cards
     bp_y = 785
@@ -442,9 +442,9 @@ def make_slide_06():
     bp_gap = 20
     ergo_cards = [
         ("01", "THUMB-ZONE 48dp", "Fitts' Law 한 손 조작성 최적화", "한 손 파지 시 엄지가 닿는 하단 120dp 반경 내 주요 액션 버튼을 집중 배치하여 이동 피로 65% 절감", "gold"),
-        ("02", "BOUNDARY GUARD", "출생시 결측치 자동 보정 엔진", "출생 시간을 모르는 경우 정오(12:00) 기준 태양시 보정 및 일주 중심 분석 가이드 자동 작동", "cyan"),
+        ("02", "SMART GUIDANCE", "태어난 시간 안심 보정 가이드", "출생 시각을 모르는 경우에도 정오(12:00) 기준 스마트 보정을 통해 높은 신뢰도의 분석 결과 제공", "cyan"),
         ("03", "HAPTIC FIDELITY", "60fps 햅틱 진동 피드백", "3D 타로 카드 플립 및 궁합 매칭 도출 순간 진동 모터를 제어하여 살아있는 실물 촉각 전달", "purple"),
-        ("04", "ZERO-LOSS VAULT", "100% 온디바이스 로컬 암호화", "분석된 사주 및 타로 기록을 외부 유출 없이 SQLite 로컬 DB에 암호화하여 영구 보존", "green")
+        ("04", "PRIVATE VAULT", "완전한 개인정보 안심 보관", "분석된 사주 및 타로 기록을 외부 서버로 전송하지 않고 나만의 기기에 안전하게 보존", "green")
     ]
     for idx, (e_num, e_badge, e_title, e_desc, e_theme) in enumerate(ergo_cards):
         px = 100 + idx * (bp_w + bp_gap)
@@ -762,7 +762,7 @@ def make_slide_07():
         ("Headline 20", "Bold", "우주 사주 고유 좌표", False),
         ("Title 16", "SemiBold", "오행 실시간 레이더 분석", False),
         ("Body 14", "Regular", "14:30 ~ 16:00 금전운 길시", False),
-        ("Caption 11", "Medium", "AES-256 로컬 암호화 완료", False),
+        ("Caption 11", "Medium", "프라이빗 안심 보관 완료", False),
     ]
     ty_start = r2_y + 64
     for i, (t_role, t_weight, t_sample, is_mono) in enumerate(t_rows):
@@ -845,22 +845,22 @@ def make_slide_07():
     draw.text((colB_x + 40, k3_y + 32), "엄지 조작성 고려 R12 / 52dp 규격", font=get_font(8.5, 'regular'), fill=(163, 176, 204))
     
     draw.rounded_rectangle([colB_x + 40, k3_y + 54, colB_x + 28 + k1_w - 12, k3_y + 94], radius=12, fill=(229, 192, 123))
-    draw.text((colB_x + 28 + k1_w // 2, k3_y + 74), "궁합 결과 볼트에 암호화 저장 ↗", font=get_font(10.5, 'bold'), fill=(7, 10, 18), anchor='mm')
+    draw.text((colB_x + 28 + k1_w // 2, k3_y + 74), "궁합 결과 시크릿 보관함에 저장 ↗", font=get_font(10.5, 'bold'), fill=(7, 10, 18), anchor='mm')
     
     draw.rounded_rectangle([colB_x + 40, k3_y + 104, colB_x + 28 + k1_w - 12, k3_y + 144], radius=12, fill=(35, 30, 15), outline=(255, 215, 0), width=1)
     draw.text((colB_x + 28 + k1_w // 2, k3_y + 124), "다시 타로 셔플하기 (재시도)", font=get_font(10, 'bold'), fill=(255, 215, 0), anchor='mm')
     
     draw.rounded_rectangle([k2_x, k3_y, k2_x + k1_w, r2_y + r2_h - 24], radius=10, fill=(30, 18, 48), outline=(168, 85, 247, 80), width=1)
-    draw.text((k2_x + 14, k3_y + 14), "시크릿 볼트 (SQLite 암호화 모듈)", font=get_font(11, 'bold'), fill=(216, 180, 254))
-    draw.text((k2_x + 14, k3_y + 32), "외부 서버 무전송 · 100% 온디바이스", font=get_font(8.5, 'regular'), fill=(163, 176, 204))
+    draw.text((k2_x + 14, k3_y + 14), "시크릿 보관함 (프라이빗 안심 스토리지)", font=get_font(11, 'bold'), fill=(216, 180, 254))
+    draw.text((k2_x + 14, k3_y + 32), "외부 서버 무전송 · 완전한 프라이빗 보호", font=get_font(8.5, 'regular'), fill=(163, 176, 204))
     
     draw.rounded_rectangle([k2_x + 14, k3_y + 54, k2_x + k1_w - 14, k3_y + 94], radius=8, fill=(24, 32, 54), outline=(229, 192, 123, 60), width=1)
-    draw.text((k2_x + 26, k3_y + 68), "암호화 키: AES-256 GCM Salted", font=get_font(9, 'bold'), fill=(255, 215, 0))
+    draw.text((k2_x + 26, k3_y + 68), "보안 체계: 최고 수준 개인정보 암호화", font=get_font(9, 'bold'), fill=(255, 215, 0))
     draw.text((k2_x + 26, k3_y + 82), "저장된 인연: 총 12명 (보안 보관 중)", font=get_font(8.5, 'regular'), fill=(203, 213, 225))
     
     draw.rounded_rectangle([k2_x + 14, k3_y + 104, k2_x + k1_w - 14, k3_y + 144], radius=8, fill=(24, 32, 54), outline=(168, 85, 247, 60), width=1)
     draw.text((k2_x + 26, k3_y + 118), "타로 아르카나 기록: 38회 완료", font=get_font(9, 'bold'), fill=(216, 180, 254))
-    draw.text((k2_x + 26, k3_y + 132), "로컬 DB 용량: 142KB · 제로 누수 보장", font=get_font(8.5, 'regular'), fill=(16, 185, 129))
+    draw.text((k2_x + 26, k3_y + 132), "로컬 저장: 142KB · 외부 유출 제로 보장", font=get_font(8.5, 'regular'), fill=(16, 185, 129))
     
     draw_slide_footer(draw, 7)
     save_slide(base, 7)

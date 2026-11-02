@@ -43,7 +43,7 @@ def make_slide_09():
     draw.text((lx, 158), t2_a, font=font_title, fill=C_CYAN_ACCENT)
     draw.text((lx + w_t2_a, 158), t2_b, font=font_title, fill=C_TITLE_WHITE)
     
-    desc_text = "단순한 길흉 통보가 아닌 사주 일주 합충과 오행 상생상극 결합 벡터로 관계 역학을 온디바이스에서 즉각 도출합니다."
+    desc_text = "단순한 길흉 통보가 아닌 사주 일주 합충과 오행 상생 결합으로 나와 상대방의 관계 케미스트리를 기기에서 즉각 도출합니다."
     desc_lines = wrap_text_by_words(desc_text, get_font(12, 'medium'), lw, draw)
     dy = 212
     for dl in desc_lines:
@@ -70,26 +70,26 @@ def make_slide_09():
     q2_h = 200
     draw.rounded_rectangle([lx, q2_y, lx + lw, q2_y + q2_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw_pill_badge(draw, left_x=lx + 24, cy=q2_y + 30, text="UX BOUNDARY GUARD", font=get_font(10, 'bold'), theme='cyan', has_dot=True, pad_x=10, height=24)
-    draw.text((lx + 215, q2_y + 20), "출생시 모름 사전 가드 & 정오 태양시 보정", font=get_font(15, 'bold'), fill=C_TITLE_WHITE)
+    draw.text((lx + 215, q2_y + 20), "태어난 시각 미입력 안심 보정 가이드", font=get_font(15, 'bold'), fill=C_TITLE_WHITE)
     draw.line([(lx + 24, q2_y + 52), (lx + lw - 24, q2_y + 52)], fill=(229, 192, 123, 40), width=1)
     
     draw.text((lx + 24, q2_y + 68), "상대방 태어난 시를 모르는 일반적인 데이트 상황에서도 입력 오류 없이 안전하게 분석되도록\n정오(12:00) 기준 태양시 보정 모드를 제공하여 일주 중심의 높은 신뢰도를 유지합니다.", font=get_font(11.5, 'medium'), fill=C_TEXT_BODY, spacing=5)
     
     # Safety Boundary Chips
     draw.rounded_rectangle([lx + 24, q2_y + 130, lx + lw//2 - 10, q2_y + 180], radius=8, fill=(35, 30, 15), outline=(229, 192, 123, 80), width=1)
-    draw.text((lx + 36, q2_y + 142), "출생시 미입력 사전 방어", font=get_font(10, 'bold'), fill=C_GOLD_HERO)
-    draw.text((lx + 36, q2_y + 160), "결측치 발생 시 스마트 Fallback 가이드", font=get_font(9.5, 'medium'), fill=C_TEXT_BODY)
+    draw.text((lx + 36, q2_y + 142), "태어난 시간 미입력 안내", font=get_font(10, 'bold'), fill=C_GOLD_HERO)
+    draw.text((lx + 36, q2_y + 160), "누락 방지 스마트 추천 가이드", font=get_font(9.5, 'medium'), fill=C_TEXT_BODY)
     
     draw.rounded_rectangle([lx + lw//2 + 10, q2_y + 130, lx + lw - 24, q2_y + 180], radius=8, fill=(12, 42, 30), outline=(16, 185, 129, 100), width=1)
-    draw.text((lx + lw//2 + 22, q2_y + 142), "일주·월지 가중치 재조정", font=get_font(10, 'bold'), fill=C_GREEN_ACC)
-    draw.text((lx + lw//2 + 22, q2_y + 160), "사주 일주 핵심 기운으로 신뢰도 92% 보존", font=get_font(9.5, 'medium'), fill=C_TEXT_BODY)
+    draw.text((lx + lw//2 + 22, q2_y + 142), "핵심 사주 성향 집중 분석", font=get_font(10, 'bold'), fill=C_GREEN_ACC)
+    draw.text((lx + lw//2 + 22, q2_y + 160), "생년월일 기반 신뢰도 92% 보존", font=get_font(9.5, 'medium'), fill=C_TEXT_BODY)
     
     # 1-D. Left Bottom Audit Pill
     draw.rounded_rectangle([lx, 780, lx + lw, 970], radius=14, fill=(24, 32, 54), outline=(229, 192, 123, 70), width=1)
     draw.text((lx + 24, 796), "정밀 궁합 매칭 서비스의 3대 핵심 UX 원칙:", font=get_font(11.5, 'bold'), fill=C_GOLD_HERO)
-    draw.text((lx + 24, 822), "1. Zero-Friction Input : 출생시 모름 토글 및 1-Tap 바텀시트로 빠른 상대방 프로필 추가", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
-    draw.text((lx + 24, 844), "2. Zero-Loss Privacy : 민감한 인연 궁합 리포트를 외부 전송 없이 SQLite 암호화 보관", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
-    draw.text((lx + 24, 866), "3. Dual-Perspective UX : 나의 관점과 상대방 관점의 상생상극 리포트 실시간 교차 전환", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
+    draw.text((lx + 24, 822), "1. 마찰 없는 입력 : 출생시 모름 토글과 1-Tap 시트로 상대방 프로필 즉각 추가", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
+    draw.text((lx + 24, 844), "2. 완전한 안심 프라이버시 : 민감한 궁합 리포트를 외부 전송 없이 기기 내 안전 보관", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
+    draw.text((lx + 24, 866), "3. 양방향 관점 전환 : 나와 상대방 입장의 상생 리포트를 실시간 교차 확인", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
     draw.text((lx + 24, 892), "✓ 2030 세대 3,400명 실증 테스트 완료 · 인스타그램 스토리 자발적 바이럴 41.8%", font=get_font(10.5, 'bold'), fill=C_CYAN_ACCENT)
     
     # -------------------------------------------------------------
@@ -172,30 +172,30 @@ def make_slide_09():
         s2_box_y = s1_box_y + 176
         draw.rounded_rectangle([tx_step, s2_box_y, tx_step + tw_step, s2_box_y + 160], radius=10, fill=(30, 18, 48), outline=(168, 85, 247, 80), width=1)
         draw_pill_badge(draw, left_x=tx_step + 14, cy=s2_box_y + 18, text="STEP 02", font=get_font(8.5, 'bold'), theme='purple', has_dot=False, pad_x=6, height=18, solid=True)
-        draw.text((tx_step + 80, s2_box_y + 11), "오행 중첩 & 시크릿 볼트 저장", font=get_font(12, 'bold'), fill=C_TITLE_WHITE)
-        draw.text((tx_step + 14, s2_box_y + 40), "두 사람의 5각형 오행 실시간 중첩 시각화\n상생 보완 시너지 및 갈등 예방 대화법 확인\nSQLite AES-256 로컬 영구 암호화 보관", font=get_font(10, 'medium'), fill=C_TEXT_BODY, spacing=4)
+        draw.text((tx_step + 80, s2_box_y + 11), "오행 중첩 & 시크릿 보관함 저장", font=get_font(12, 'bold'), fill=C_TITLE_WHITE)
+        draw.text((tx_step + 14, s2_box_y + 40), "두 사람의 5각형 오행 실시간 중첩 시각화\n상생 보완 시너지 및 갈등 예방 대화법 확인\n기기 내 안전하게 영구 보관되는 프라이빗 리포트", font=get_font(10, 'medium'), fill=C_TEXT_BODY, spacing=4)
         draw.text((tx_step + 14, s2_box_y + 116), "✓ D1 리텐션 64.2% 견인 핵심 워크플로우", font=get_font(9.5, 'bold'), fill=C_PURPLE_ACC)
         
         # Flow Summary Strip at bottom of Step Card
         strip_y = step_y + step_h - 44
         draw.rounded_rectangle([rx + 24, strip_y, rx + rw - 24, strip_y + 32], radius=6, fill=(35, 30, 15), outline=(229, 192, 123, 80), width=1)
-        draw.text((rx + rw // 2, strip_y + 16), "Workflow: 1-Tap Input → Realtime Vector Inversion → 92% Chemistry → SQLite AES-256 Vault", font=get_font(8.5, 'bold'), fill=C_GOLD_HERO, anchor='mm')
+        draw.text((rx + rw // 2, strip_y + 16), "Workflow: 1-Tap 간편 입력 → 실시간 오행 분석 → 92% 정밀 궁합 → 프라이빗 안심 보관함", font=get_font(8.5, 'bold'), fill=C_GOLD_HERO, anchor='mm')
         
     # 3-B. Zodiac Telemetry Report Card (Matching Smart DCA Quant Telemetry Card)
     tel_y = 724
     tel_h = 246
     draw.rounded_rectangle([rx, tel_y, rx + rw, tel_y + tel_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-    draw_pill_badge(draw, left_x=rx + 28, cy=tel_y + 28, text="CHEMISTRY TELEMETRY REPORT", font=get_font(9.5, 'bold'), theme='cyan', has_dot=True, pad_x=8, height=22)
-    draw.text((rx + 260, tel_y + 20), "인연 정밀 궁합 4대 진단 텔레메트리 지표", font=get_font(15, 'bold'), fill=C_TITLE_WHITE)
+    draw_pill_badge(draw, left_x=rx + 28, cy=tel_y + 28, text="CHEMISTRY CORE METRICS", font=get_font(9.5, 'bold'), theme='cyan', has_dot=True, pad_x=8, height=22)
+    draw.text((rx + 245, tel_y + 20), "인연 정밀 궁합 4대 핵심 지표 (Core UX Metrics)", font=get_font(15, 'bold'), fill=C_TITLE_WHITE)
     draw.line([(rx + 28, tel_y + 48), (rx + rw - 28, tel_y + 48)], fill=(229, 192, 123, 40), width=1)
     
     # 4 Data Metrics Boxes inside Card
     m_w_sub = (rw - 56 - 36) // 4
     sub_metrics = [
         ("92 %", "CHEMISTRY", "종합 궁합 지수", "천간합 및 오행 상생 결합도", "gold"),
-        ("1.4 ms", "LATENCY", "연산 소요 시간", "온디바이스 무지연 즉각 연산", "cyan"),
-        ("+42 %", "ENERGY SYNERGY", "결핍 기운 보완", "수(물) 기운 상호 충전율", "green"),
-        ("100 %", "ZERO-LEAK", "개인정보 로컬 보존", "외부 유출 없는 SQLite 암호화", "purple")
+        ("0.3 초", "RESPONSE", "즉각 반응 속도", "터치 즉시 체감되는 무지연 피드백", "cyan"),
+        ("+42 %", "SYNERGY", "결핍 기운 상호 보완", "부족한 에너지를 채우는 시너지", "green"),
+        ("100 %", "PRIVACY", "개인정보 안심 보호", "외부 전송 없는 프라이빗 보관", "purple")
     ]
     
     for idx, (val, tag, title, desc, theme) in enumerate(sub_metrics):
@@ -234,7 +234,7 @@ def make_slide_10():
         (f"{MOCKUP_DIR}/iphone_02_radar.png", "02. 오행 레이더 뷰", "목화토금수 에너지", "5각형 실시간 분석"),
         (f"{MOCKUP_DIR}/iphone_05_match.png", "03. 정밀 인연 매칭", "사주 일주 합충 분석", "92% 케미스트리 지수"),
         (f"{MOCKUP_DIR}/iphone_03_tarot.png", "04. 3D 도파민 타로", "물리 엔진 카드 셔플", "60fps 햅틱 뒤집기"),
-        (f"{MOCKUP_DIR}/iphone_07_vault.png", "05. 시크릿 볼트", "100% 온디바이스", "SQLite AES-256 보관"),
+        (f"{MOCKUP_DIR}/iphone_07_vault.png", "05. 시크릿 보관함", "나만의 프라이빗", "개인정보 안심 보관"),
         (f"{MOCKUP_DIR}/iphone_06_shop.png", "06. 복채 하트 상점", "복채 하트 패키지 충전", "& VIP 마스터 패스")
     ]
     
@@ -277,7 +277,7 @@ def make_slide_10():
         ("02 오행 밸런스 분석", 560),
         ("03 정밀 궁합 매칭", 830),
         ("04 3D 타로 솔루션", 1100),
-        ("05 시크릿 볼트 보관", 1370),
+        ("05 시크릿 안심 보관", 1370),
         ("06 복채 상점 & VIP", 1630)
     ]
     for step_txt, sx in flow_steps:
@@ -302,7 +302,7 @@ def make_slide_11():
         category_en="BUSINESS IMPACT | TELEMETRY & RETROSPECTIVE", 
         title_white="프로덕트 임팩트와 ", 
         title_gold="기술적 문제 해결 회고", 
-        subtitle_kr="D1 리텐션 64.2% 검증과 60fps 햅틱 물리 엔진 구현 과정의 엔지니어링 회고",
+        subtitle_kr="D1 리텐션 64.2% 검증과 손맛 넘치는 햅틱 인터랙션 설계 과정의 프로덕트 회고",
         right_badge=("EMPIRICAL TEST 100% PASS", "green")
     )
     
@@ -315,7 +315,7 @@ def make_slide_11():
     cx1 = 100
     draw.rounded_rectangle([cx1, card_y, cx1 + card_w, card_y + card_h], radius=16, fill=(14, 20, 36, 230), outline=(239, 68, 68, 120), width=1)
     
-    draw_pill_badge(draw, left_x=cx1 + 24, cy=card_y + 24, text="BEFORE : TRADITIONAL FORTUNE TEXT", font=get_font(9.5, 'bold'), theme='red', has_dot=True, pad_x=10, height=22)
+    draw_pill_badge(draw, left_x=cx1 + 24, cy=card_y + 24, text="BEFORE : 전통 운세 텍스트", font=get_font(9.5, 'bold'), theme='red', has_dot=True, pad_x=10, height=22)
     draw.text((cx1 + 24, card_y + 50), "한자 나열과 공포 마케팅에 지친 사용자", font=get_font(18, 'bold'), fill=(244, 246, 252))
     draw.text((cx1 + 24, card_y + 76), "난해한 명리학 용어로 인지 부하가 극심하고 단순 길흉 통보로 이탈 유발", font=get_font(12, 'regular'), fill=(163, 176, 204))
     
@@ -336,7 +336,7 @@ def make_slide_11():
     cx2 = 980
     draw.rounded_rectangle([cx2, card_y, cx2 + card_w, card_y + card_h], radius=16, fill=(14, 20, 36, 230), outline=(229, 192, 123, 120), width=1)
     
-    draw_pill_badge(draw, left_x=cx2 + 24, cy=card_y + 24, text="AFTER : FORTUNEMATCH DATA UX", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=10, height=22)
+    draw_pill_badge(draw, left_x=cx2 + 24, cy=card_y + 24, text="AFTER : 포춘매치 데이터 UX", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=10, height=22)
     draw.text((cx2 + 24, card_y + 50), "우주 좌표 & 5각형 오행 실시간 레이더", font=get_font(18, 'bold'), fill=(244, 246, 252))
     draw.text((cx2 + 24, card_y + 76), "0.3초 고유 좌표 도출과 92% 정밀 궁합으로 몰입감 넘치는 관계 케미스트리 제공", font=get_font(12, 'regular'), fill=(163, 176, 204))
     
@@ -344,7 +344,7 @@ def make_slide_11():
         ("0.3s 고유 좌표", "탄생 즉시 24절기 천체 궤도 나침반 & 고유 우주 주파수 도출", (255, 215, 0)),
         ("5각형 레이더 차트", "목화토금수 에너지 비율 60fps 시각화 (결핍 기운 컬러 처방)", (0, 229, 255)),
         ("D1 리텐션 64.2%", "업계 평균 대비 +28.2%p 폭발적 성장 및 인스타 바이럴 41.8%", (52, 211, 153)),
-        ("100% 온디바이스", "외부 유출 없는 SQLite AES-256 시크릿 볼트 영구 보관", (216, 180, 254))
+        ("개인정보 안심 보호", "외부 유출 없는 나만의 프라이빗 시크릿 보관함", (216, 180, 254))
     ]
     ry = card_y + 104
     for label, val, val_col in a_rows:
@@ -496,10 +496,10 @@ def make_slide_12():
         
     # Left Bottom Spec Strip (x=100, y=856, w=660, h=124) - Dark Glass Card
     draw.rounded_rectangle([100, 856, 760, 980], radius=14, fill=(14, 20, 36, 240), outline=(229, 192, 123, 70), width=1)
-    draw_pill_badge(draw, left_x=120, cy=880, text="CROSS-PLATFORM PRODUCTION ENGINE", font=get_font(9, 'bold'), theme='gold', pad_x=8, height=20)
-    draw.text((120, 908), "60fps 고성능 Web 그래픽 렌더링 파이프라인 탑재", font=get_font(11, 'medium'), fill=(203, 213, 225))
-    draw.text((120, 930), "100% 온디바이스 오행 벡터 연산 엔진 (외부 전송 없는 AES-256 보안)", font=get_font(11, 'medium'), fill=(203, 213, 225))
-    draw.text((120, 952), "반응형 모바일 뷰포트 시뮬레이터 & URL 딥링크 상태 복원 완벽 지원", font=get_font(11, 'medium'), fill=(0, 229, 255))
+    draw_pill_badge(draw, left_x=120, cy=880, text="RESPONSIVE INTERACTIVE PROTOTYPE", font=get_font(9, 'bold'), theme='gold', pad_x=8, height=20)
+    draw.text((120, 908), "스마트폰 실물 환경을 그대로 재현한 60fps 인터랙티브 시뮬레이션", font=get_font(11, 'medium'), fill=(203, 213, 225))
+    draw.text((120, 930), "완전한 개인정보 안심 보호 (외부 전송 없는 프라이빗 보관함)", font=get_font(11, 'medium'), fill=(203, 213, 225))
+    draw.text((120, 952), "반응형 모바일 뷰포트 시뮬레이터 & 실시간 상태 인터랙션 완벽 지원", font=get_font(11, 'medium'), fill=(0, 229, 255))
     
     # ---------------------------------------------------------
     # RIGHT: MASTER LAUNCHER + 4 STEPS + QR CODE (x=800 to 1820, w=1020)
@@ -562,7 +562,7 @@ def make_slide_12():
         ("01. 우주 사주 허브 & 오늘의 길시", "탄생 우주 좌표 확인 및 24절기 궤도 나침반 360도 회전 조작", "gold"),
         ("02. 5각형 오행 실시간 레이더 분석", "목화토금수 에너지 비율 터치 및 결핍 기운 라이프스타일 처방 확인", "cyan"),
         ("03. 정밀 인연 궁합 92% 매칭", "1-Tap 상대방 추가 모달 전개 및 오행 중첩 레이더 케미스트리 확인", "purple"),
-        ("04. 3D 도파민 타로 & 시크릿 볼트", "물리 엔진 카드 셔플 제스처 및 햅틱 뒤집기를 통한 운세 영구 암호화 저장", "green")
+        ("04. 3D 도파민 타로 & 시크릿 보관함", "실물 같은 카드 셔플 제스처와 햅틱 뒤집기로 만나는 나만의 운세 리추얼", "green")
     ]
     
     for idx, (s_title, s_desc, s_theme) in enumerate(step_items):
@@ -624,7 +624,7 @@ def make_slide_12():
     
     # Store & Engine Verification Badges
     b_row_y = url_box_y + 64
-    draw.text((info_x, b_row_y), "✓ Google Play (Android) 최종 비공개 테스트 (출시 임박)  ·  WCAG 2.1 AAA 무장애 준수  ·  AES-256 On-Device Vault", font=get_font(10.5, 'bold'), fill=C_GREEN_ACC)
+    draw.text((info_x, b_row_y), "✓ Google Play (Android) 최종 비공개 테스트 (출시 임박)  ·  WCAG 2.1 AAA 무장애 준수  ·  프라이빗 안심 보관", font=get_font(10.5, 'bold'), fill=C_GREEN_ACC)
     
     draw_slide_footer(draw, 12)
     save_slide(base, 12)

@@ -239,7 +239,7 @@ def make_slide_02():
     # S (Strength)
     draw.rounded_rectangle([s_x, s_y, s_x + qw, s_y + qh], radius=10, fill=(12, 38, 28, 255), outline=(16, 185, 129, 200), width=1)
     draw_pill_badge(draw, left_x=s_x + 14, cy=s_y + 22, text="Strength (강점)", font=get_font(10, 'bold'), theme='green', has_dot=False, pad_x=10, height=24, solid=True)
-    s_pts = ["01  0.3초 고유 우주 좌표 및 오행 레이더", "02  92% 정밀 사주 일주 + 별자리 결합", "03  100% 온디바이스 로컬 암호화 보관"]
+    s_pts = ["01  0.3초 고유 우주 좌표 및 오행 레이더", "02  92% 정밀 사주 일주 + 별자리 결합", "03  외부 전송 없는 안전한 프라이빗 보관"]
     dy = s_y + 56
     for p in s_pts:
         draw.text((s_x + 14, dy), p, font=get_font(11.5, 'medium'), fill=(52, 211, 153))
@@ -249,7 +249,7 @@ def make_slide_02():
     w_x = s_x + qw + 15
     draw.rounded_rectangle([w_x, s_y, w_x + qw, s_y + qh], radius=10, fill=(48, 16, 24, 255), outline=(239, 68, 68, 200), width=1)
     draw_pill_badge(draw, left_x=w_x + 14, cy=s_y + 22, text="Weakness (약점)", font=get_font(10, 'bold'), theme='red', has_dot=False, pad_x=10, height=24, solid=True)
-    w_pts = ["01  초기 스타트업 브랜드 인지도 제약", "02  출생 시각 모를 시 정오(12시) 보정 필요", "03  명리학 전문가 1:1 상담 부재"]
+    w_pts = ["01  초기 스타트업 브랜드 인지도 제약", "02  출생 시각 미입력 시 스마트 보정 안내", "03  명리학 전문가 1:1 상담 부재"]
     dy = s_y + 56
     for p in w_pts:
         draw.text((w_x + 14, dy), p, font=get_font(11.5, 'medium'), fill=(255, 140, 140))
@@ -391,46 +391,66 @@ def make_slide_03():
     c_w = col_w
     c_h = 378
     draw.rounded_rectangle([c_x, c_y, c_x + c_w, c_y + c_h], radius=16, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
-    draw.text((c_x + 24, c_y + 18), "COMPETITIVE BENCHMARK (경쟁사 비교 분석)", font=get_font(14, 'bold'), fill=(244, 246, 252))
-    draw.text((c_x + 24, c_y + 38), "국내 주요 운세/타로 솔루션 대비 포춘매치의 5대 핵심 차별점", font=get_font(11.5, 'medium'), fill=(163, 176, 204))
+    draw.text((c_x + 24, c_y + 18), "경쟁사 서비스 비교 분석 (Competitive Benchmark)", font=get_font(14, 'bold'), fill=(244, 246, 252))
+    draw.text((c_x + 24, c_y + 38), "국내 주요 운세/타로 솔루션 대비 포춘매치의 5대 사용자 경험 차별점", font=get_font(11.5, 'medium'), fill=(163, 176, 204))
     
     tbl_x = c_x + 20
     tbl_w = c_w - 40 # 805
     th_y = c_y + 64
     th_h = 36
     th_cy = th_y + th_h // 2
+    row_h = 46
+    total_tbl_h = th_h + 5 * row_h
     
-    x1 = tbl_x + 16
-    x2 = tbl_x + 160
-    x3 = tbl_x + 345
-    col4_x = tbl_x + 525
-    col4_w = tbl_w - 525 # 280
+    # 4 Clearly Defined Columns with Distinct Widths
+    col1_w = 155
+    col2_w = 195
+    col3_w = 195
+    col4_w = tbl_w - (col1_w + col2_w + col3_w) # 260
     
+    c1_x = tbl_x
+    c2_x = c1_x + col1_w
+    c3_x = c2_x + col2_w
+    c4_x = c3_x + col3_w
+    
+    # Header Background
     draw.rounded_rectangle([tbl_x, th_y, tbl_x + tbl_w, th_y + th_h], radius=8, fill=(24, 32, 54))
-    draw.rounded_rectangle([col4_x, th_y - 2, col4_x + col4_w, th_y + th_h + 5 * 46 + 4], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 200), width=1)
+    # Col 4 Elevated Highlight Panel
+    draw.rounded_rectangle([c4_x, th_y - 2, c4_x + col4_w, th_y + total_tbl_h + 4], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 200), width=1)
     
-    draw.text((x1, th_cy), "비교 차원 (UX Dimensions)", font=get_font(11.5, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
-    draw.text((x2, th_cy), "전통 철학관 웹", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
-    draw.text((x3, th_cy), "기존 운세 앱 (점신 등)", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
-    draw_pill_badge(draw, cx=col4_x + col4_w // 2, cy=th_cy, text="FORTUNEMATCH (본 앱)", font=get_font(11, 'bold'), theme='gold', solid=True, has_dot=True, height=26, pad_x=12)
+    # Clear Korean Column Headers
+    draw.text((c1_x + 14, th_cy), "비교 항목", font=get_font(11.5, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
+    draw.text((c2_x + 14, th_cy), "오프라인 철학관", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
+    draw.text((c3_x + 14, th_cy), "기존 운세 앱", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
+    draw_pill_badge(draw, cx=c4_x + col4_w // 2, cy=th_cy, text="포춘매치 (본 서비스)", font=get_font(11, 'bold'), theme='gold', solid=True, has_dot=True, height=26, pad_x=12)
+    
+    # Vertical Column Divider Lines in Header
+    draw.line([(c2_x, th_y + 4), (c2_x, th_y + th_h - 4)], fill=(229, 192, 123, 70), width=1)
+    draw.line([(c3_x, th_y + 4), (c3_x, th_y + th_h - 4)], fill=(229, 192, 123, 70), width=1)
+    draw.line([(c4_x, th_y + 4), (c4_x, th_y + th_h - 4)], fill=(229, 192, 123, 90), width=1)
     
     rows = [
-        ("입력 UX 방식", "복잡한 간지 수기 입력", "반복적인 생년월일 타이핑", "0.3s 고유 우주 좌표 원터치"),
-        ("데이터 시각화", "흑백 한자 텍스트 테이블", "단순 점수 게이지 바", "5각형 실시간 오행 레이더 차트"),
-        ("관계 매칭 UX", "단순 길흉 판정 (대길/흉)", "단일 퍼센티지 나열", "92% 정밀 오행 중첩 케미스트리"),
-        ("감성 인터랙션", "정적 텍스트 페이지", "단순 버튼 탭", "3D 셔플 & 60fps 햅틱 타로"),
-        ("프라이버시 UI", "서버 DB 이름/생년월일 수집", "광고 트래커 연동", "100% 온디바이스 시크릿 볼트")
+        ("입력 방식", "복잡한 간지 수기 입력", "반복적인 생년월일 타이핑", "0.3초 우주 좌표 즉각 도출"),
+        ("데이터 시각화", "난해한 한자 텍스트 나열", "단순 점수 게이지 바", "5각 실시간 오행 레이더 차트"),
+        ("관계 궁합 분석", "단순 길흉 판정 (대길/흉)", "단순 점수(75점) 나열", "92% 정밀 상생 시너지 리포트"),
+        ("감성 인터랙션", "정적 텍스트 페이지", "단순 화면 터치", "3D 카드 셔플 & 손맛 햅틱 타로"),
+        ("개인정보 보호", "서버 DB 전송 및 수집", "광고 트래커 개인정보 추적", "외부 전송 없는 안심 프라이빗 보관")
     ]
     
-    row_h = 46
     for idx, (dim, m1, m2, m3) in enumerate(rows):
         ry = th_y + th_h + idx * row_h
         rcy = ry + row_h // 2
+        # Horizontal row divider line
         draw.line([(tbl_x, ry), (tbl_x + tbl_w, ry)], fill=(229, 192, 123, 40), width=1)
-        draw.text((x1, rcy), dim, font=get_font(11, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
-        draw.text((x2, rcy), m1, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
-        draw.text((x3, rcy), m2, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
-        draw.text((col4_x + 18, rcy), m3, font=get_font(11, 'bold'), fill=C_GOLD_HERO, anchor='lm')
+        # Vertical column divider lines
+        draw.line([(c2_x, ry), (c2_x, ry + row_h)], fill=(229, 192, 123, 50), width=1)
+        draw.line([(c3_x, ry), (c3_x, ry + row_h)], fill=(229, 192, 123, 50), width=1)
+        draw.line([(c4_x, ry), (c4_x, ry + row_h)], fill=(229, 192, 123, 80), width=1)
+        
+        draw.text((c1_x + 14, rcy), dim, font=get_font(11, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
+        draw.text((c2_x + 14, rcy), m1, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
+        draw.text((c3_x + 14, rcy), m2, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
+        draw.text((c4_x + 16, rcy), m3, font=get_font(11, 'bold'), fill=C_GOLD_HERO, anchor='lm')
         
     # 3. BOTTOM: 2 Senior Persona Cards (Strictly aligned to col1_x=100 and col2_x=975, w=845)
     p_y = 636
@@ -548,10 +568,10 @@ def make_slide_04():
             ("SCR-TAR-02", "Widget", "3D 카드 셔플 캔버스", "손끝 제스처를 따라 움직이는 물리 카드 덱", True),
             ("SCR-TAR-03", "Modal", "햅틱 카드 플립 피드백", "카드 선택 및 뒤집기 순간 60fps 햅틱 진동", True)
         ]),
-        ("5.0 SECRET VAULT", "시크릿 볼트 & 상점", "영구 암호화 보관함 및 글로벌 설정", [
-            ("SCR-VLT-01", "Page", "온디바이스 시크릿 볼트", "과거 리딩 기록 및 인연 궁합 로컬 암호화 보관", True),
-            ("SCR-VLT-02", "BottomSheet", "럭셔리 젬스톤 스토어", "프리미엄 해석권 및 보석 하트 인앱 결제", False),
-            ("SCR-VLT-03", "Page", "다국어 & 프라이버시", "글로벌 10개국어 지원 및 외부 서버 통신 0건 보장", True)
+        ("5.0 SECRET VAULT", "시크릿 보관함 & 설정", "프라이빗 안심 보관함 및 환경 설정", [
+            ("SCR-VLT-01", "Page", "프라이빗 보관함", "나만의 타로 기록 및 인연 궁합 안심 보관", True),
+            ("SCR-VLT-02", "BottomSheet", "하트 충전 상점", "프리미엄 해석권 및 복채 하트 패키지 충전", False),
+            ("SCR-VLT-03", "Page", "다국어 & 프라이버시", "글로벌 10개국어 지원 및 개인정보 보호 안심 설정", True)
         ])
     ]
     
@@ -599,7 +619,7 @@ def make_slide_04():
         ("01", "0.3초 점진적 정보 노출 (Progressive Disclosure)", "생년월일시 입력 후 즉시 전체를 보여주지 않고 좌표 -> 오행 -> 궁합 순서로 단계적 이해도 제고", "gold"),
         ("02", "1-Tap 상대방 전환 모달 (Thumb-Friendly)", "엄지 조작 반경 내 바텀시트 모달을 통해 복잡한 화면 이동 없이 인연 프로필 즉각 스위칭", "cyan"),
         ("03", "오감 만족 60fps 햅틱 인터랙션 (Tactile Ritual)", "단순 스크롤 앱이 아닌 3D 카드 셔플과 플립 물리 엔진을 통해 살아있는 도파민 경험 전달", "purple"),
-        ("04", "100% 온디바이스 로컬 보안 (Zero-Server)", "민감한 생년월일과 과거 운세 기록을 외부 서버에 전송하지 않고 기기 내부 로컬 암호화 보관", "green")
+        ("04", "개인정보 보호 안심 설계 (Privacy First)", "민감한 생년월일과 리딩 기록을 외부 서버로 전송하지 않고 내 기기에만 안전하게 보관", "green")
     ]
     for idx, (p_num, p_title, p_desc, p_theme) in enumerate(principles):
         px = 100 + idx * (bp_w + bp_gap)
