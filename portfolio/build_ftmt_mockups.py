@@ -30,8 +30,24 @@ def make_luxury_iphone_mockup(screen_path, target_screen_w=720):
     )
     
     sw = target_screen_w
-    sh = int(round(sw * (screen.height / screen.width)))
-    screen_resized = screen.resize((sw, sh), Image.Resampling.LANCZOS)
+    target_sh = 1845 # Standard 19.5:9 flagship phone screen height (720 x 1845)
+    
+    # Scale by width so no horizontal text or UI gets cropped
+    scale = sw / screen.width
+    new_w = sw
+    new_h = int(round(screen.height * scale))
+    screen_scaled = screen.resize((new_w, new_h), Image.Resampling.LANCZOS)
+    
+    if new_h <= target_sh:
+        screen_resized = Image.new('RGBA', (sw, target_sh), (7, 10, 18, 255))
+        # Center vertically or top-align
+        paste_y = (target_sh - new_h) // 2
+        screen_resized.paste(screen_scaled, (0, paste_y))
+    else:
+        # If slightly taller, crop excess from bottom
+        screen_resized = screen_scaled.crop((0, 0, sw, target_sh))
+        
+    sh = target_sh
     
     bezel = 20 # Ultra-slim uniform luxury bezel
     dev_w = sw + bezel * 2
@@ -80,8 +96,8 @@ def make_luxury_iphone_mockup(screen_path, target_screen_w=720):
 print("Building distinct luxury iPhone mockups...")
 raw_files = {
     'iphone_01_hub.png': f"{RAW_DIR}/screen1.png",
-    'iphone_02_radar.png': f"{RAW_DIR}/screen_match.png",
-    'iphone_03_tarot.png': f"{RAW_DIR}/screen_shop.png",
+    'iphone_02_radar.png': f"{RAW_DIR}/screen_radar_phone.png",
+    'iphone_03_tarot.png': f"{RAW_DIR}/screen_tarot_phone.png",
     'iphone_04_connections.png': f"{RAW_DIR}/screen_vault.png",
     'iphone_05_match.png': f"{RAW_DIR}/screen_match.png",
     'iphone_06_shop.png': f"{RAW_DIR}/screen_shop.png",

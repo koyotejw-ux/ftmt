@@ -154,11 +154,11 @@ def draw_pill_badge(draw, cx=None, cy=0, text="", font=None, theme='gold', has_d
     }
     color_schemes_solid = {
         'gold':   {'bg': (229, 192, 123, 255), 'border': (255, 215, 0, 255),   'text': (7, 10, 18, 255),    'dot': (7, 10, 18, 255)},
-        'purple': {'bg': (138, 43, 226, 255),  'border': (168, 85, 247, 255),  'text': (255, 255, 255, 255),'dot': (237, 233, 254, 255)},
+        'purple': {'bg': (192, 132, 252, 255),  'border': (216, 180, 254, 255),  'text': (7, 10, 18, 255),    'dot': (7, 10, 18, 255)},
         'cyan':   {'bg': (0, 229, 255, 255),    'border': (0, 229, 255, 255),    'text': (7, 10, 18, 255),    'dot': (7, 10, 18, 255)},
-        'green':  {'bg': (16, 185, 129, 255),  'border': (16, 185, 129, 255),  'text': (255, 255, 255, 255),'dot': (209, 250, 229, 255)},
-        'red':    {'bg': (239, 68, 68, 255),    'border': (239, 68, 68, 255),    'text': (255, 255, 255, 255),'dot': (254, 226, 226, 255)},
-        'slate':  {'bg': (51, 65, 85, 255),    'border': (100, 116, 139, 255), 'text': (255, 255, 255, 255),'dot': (226, 232, 240, 255)},
+        'green':  {'bg': (52, 211, 153, 255),  'border': (16, 185, 129, 255),  'text': (7, 10, 18, 255),    'dot': (7, 10, 18, 255)},
+        'red':    {'bg': (248, 113, 113, 255),  'border': (239, 68, 68, 255),    'text': (7, 10, 18, 255),    'dot': (7, 10, 18, 255)},
+        'slate':  {'bg': (148, 163, 184, 255), 'border': (203, 213, 225, 255), 'text': (7, 10, 18, 255),    'dot': (7, 10, 18, 255)},
     }
     scheme = color_schemes_solid.get(theme, color_schemes_solid['gold']) if solid else color_schemes.get(theme, color_schemes['gold'])
     
@@ -306,7 +306,7 @@ def draw_slide_header(draw, slide_num, category_en, title_white, title_gold, sub
     
     if right_badge:
         txt, theme = right_badge
-        draw_pill_badge(draw, cx=1700, cy=78, text=txt, font=get_font(10.5, 'bold'), theme=theme, solid=True, pad_x=14, height=28)
+        draw_pill_badge(draw, cx=1700, cy=78, text=txt, font=get_font(11, 'extrabold'), theme=theme, solid=True, pad_x=14, height=28, has_dot=True)
         
     font_title = get_font(35, 'bold')
     w_white = draw.textlength(title_white, font=font_title)

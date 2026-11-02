@@ -67,17 +67,17 @@ def make_slide_05():
     flow_h = 526
     
     # Predefined Phase Geometries and Centerlines
-    p1_x, p1_w = 100, 340
-    p2_x, p2_w = 475, 270
-    p3_x, p3_w = 778, 710
-    p4_x, p4_w = 1520, 300
+    p1_x, p1_w = 100, 330 # ends 430
+    p2_x, p2_w = 465, 260 # ends 725
+    p3_x, p3_w = 780, 710 # ends 1490
+    p4_x, p4_w = 1525, 295 # ends 1820
     
-    c1 = p1_x + p1_w // 2 # 270
-    c2 = p2_x + p2_w // 2 # 610
-    c4 = p4_x + p4_w // 2 # 1670
+    c1 = p1_x + p1_w // 2 # 265
+    c2 = p2_x + p2_w // 2 # 595
+    c4 = p4_x + p4_w // 2 # 1672
     
     # -------------------------------------------------------------
-    # PHASE 01: 온보딩 & 사용자 식별 (x=100 to 440, w=340)
+    # PHASE 01: 온보딩 & 사용자 식별 (x=100 to 430, w=330)
     # -------------------------------------------------------------
     draw.rounded_rectangle([p1_x, flow_y, p1_x + p1_w, flow_y + flow_h], radius=14, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw_pill_badge(draw, left_x=p1_x + 16, cy=flow_y + 24, text="PHASE 01", font=get_font(8.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=20)
@@ -100,29 +100,30 @@ def make_slide_05():
     draw_diamond(draw, cx=c1, cy=flow_y + 224, w=186, h=54, fill=(35, 30, 15), outline=(255, 215, 0), width=2)
     draw.text((c1, flow_y + 224), "기존 프로필 존재?", font=get_font(10, 'bold'), fill=(255, 215, 0), anchor='mm')
     
-    # Branch Yes (Left) -> Load Profile
+    # Branch Yes (Left) -> Load Profile with Prominent Badge
     draw_arrow(draw, (c1 - 93, flow_y + 224), (c1 - 93, flow_y + 276), col=(229, 192, 123), width=2, arrow_size=4)
-    draw.text((c1 - 93, flow_y + 250), "Yes (기존)", font=get_font(8, 'bold'), fill=(255, 215, 0), anchor='rm')
+    draw_pill_badge(draw, cx=c1 - 93, cy=flow_y + 250, text="YES : 기존 유저", font=get_font(7.5, 'bold'), theme='gold', solid=True, pad_x=5, height=18)
     
-    draw.rounded_rectangle([p1_x + 16, flow_y + 276, p1_x + 155, flow_y + 332], radius=6, fill=(14, 20, 36), outline=(229, 192, 123, 80), width=1)
-    draw_pill_badge(draw, left_x=p1_x + 24, cy=flow_y + 290, text="SCREEN", font=get_font(6, 'bold'), theme='slate', pad_x=3, height=12)
-    draw.text((p1_x + 85, flow_y + 290), "기존 좌표 로드", font=get_font(9, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((p1_x + (155+16)//2, flow_y + 314), "4주 8글자 자동 연동", font=get_font(7.5, 'medium'), fill=(163, 176, 204), anchor='mm')
+    draw.rounded_rectangle([p1_x + 14, flow_y + 276, p1_x + 150, flow_y + 332], radius=6, fill=(14, 20, 36), outline=(229, 192, 123, 80), width=1)
+    draw_pill_badge(draw, left_x=p1_x + 20, cy=flow_y + 290, text="SCREEN", font=get_font(6, 'bold'), theme='slate', pad_x=3, height=12)
+    draw.text((p1_x + 78, flow_y + 290), "기존 좌표 로드", font=get_font(9, 'bold'), fill=(244, 246, 252), anchor='lm')
+    draw.text((p1_x + (150+14)//2, flow_y + 314), "4주 8글자 자동 연동", font=get_font(7.5, 'medium'), fill=(163, 176, 204), anchor='mm')
     
-    # Branch No (Right) -> Onboarding Input
+    # Branch No (Right) -> Onboarding Input with Prominent Badge
     draw_dashed_arrow(draw, (c1 + 93, flow_y + 224), (c1 + 93, flow_y + 276), col=(0, 229, 255), width=2, arrow_size=4)
-    draw.text((c1 + 93, flow_y + 250), "No (신규)", font=get_font(8, 'bold'), fill=(0, 229, 255), anchor='lm')
+    draw_pill_badge(draw, cx=c1 + 93, cy=flow_y + 250, text="NO : 신규 유저", font=get_font(7.5, 'bold'), theme='cyan', solid=True, pad_x=5, height=18)
     
-    draw.rounded_rectangle([p1_x + 185, flow_y + 276, p1_x + p1_w - 16, flow_y + 332], radius=6, fill=(10, 36, 48), outline=(0, 229, 255), width=1)
-    draw_pill_badge(draw, left_x=p1_x + 193, cy=flow_y + 290, text="ACTION", font=get_font(6, 'bold'), theme='cyan', pad_x=3, height=12)
-    draw.text((p1_x + 254, flow_y + 290), "생년월일 온보딩", font=get_font(9, 'bold'), fill=(0, 229, 255), anchor='lm')
-    draw.text((p1_x + (p1_w-16+185)//2, flow_y + 314), "출생시 모름 보정 토글", font=get_font(7.5, 'medium'), fill=(203, 213, 225), anchor='mm')
+    draw.rounded_rectangle([p1_x + 178, flow_y + 276, p1_x + p1_w - 14, flow_y + 332], radius=6, fill=(10, 36, 48), outline=(0, 229, 255), width=1)
+    draw_pill_badge(draw, left_x=p1_x + 184, cy=flow_y + 290, text="ACTION", font=get_font(6, 'bold'), theme='cyan', pad_x=3, height=12)
+    draw.text((p1_x + 242, flow_y + 290), "생년월일 온보딩", font=get_font(9, 'bold'), fill=(0, 229, 255), anchor='lm')
+    draw.text((p1_x + (p1_w-14+178)//2, flow_y + 314), "출생시 모름 보정 토글", font=get_font(7.5, 'medium'), fill=(203, 213, 225), anchor='mm')
     
     # Both merge down into Node 1-4: Feedback
-    draw.line([(p1_x + (155+16)//2, flow_y + 332), (p1_x + (155+16)//2, flow_y + 360)], fill=(229, 192, 123), width=2)
-    draw.line([(p1_x + (p1_w-16+185)//2, flow_y + 332), (p1_x + (p1_w-16+185)//2, flow_y + 360)], fill=(0, 229, 255), width=2)
-    draw.line([(p1_x + (155+16)//2, flow_y + 360), (p1_x + (p1_w-16+185)//2, flow_y + 360)], fill=(229, 192, 123), width=2)
+    draw.line([(p1_x + (150+14)//2, flow_y + 332), (p1_x + (150+14)//2, flow_y + 360)], fill=(229, 192, 123), width=2)
+    draw.line([(p1_x + (p1_w-14+178)//2, flow_y + 332), (p1_x + (p1_w-14+178)//2, flow_y + 360)], fill=(0, 229, 255), width=2)
+    draw.line([(p1_x + (150+14)//2, flow_y + 360), (p1_x + (p1_w-14+178)//2, flow_y + 360)], fill=(229, 192, 123), width=2)
     draw_arrow(draw, (c1, flow_y + 360), (c1, flow_y + 384), col=(229, 192, 123), width=2, arrow_size=4)
+    draw.text((c1, flow_y + 352), "프로필 확정 ➔", font=get_font(7.5, 'bold'), fill=(229, 192, 123), anchor='mm')
     
     draw.rounded_rectangle([c1 - 120, flow_y + 384, c1 + 120, flow_y + 440], radius=8, fill=(12, 38, 28), outline=(16, 185, 129), width=1)
     b_s = draw_pill_badge(draw, left_x=c1 - 108, cy=flow_y + 400, text="FEEDBACK", font=get_font(6.5, 'bold'), theme='green', pad_x=4, height=14)
@@ -130,18 +131,18 @@ def make_slide_05():
     draw.text((c1, flow_y + 424), "0.3초 만에 나침반 궤도 렌더링 & 탭 활성화", font=get_font(8, 'medium'), fill=(209, 250, 229), anchor='mm')
     
     # Exit Note at bottom of Phase 1
-    draw.rounded_rectangle([p1_x + 16, flow_y + 460, p1_x + p1_w - 16, flow_y + 508], radius=6, fill=(24, 32, 54), outline=(229, 192, 123, 40), width=1)
+    draw.rounded_rectangle([p1_x + 14, flow_y + 460, p1_x + p1_w - 14, flow_y + 508], radius=6, fill=(24, 32, 54), outline=(229, 192, 123, 40), width=1)
     draw.text((c1, flow_y + 476), "💡 마찰 없는 프로필 온보딩", font=get_font(8.5, 'bold'), fill=(255, 215, 0), anchor='mm')
     draw.text((c1, flow_y + 494), "입력 오류 방지 가드로 첫 화면 이탈률 18% 감소", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
     
     # Connector Arrow from Phase 01 to Phase 02 (Routing directly up into Node 2-1 Main Hub)
-    p1_p2_mid_x = (p1_x + p1_w + p2_x) // 2 # 457
+    p1_p2_mid_x = (p1_x + p1_w + p2_x) // 2 # 447
     draw.line([(c1 + 120, flow_y + 412), (p1_p2_mid_x, flow_y + 412), (p1_p2_mid_x, flow_y + 99)], fill=(229, 192, 123), width=2)
     draw_arrow(draw, (p1_p2_mid_x, flow_y + 99), (c2 - 118, flow_y + 99), col=(229, 192, 123), width=2, arrow_size=5)
-    draw.text((p1_p2_mid_x, flow_y + 250), "온보딩 완료 즉시 전환 ▲", font=get_font(7, 'bold'), fill=(255, 215, 0), anchor='mm')
+    draw_pill_badge(draw, cx=p1_p2_mid_x, cy=flow_y + 250, text="온보딩 완료 ▲", font=get_font(7, 'bold'), theme='gold', solid=True, pad_x=4, height=16)
     
     # -------------------------------------------------------------
-    # PHASE 02: 우주 사주 허브 (중앙 내비게이션 허브, x=475 to 745, w=270)
+    # PHASE 02: 우주 사주 허브 (중앙 내비게이션 허브, x=465 to 725, w=260)
     # -------------------------------------------------------------
     draw.rounded_rectangle([p2_x, flow_y, p2_x + p2_w, flow_y + flow_h], radius=14, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw_pill_badge(draw, left_x=p2_x + 16, cy=flow_y + 24, text="PHASE 02", font=get_font(8.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=20)
@@ -149,8 +150,8 @@ def make_slide_05():
     draw.line([(p2_x + 16, flow_y + 44), (p2_x + p2_w - 16, flow_y + 44)], fill=(229, 192, 123, 30), width=1)
     
     # Node 2-1: Main Hub Dashboard Screen
-    draw.rounded_rectangle([c2 - 118, flow_y + 60, c2 + 118, flow_y + 138], radius=8, fill=(35, 30, 15), outline=(229, 192, 123), width=2)
-    draw_pill_badge(draw, left_x=c2 - 106, cy=flow_y + 76, text="CORE HUB", font=get_font(7, 'bold'), theme='gold', pad_x=5, height=16)
+    draw.rounded_rectangle([c2 - 115, flow_y + 60, c2 + 115, flow_y + 138], radius=8, fill=(35, 30, 15), outline=(229, 192, 123), width=2)
+    draw_pill_badge(draw, left_x=c2 - 105, cy=flow_y + 76, text="CORE HUB", font=get_font(7, 'bold'), theme='gold', pad_x=5, height=16)
     draw.text((c2 + 10, flow_y + 76), "우주 사주 허브 메인 뷰", font=get_font(11, 'bold'), fill=(255, 215, 0), anchor='lm')
     draw.text((c2, flow_y + 100), "• 24절기 천체 나침반 360도 인터랙션", font=get_font(8.5, 'medium'), fill=(244, 246, 252), anchor='mm')
     draw.text((c2, flow_y + 120), "• 오늘의 금전운 황금 길시 알림 표출", font=get_font(8.5, 'medium'), fill=(203, 213, 225), anchor='mm')
@@ -158,7 +159,7 @@ def make_slide_05():
     draw_arrow(draw, (c2, flow_y + 138), (c2, flow_y + 164), col=(229, 192, 123), width=2, arrow_size=4)
     
     # Node 2-2: Decision Diamond (Core Journey Branching)
-    draw_diamond(draw, cx=c2, cy=flow_y + 204, w=190, h=56, fill=(24, 32, 54), outline=(255, 215, 0), width=2)
+    draw_diamond(draw, cx=c2, cy=flow_y + 204, w=186, h=56, fill=(24, 32, 54), outline=(255, 215, 0), width=2)
     draw.text((c2, flow_y + 204), "3대 핵심 여정 선택", font=get_font(10, 'bold'), fill=(255, 215, 0), anchor='mm')
     
     # Quick Action: 오늘의 금전운 길시 확인
@@ -169,37 +170,34 @@ def make_slide_05():
     draw.text((c2, flow_y + 304), "14:30~16:00 도파민 골든 타임 안내", font=get_font(8, 'medium'), fill=(203, 213, 225), anchor='mm')
     
     # Navigation Buttons Guide Box
-    draw.rounded_rectangle([p2_x + 16, flow_y + 342, p2_x + p2_w - 16, flow_y + 508], radius=8, fill=(24, 32, 54), outline=(229, 192, 123, 40), width=1)
-    draw.text((c2, flow_y + 360), "하단 독 내비게이션 탭 분기", font=get_font(9, 'bold'), fill=(244, 246, 252), anchor='mm')
-    draw.line([(p2_x + 28, flow_y + 376), (p2_x + p2_w - 28, flow_y + 376)], fill=(229, 192, 123, 30), width=1)
+    draw.rounded_rectangle([p2_x + 14, flow_y + 342, p2_x + p2_w - 14, flow_y + 508], radius=8, fill=(18, 24, 40), outline=(229, 192, 123, 40), width=1)
+    draw.text((c2, flow_y + 368), "🧭 글로벌 UX 인터랙션 허브", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='mm')
+    draw.line([(p2_x + 28, flow_y + 386), (p2_x + p2_w - 28, flow_y + 386)], fill=(229, 192, 123, 30), width=1)
+    draw.text((c2, flow_y + 406), "하단 네비게이션 탭 & 원터치 전환", font=get_font(8.5, 'bold'), fill=(244, 246, 252), anchor='mm')
+    draw.text((c2, flow_y + 428), "오행 진단 / 인연 궁합 / 타로 리추얼", font=get_font(8, 'medium'), fill=(203, 213, 225), anchor='mm')
+    draw.text((c2, flow_y + 450), "3대 인터랙션 여정으로 즉시 분기 연결", font=get_font(8, 'medium'), fill=(163, 176, 204), anchor='mm')
+    draw.text((c2, flow_y + 480), "⚡ 60fps 즉각 렌더링 & 지연 0ms", font=get_font(8, 'bold'), fill=(52, 211, 153), anchor='mm')
     
-    nav_tabs = [
-        ("A. 오행 레이더 탭 →", (0, 229, 255)),
-        ("B. 인연 궁합 탭 →", (216, 180, 254)),
-        ("C. 도파민 타로 탭 →", (52, 211, 153))
-    ]
-    ny = flow_y + 392
-    for n_title, n_col in nav_tabs:
-        draw.rounded_rectangle([p2_x + 24, ny, p2_x + p2_w - 24, ny + 32], radius=4, fill=(14, 20, 36), outline=(229, 192, 123, 40), width=1)
-        draw.text((c2, ny + 16), n_title, font=get_font(9, 'bold'), fill=n_col, anchor='mm')
-        ny += 40
-        
-    # Connectors from Phase 02 to Phase 03 3-Streams (Precisely aligned to each stream's entry node)
-    p2_p3_mid_x = (p2_x + p2_w + p3_x) // 2 # 761
+    # Connectors from Phase 02 to Phase 03 3-Streams with Prominent Branch Badges
+    p2_p3_mid_x = (p2_x + p2_w + p3_x) // 2 # 752
+    
     # Stream A connector (from Decision Diamond rightwards and up to Node A-1 center Y)
-    draw.line([(c2 + 95, flow_y + 204), (p2_p3_mid_x, flow_y + 204), (p2_p3_mid_x, flow_y + 118)], fill=(0, 229, 255), width=2)
-    draw_arrow(draw, (p2_p3_mid_x, flow_y + 118), (p3_x + 24, flow_y + 118), col=(0, 229, 255), width=2, arrow_size=5)
+    draw.line([(c2 + 93, flow_y + 204), (p2_p3_mid_x - 12, flow_y + 204), (p2_p3_mid_x - 12, flow_y + 118)], fill=(0, 229, 255), width=2)
+    draw_arrow(draw, (p2_p3_mid_x - 12, flow_y + 118), (p3_x + 18, flow_y + 118), col=(0, 229, 255), width=2, arrow_size=5)
+    draw_pill_badge(draw, cx=p2_p3_mid_x + 6, cy=flow_y + 118 - 14, text="A. 오행 ➔", font=get_font(7, 'bold'), theme='cyan', solid=True, pad_x=4, height=15)
     
     # Stream B connector (from Decision Diamond down to Node B-1 center Y)
-    draw.line([(c2 + 95, flow_y + 204), (p2_p3_mid_x, flow_y + 204), (p2_p3_mid_x, flow_y + 268)], fill=(216, 180, 254), width=2)
-    draw_arrow(draw, (p2_p3_mid_x, flow_y + 268), (p3_x + 24, flow_y + 268), col=(216, 180, 254), width=2, arrow_size=5)
+    draw.line([(c2 + 93, flow_y + 204), (p2_p3_mid_x - 12, flow_y + 204), (p2_p3_mid_x - 12, flow_y + 268)], fill=(216, 180, 254), width=2)
+    draw_arrow(draw, (p2_p3_mid_x - 12, flow_y + 268), (p3_x + 18, flow_y + 268), col=(216, 180, 254), width=2, arrow_size=5)
+    draw_pill_badge(draw, cx=p2_p3_mid_x + 6, cy=flow_y + 268 - 14, text="B. 궁합 ➔", font=get_font(7, 'bold'), theme='purple', solid=True, pad_x=4, height=15)
     
     # Stream C connector (from Decision Diamond down to Node C-1 center Y)
-    draw.line([(c2 + 95, flow_y + 204), (p2_p3_mid_x, flow_y + 204), (p2_p3_mid_x, flow_y + 418)], fill=(52, 211, 153), width=2)
-    draw_arrow(draw, (p2_p3_mid_x, flow_y + 418), (p3_x + 24, flow_y + 418), col=(52, 211, 153), width=2, arrow_size=5)
+    draw.line([(c2 + 93, flow_y + 204), (p2_p3_mid_x - 12, flow_y + 204), (p2_p3_mid_x - 12, flow_y + 418)], fill=(52, 211, 153), width=2)
+    draw_arrow(draw, (p2_p3_mid_x - 12, flow_y + 418), (p3_x + 18, flow_y + 418), col=(52, 211, 153), width=2, arrow_size=5)
+    draw_pill_badge(draw, cx=p2_p3_mid_x + 6, cy=flow_y + 418 - 14, text="C. 타로 ➔", font=get_font(7, 'bold'), theme='green', solid=True, pad_x=4, height=15)
     
     # -------------------------------------------------------------
-    # PHASE 03: 3대 핵심 사용자 여정 (x=778 to 1488, w=710)
+    # PHASE 03: 3대 핵심 사용자 여정 (x=780 to 1490, w=710)
     # -------------------------------------------------------------
     draw.rounded_rectangle([p3_x, flow_y, p3_x + p3_w, flow_y + flow_h], radius=14, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw_pill_badge(draw, left_x=p3_x + 16, cy=flow_y + 24, text="PHASE 03", font=get_font(8.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=20)
@@ -226,16 +224,16 @@ def make_slide_05():
     draw_diamond(draw, cx=p3_x + 265, cy=s_a_y + 63, w=115, h=46, fill=(35, 30, 15), outline=(255, 215, 0), width=1)
     draw.text((p3_x + 265, s_a_y + 63), "결핍 감지?", font=get_font(8.5, 'bold'), fill=(255, 215, 0), anchor='mm')
     
-    # Branch Yes (Up) -> Prescription Sheet
+    # Branch Yes (Up) -> Prescription Sheet with Prominent Badge
     draw_arrow(draw, (p3_x + 322, s_a_y + 52), (p3_x + 355, s_a_y + 52), col=(0, 229, 255), width=1, arrow_size=3)
-    draw.text((p3_x + 338, s_a_y + 44), "Yes", font=get_font(7, 'bold'), fill=(0, 229, 255), anchor='mm')
+    draw_pill_badge(draw, cx=p3_x + 338, cy=s_a_y + 38, text="YES:결핍", font=get_font(6.5, 'bold'), theme='cyan', solid=True, pad_x=3, height=14)
     draw.rounded_rectangle([p3_x + 355, s_a_y + 38, p3_x + 525, s_a_y + 76], radius=5, fill=(10, 36, 48), outline=(0, 229, 255), width=1)
     draw.text((p3_x + 365, s_a_y + 50), "맞춤 라이프 처방 시트", font=get_font(8.5, 'bold'), fill=(0, 229, 255))
     draw.text((p3_x + 365, s_a_y + 64), "행운의 컬러/음식/행동 솔루션", font=get_font(7.5, 'medium'), fill=(163, 176, 204))
     
-    # Branch No (Down) -> Harmony Guide
+    # Branch No (Down) -> Harmony Guide with Prominent Badge
     draw_arrow(draw, (p3_x + 322, s_a_y + 76), (p3_x + 355, s_a_y + 98), col=(229, 192, 123), width=1, arrow_size=3)
-    draw.text((p3_x + 338, s_a_y + 90), "No", font=get_font(7, 'bold'), fill=(229, 192, 123), anchor='mm')
+    draw_pill_badge(draw, cx=p3_x + 338, cy=s_a_y + 88, text="NO:균형", font=get_font(6.5, 'bold'), theme='gold', solid=True, pad_x=3, height=14)
     draw.rounded_rectangle([p3_x + 355, s_a_y + 84, p3_x + 525, s_a_y + 122], radius=5, fill=(14, 20, 36), outline=(229, 192, 123, 80), width=1)
     draw.text((p3_x + 365, s_a_y + 96), "오행 조화 가이드", font=get_font(8.5, 'bold'), fill=(244, 246, 252))
     draw.text((p3_x + 365, s_a_y + 110), "상호 상생 에너지 유지 팁", font=get_font(7.5, 'medium'), fill=(163, 176, 204))
@@ -269,16 +267,16 @@ def make_slide_05():
     draw_diamond(draw, cx=p3_x + 265, cy=s_b_y + 63, w=115, h=46, fill=(35, 30, 15), outline=(255, 215, 0), width=1)
     draw.text((p3_x + 265, s_b_y + 63), "출생시 인지?", font=get_font(8.5, 'bold'), fill=(255, 215, 0), anchor='mm')
     
-    # Branch Yes -> Exact Match
+    # Branch Yes -> Exact Match with Prominent Badge
     draw_arrow(draw, (p3_x + 322, s_b_y + 52), (p3_x + 355, s_b_y + 52), col=(216, 180, 254), width=1, arrow_size=3)
-    draw.text((p3_x + 338, s_b_y + 44), "Yes", font=get_font(7, 'bold'), fill=(216, 180, 254), anchor='mm')
+    draw_pill_badge(draw, cx=p3_x + 338, cy=s_b_y + 38, text="YES:인지", font=get_font(6.5, 'bold'), theme='purple', solid=True, pad_x=3, height=14)
     draw.rounded_rectangle([p3_x + 355, s_b_y + 38, p3_x + 525, s_b_y + 76], radius=5, fill=(30, 18, 48), outline=(168, 85, 247), width=1)
     draw.text((p3_x + 365, s_b_y + 50), "정밀 4주 합충 분석", font=get_font(8.5, 'bold'), fill=(216, 180, 254))
     draw.text((p3_x + 365, s_b_y + 64), "천간합 및 지지 육합 종합", font=get_font(7.5, 'medium'), fill=(163, 176, 204))
     
-    # Branch No -> Fallback Guard
+    # Branch No -> Fallback Guard with Prominent Badge
     draw_arrow(draw, (p3_x + 322, s_b_y + 76), (p3_x + 355, s_b_y + 98), col=(229, 192, 123), width=1, arrow_size=3)
-    draw.text((p3_x + 338, s_b_y + 90), "No", font=get_font(7, 'bold'), fill=(229, 192, 123), anchor='mm')
+    draw_pill_badge(draw, cx=p3_x + 338, cy=s_b_y + 88, text="NO:미인지", font=get_font(6.5, 'bold'), theme='gold', solid=True, pad_x=3, height=14)
     draw.rounded_rectangle([p3_x + 355, s_b_y + 84, p3_x + 525, s_b_y + 122], radius=5, fill=(14, 20, 36), outline=(229, 192, 123, 80), width=1)
     draw.text((p3_x + 365, s_b_y + 96), "12:00 스마트 안심 보정", font=get_font(8.5, 'bold'), fill=(244, 246, 252))
     draw.text((p3_x + 365, s_b_y + 110), "정오 태양시 보정 신뢰도 보존", font=get_font(7.5, 'medium'), fill=(163, 176, 204))
@@ -331,7 +329,7 @@ def make_slide_05():
     draw.text((p3_x + (555+p3_w-24)//2, s_c_y + 72), "심층 키워드 해설 확인", font=get_font(7.5, 'medium'), fill=(163, 176, 204), anchor='mm')
     
     # Connectors from Stream A, B, C into Phase 04 (Consolidating cleanly into Phase 4 Vault)
-    p3_p4_mid_x = (p3_x + p3_w + p4_x) // 2 # 1504
+    p3_p4_mid_x = (p3_x + p3_w + p4_x) // 2 # 1507
     # Horizontal taps from each stream into the central convergence trunk
     draw.line([(p3_x + p3_w - 24, s_a_y + 79), (p3_p4_mid_x, s_a_y + 79)], fill=(0, 229, 255), width=2)
     draw.line([(p3_x + p3_w - 24, s_b_y + 79), (p3_p4_mid_x, s_b_y + 79)], fill=(216, 180, 254), width=2)
@@ -342,10 +340,10 @@ def make_slide_05():
     
     # Single unified golden arrow entering Node 4-1 Private Vault
     draw_arrow(draw, (p3_p4_mid_x, flow_y + 115), (p4_x + 20, flow_y + 115), col=(229, 192, 123), width=2, arrow_size=5)
-    draw.text((p3_p4_mid_x, flow_y + 98), "결과 보관 ▲", font=get_font(7, 'bold'), fill=(255, 215, 0), anchor='mm')
+    draw_pill_badge(draw, cx=p3_p4_mid_x, cy=flow_y + 98, text="3대 여정 공통 저장 ➔", font=get_font(7, 'bold'), theme='gold', solid=True, pad_x=5, height=16)
     
     # -------------------------------------------------------------
-    # PHASE 04: 가치 저장 & 리추얼 완료 (x=1520 to 1820, w=300)
+    # PHASE 04: 가치 저장 & 리추얼 완료 (x=1525 to 1820, w=295)
     # -------------------------------------------------------------
     draw.rounded_rectangle([p4_x, flow_y, p4_x + p4_w, flow_y + flow_h], radius=14, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
     draw_pill_badge(draw, left_x=p4_x + 16, cy=flow_y + 24, text="PHASE 04", font=get_font(8.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=20)

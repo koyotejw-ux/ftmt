@@ -413,21 +413,26 @@ def make_slide_03():
     c3_x = c2_x + col2_w
     c4_x = c3_x + col3_w
     
-    # Header Background
+    # Entire Table Chassis with Integrated Border
+    draw.rounded_rectangle([tbl_x, th_y, tbl_x + tbl_w, th_y + total_tbl_h], radius=8, fill=(14, 20, 36, 240), outline=(229, 192, 123, 70), width=1)
+    # Header Row Background
     draw.rounded_rectangle([tbl_x, th_y, tbl_x + tbl_w, th_y + th_h], radius=8, fill=(24, 32, 54))
-    # Col 4 Elevated Highlight Panel
-    draw.rounded_rectangle([c4_x, th_y - 2, c4_x + col4_w, th_y + total_tbl_h + 4], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 200), width=1)
     
-    # Clear Korean Column Headers
+    # Col 4 Flush Integrated Column Tint (Seamless grid integration, no awkward outer ring)
+    draw.rounded_rectangle([c4_x, th_y, tbl_x + tbl_w, th_y + total_tbl_h], radius=8, fill=(38, 30, 14, 180))
+    # Col 4 Left Separator Line
+    draw.line([(c4_x, th_y), (c4_x, th_y + total_tbl_h)], fill=(229, 192, 123, 140), width=1)
+    
+    # Clear Column Headers
     draw.text((c1_x + 14, th_cy), "비교 항목", font=get_font(11.5, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
     draw.text((c2_x + 14, th_cy), "오프라인 철학관", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
     draw.text((c3_x + 14, th_cy), "기존 운세 앱", font=get_font(11.5, 'bold'), fill=C_TEXT_BODY, anchor='lm')
-    draw_pill_badge(draw, cx=c4_x + col4_w // 2, cy=th_cy, text="포춘매치 (본 서비스)", font=get_font(11, 'bold'), theme='gold', solid=True, has_dot=True, height=26, pad_x=12)
+    draw.text((c4_x + 16, th_cy), "포춘매치 (본 서비스)", font=get_font(11.5, 'extrabold'), fill=(255, 215, 0), anchor='lm')
+    draw_pill_badge(draw, left_x=c4_x + 152, cy=th_cy, text="OURS", font=get_font(7.5, 'bold'), theme='gold', solid=True, pad_x=4, height=16)
     
     # Vertical Column Divider Lines in Header
-    draw.line([(c2_x, th_y + 4), (c2_x, th_y + th_h - 4)], fill=(229, 192, 123, 70), width=1)
-    draw.line([(c3_x, th_y + 4), (c3_x, th_y + th_h - 4)], fill=(229, 192, 123, 70), width=1)
-    draw.line([(c4_x, th_y + 4), (c4_x, th_y + th_h - 4)], fill=(229, 192, 123, 90), width=1)
+    draw.line([(c2_x, th_y + 4), (c2_x, th_y + th_h - 4)], fill=(229, 192, 123, 60), width=1)
+    draw.line([(c3_x, th_y + 4), (c3_x, th_y + th_h - 4)], fill=(229, 192, 123, 60), width=1)
     
     rows = [
         ("입력 방식", "복잡한 간지 수기 입력", "반복적인 생년월일 타이핑", "0.3초 우주 좌표 즉각 도출"),
@@ -440,17 +445,17 @@ def make_slide_03():
     for idx, (dim, m1, m2, m3) in enumerate(rows):
         ry = th_y + th_h + idx * row_h
         rcy = ry + row_h // 2
-        # Horizontal row divider line
-        draw.line([(tbl_x, ry), (tbl_x + tbl_w, ry)], fill=(229, 192, 123, 40), width=1)
+        # Horizontal row divider lines
+        draw.line([(tbl_x, ry), (c4_x, ry)], fill=(229, 192, 123, 40), width=1)
+        draw.line([(c4_x + 10, ry), (c4_x + col4_w - 10, ry)], fill=(229, 192, 123, 30), width=1)
         # Vertical column divider lines
-        draw.line([(c2_x, ry), (c2_x, ry + row_h)], fill=(229, 192, 123, 50), width=1)
-        draw.line([(c3_x, ry), (c3_x, ry + row_h)], fill=(229, 192, 123, 50), width=1)
-        draw.line([(c4_x, ry), (c4_x, ry + row_h)], fill=(229, 192, 123, 80), width=1)
+        draw.line([(c2_x, ry + 4), (c2_x, ry + row_h - 4)], fill=(229, 192, 123, 40), width=1)
+        draw.line([(c3_x, ry + 4), (c3_x, ry + row_h - 4)], fill=(229, 192, 123, 40), width=1)
         
         draw.text((c1_x + 14, rcy), dim, font=get_font(11, 'bold'), fill=C_TITLE_WHITE, anchor='lm')
         draw.text((c2_x + 14, rcy), m1, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
         draw.text((c3_x + 14, rcy), m2, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY, anchor='lm')
-        draw.text((c4_x + 16, rcy), m3, font=get_font(11, 'bold'), fill=C_GOLD_HERO, anchor='lm')
+        draw.text((c4_x + 14, rcy), "✓ " + m3, font=get_font(11, 'bold'), fill=(255, 215, 0), anchor='lm')
         
     # 3. BOTTOM: 2 Senior Persona Cards (Strictly aligned to col1_x=100 and col2_x=975, w=845)
     p_y = 636
@@ -596,8 +601,8 @@ def make_slide_04():
             draw.line([(tree_x, cy + 22), (card_x, cy + 22)], fill=(229, 192, 123, 120), width=2)
             draw.ellipse([tree_x - 3, cy + 22 - 3, tree_x + 3, cy + 22 + 3], fill=(255, 215, 0))
             
-            card_bg = (14, 20, 36, 230) if not is_new else (24, 32, 54, 245)
-            card_bd = (229, 192, 123, 40) if not is_new else (229, 192, 123, 120)
+            card_bg = (14, 20, 36, 230)
+            card_bd = (229, 192, 123, 50)
             draw.rounded_rectangle([card_x, cy, card_x + card_w, cy + card_h], radius=8, fill=card_bg, outline=card_bd, width=1)
             
             draw.text((card_x + 14, cy + 12), scr_id, font=get_font(8.5, 'bold'), fill=(163, 176, 204))
