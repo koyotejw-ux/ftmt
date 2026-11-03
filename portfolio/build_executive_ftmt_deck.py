@@ -89,6 +89,8 @@ def wrap_text_by_words(text, font, max_width, draw):
 def draw_diamond(draw, cx, cy, w, h, fill, outline, width=2):
     pts = [(cx, cy - h // 2), (cx + w // 2, cy), (cx, cy + h // 2), (cx - w // 2, cy)]
     draw.polygon(pts, fill=fill, outline=outline)
+    if width > 1:
+        draw.line(pts + [pts[0]], fill=outline, width=int(round(width)))
 
 def draw_arrow(draw, p1, p2, col=(229, 192, 123), width=2, arrow_size=6):
     x1, y1 = p1
