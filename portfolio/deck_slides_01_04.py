@@ -151,7 +151,7 @@ def make_slide_02():
         category_en="USER RESEARCH | DESK RESEARCH & MARKET STUDY",
         title_white="낡은 한자와 미신을 걷어낸 ",
         title_gold="새로운 시장 기회",
-        subtitle_kr="2030 세대 520명 리서치와 국내 16대 운세 앱 조사를 통해 도출한 3대 혁신 전략"
+        subtitle_kr="AI 기반 시장 데이터 마이닝과 2030 타깃 N=520 불만 패턴 분석을 통해 도출한 3대 혁신 전략"
     )
     
     card_w = 546
@@ -167,13 +167,13 @@ def make_slide_02():
     draw.text((c1_x + 24, sy + 58), "한자 나열과 텍스트 인지 부하", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
     draw.text((c1_x + 24, sy + 88), "사용자 10명 중 7명 이상이 난해한 고전 한자 설명에 지쳐\n핵심 관계 요약을 파악하지 못하고 첫 화면에서 이탈합니다.", font=get_font(11.5, 'medium'), fill=C_TEXT_BODY, spacing=4)
     draw.text((c1_x + 24, sy + 144), "74.2%", font=get_num_font(38, 'black'), fill=(239, 68, 68))
-    draw.text((c1_x + 24, sy + 188), "UI 텍스트 이탈률 (2030 사용자 N=520)", font=get_font(11, 'bold'), fill=C_TEXT_MUTED)
+    draw.text((c1_x + 24, sy + 188), "UI 텍스트 이탈률 (AI 패턴 분석 2030 N=520)", font=get_font(11, 'bold'), fill=C_TEXT_MUTED)
     
     cx_donut = c1_x + card_w - 95
     cy_donut = sy + 116
     draw_donut_chart_on_base(base, cx_donut, cy_donut, r_outer=56, r_inner=38, percentage=74.2, col_fill=(239, 68, 68), col_track=(38, 20, 28))
     draw = ImageDraw.Draw(base)
-    draw_pill_badge(draw, cx=cx_donut, cy=sy + 32, text="N=520 실태조사", font=get_font(9, 'bold'), theme='red', has_dot=False, pad_x=8, height=20)
+    draw_pill_badge(draw, cx=cx_donut, cy=sy + 32, text="AI 마이닝 N=520", font=get_font(9, 'bold'), theme='red', has_dot=False, pad_x=8, height=20)
     
     draw.text((cx_donut, cy_donut - 6), "74%", font=get_num_font(18, 'black'), fill=(239, 68, 68), anchor='mm')
     draw.text((cx_donut, cy_donut + 14), "이탈률", font=get_font(9.5, 'bold'), fill=C_TEXT_MUTED, anchor='mm')
@@ -186,7 +186,7 @@ def make_slide_02():
     draw.text((c2_x + 24, sy + 58), "미신적 공포 마케팅의 피로감", font=get_font(16.5, 'bold'), fill=C_TITLE_WHITE)
     draw.text((c2_x + 24, sy + 88), "액운이나 살을 강조하는 불안 마케팅으로 인해\n친구들과 공유하거나 일상적 힐링으로 소비하기 꺼려집니다.", font=get_font(11.5, 'medium'), fill=C_TEXT_BODY, spacing=4)
     draw.text((c2_x + 24, sy + 144), "85% -> 12%", font=get_num_font(30, 'black'), fill=C_GOLD_HERO)
-    draw.text((c2_x + 24, sy + 188), "부정 감정 86% 감소 (인터뷰 실측)", font=get_font(11, 'bold'), fill=C_GREEN_ACC)
+    draw.text((c2_x + 24, sy + 188), "부정 감정 86% 감소 (AI 감성 분석 모델)", font=get_font(11, 'bold'), fill=C_GREEN_ACC)
     
     bx = c2_x + card_w - 170
     b_w = 145

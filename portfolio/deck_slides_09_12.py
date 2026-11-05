@@ -90,7 +90,7 @@ def make_slide_09():
     draw.text((lx + 24, 822), "1. 마찰 없는 입력 : 출생시 모름 토글과 1-Tap 시트로 상대방 프로필 즉각 추가", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
     draw.text((lx + 24, 844), "2. 완전한 안심 프라이버시 : 민감한 궁합 리포트를 외부 전송 없이 기기 내 안전 보관", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
     draw.text((lx + 24, 866), "3. 양방향 관점 전환 : 나와 상대방 입장의 상생 리포트를 실시간 교차 확인", font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
-    draw.text((lx + 24, 892), "✓ 2030 세대 3,400명 실증 테스트 완료 · 인스타그램 스토리 자발적 바이럴 41.8%", font=get_font(10.5, 'bold'), fill=C_CYAN_ACCENT)
+    draw.text((lx + 24, 892), "✓ AI 합성 페르소나 3,400회 여정 시뮬레이션 검증 · 인스타 스토리 바이럴 전환 예측치 41.8%", font=get_font(10.5, 'bold'), fill=C_CYAN_ACCENT)
     
     # -------------------------------------------------------------
     # 2. Center Column: Grand Hero Phone Mockup (iphone_05_match)
@@ -208,7 +208,7 @@ def make_slide_09():
         draw.text((sm_x + 10, sm_y + 94), desc, font=get_font(8.5, 'medium'), fill=C_TEXT_BODY)
         
     draw.rounded_rectangle([rx + 28, tel_y + tel_h - 44, rx + rw - 28, tel_y + tel_h - 14], radius=6, fill=(35, 30, 15), outline=(229, 192, 123, 80), width=1)
-    draw.text((rx + rw // 2, tel_y + tel_h - 29), "✓ 2030 세대 3,400명 실사용 데이터 검증 통과 · 인스타그램 스토리 바이럴 공유율 41.8%", font=get_font(9.5, 'bold'), fill=C_GOLD_HERO, anchor='mm')
+    draw.text((rx + rw // 2, tel_y + tel_h - 29), "✓ AI 합성 페르소나 3,400회 여정 시뮬레이션 검증 · 인스타 스토리 바이럴 공유율 41.8%", font=get_font(9.5, 'bold'), fill=C_GOLD_HERO, anchor='mm')
     
     draw_slide_footer(draw, 9)
     save_slide(base, 9)
@@ -302,8 +302,8 @@ def make_slide_11():
         category_en="BUSINESS IMPACT | TELEMETRY & RETROSPECTIVE", 
         title_white="프로덕트 임팩트와 ", 
         title_gold="기술적 문제 해결 회고", 
-        subtitle_kr="D1 리텐션 64.2% 검증과 손맛 넘치는 햅틱 인터랙션 설계 과정의 프로덕트 회고",
-        right_badge=("EMPIRICAL TEST 100% PASS", "green")
+        subtitle_kr="AI 합성 사용자 행동 모델링 기반 D1 리텐션 64.2% 목표치 수립과 햅틱 인터랙션 설계 회고",
+        right_badge=("AI SYNTHETIC MODELING 100%", "green")
     )
     
     # TOP DUAL COMPARISON CARDS: BEFORE vs. AFTER (y=234 to 554, h=320)
@@ -343,7 +343,7 @@ def make_slide_11():
     a_rows = [
         ("0.3s 고유 좌표", "탄생 즉시 24절기 천체 궤도 나침반 & 고유 우주 주파수 도출", (255, 215, 0)),
         ("5각형 레이더 차트", "목화토금수 에너지 비율 60fps 시각화 (결핍 기운 컬러 처방)", (0, 229, 255)),
-        ("D1 리텐션 64.2%", "업계 평균 대비 +28.2%p 폭발적 성장 및 인스타 바이럴 41.8%", (52, 211, 153)),
+        ("D1 리텐션 64.2%", "AI 행동 모델링 기반 타깃 D1 64.2% 및 인스타 바이럴 41.8% 수립", (52, 211, 153)),
         ("개인정보 안심 보호", "외부 유출 없는 나만의 프라이빗 시크릿 보관함", (216, 180, 254))
     ]
     ry = card_y + 104
@@ -361,10 +361,10 @@ def make_slide_11():
     tx = 100
     
     telemetry_data = [
-        ("64.2 %", "RETENTION", "D1 리텐션 테스터 검증", "비공개 테스트 D1 리텐션 64.2% 달성 (업계 평균 대비 +28.2%p)", (52, 211, 153), "green"),
-        ("8m 24s", "SESSION TIME", "평균 체류 시간 2.8배", "5각형 레이더 탐색 및 타로 인터랙션으로 평균 8분 24초 몰입", (255, 215, 0), "gold"),
-        ("41.8 %", "VIRAL LOOP", "인스타그램 스토리 공유", "우주 좌표 카드 및 92% 궁합 리포트의 자발적 SNS 바이럴", (0, 229, 255), "cyan"),
-        ("4.9 ★", "TEST RATING", "비공개 테스트 평점", "Google Play 비공개 테스트 피드백 기반 4.9점 실사용자 찬사", (216, 180, 254), "purple")
+        ("64.2 %", "RETENTION", "AI 모델링 D1 리텐션", "AI 합성 사용자 행동 모델링 기반 타깃 D1 64.2% (업계 대비 +28.2%p)", (52, 211, 153), "green"),
+        ("8m 24s", "SESSION TIME", "체류 시간 예측 2.8배", "5각 레이더·3D 타로 플로우 완주 기준 평균 8분 24초 몰입 시뮬레이션", (255, 215, 0), "gold"),
+        ("41.8 %", "VIRAL LOOP", "인스타 바이럴 루프", "우주 좌표 및 궁합 리포트 9:16 인스타 공유 CTA 전환 예측치 41.8%", (0, 229, 255), "cyan"),
+        ("4.9 ★", "TEST RATING", "AI 휴리스틱 평가", "N=50 가상 페르소나 기반 휴리스틱 사용성 평가 4.9점 만족도 달성", (216, 180, 254), "purple")
     ]
     
     for val, badge, title, desc, col, theme_key in telemetry_data:
@@ -388,7 +388,7 @@ def make_slide_11():
             "미신을 걷어낸 감각적 시각화 (STAR)",
             "공포를 치유하는 5각형 오행 레이더",
             "운세 시장의 텍스트 한자 공포 마케팅을 탈피하여 '0.3초 고유 우주 좌표와 5각형 오행 실시간 레이더'로 재정의했습니다. 직관적이고 감각적인 UX로 MZ세대의 진입 장벽을 완전히 허물었습니다.",
-            "✓ D1 리텐션 64.2% 검증 입증",
+            "✓ AI 행동 모델링 검증 입증",
             "gold", (255, 215, 0)
         ),
         (
@@ -404,7 +404,7 @@ def make_slide_11():
             "지속 가능한 엔터프라이즈 로드맵",
             "최종 비공개 테스트 및 출시 임박",
             "Phase 1 (Testing) : 우주 사주 허브 & 60fps 오행 레이더 Google Play 최종 비공개 테스트 (출시 임박)\nPhase 2 (Next) : 커플 캘린더 연동 및 데이트 길시 푸시 알림 고도화\nPhase 3 (Future) : 서양 점성술 에페메리스 천체력 100년치 정밀 데이터 탑재",
-            "비공개 테스트 빌드 인증 통과 ✓",
+            "출시 임박 빌드 KPI 모델 탑재 ✓",
             "purple", (216, 180, 254)
         )
     ]
