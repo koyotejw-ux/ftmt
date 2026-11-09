@@ -54,6 +54,10 @@ def make_slide_01():
          "물리 엔진 기반의 3D 타로 셔플과 기분 좋은 햅틱 진동 피드백을 결합하여 매일 부담 없이 즐길 수 있는 심리적 안정감의 리추얼을 완성했습니다.")
     ]
     
+    # Calculate maximum badge width to ensure unified title alignment with clean margin
+    max_badge_w = max(draw.textlength(tag, font=get_font(10, 'bold')) + 16 for _, tag, _, _, _ in strengths)
+    title_x = int(round(144 + max_badge_w + 24)) # 24px clean margin after the longest badge
+    
     k_y = 358
     for idx, (num, tag, title_ko, sub_en, desc) in enumerate(strengths):
         # Open number pill
@@ -63,10 +67,10 @@ def make_slide_01():
         # Tag & Title & EN Subtitle
         draw_pill_badge(draw, left_x=144, cy=k_y + 15, text=tag, font=get_font(10, 'bold'), theme='gold', has_dot=False, pad_x=8, height=22)
         
-        draw.text((226, k_y + 4), title_ko, font=get_font(15.5, 'bold'), fill=C_TITLE_WHITE)
+        draw.text((title_x, k_y + 4), title_ko, font=get_font(15.5, 'bold'), fill=C_TITLE_WHITE)
         
         w_title = draw.textlength(title_ko, font=get_font(15.5, 'bold'))
-        draw.text((226 + w_title + 12, k_y + 6), f"·  {sub_en}", font=get_font(12, 'medium'), fill=(148, 163, 184))
+        draw.text((title_x + w_title + 12, k_y + 6), f"·  {sub_en}", font=get_font(12, 'medium'), fill=(148, 163, 184))
         
         # 2-line description with comfortable width (up to 780px)
         words = desc.split(' ')
