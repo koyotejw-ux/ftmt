@@ -20,7 +20,7 @@ def make_slide_01():
     draw.line([(100, 52), (1820, 52)], fill=(229, 192, 123, 40), width=1)
     
     # Top Kicker & Metadata
-    draw_pill_badge(draw, left_x=100, cy=76, text="COSMIC ASTRO LAB · 2026 CASE STUDY", font=get_font(11.5, 'bold'), theme='gold', has_dot=True, pad_x=12, height=28)
+    draw_pill_badge(draw, left_x=100, cy=76, text="2026 CASE STUDY", font=get_font(11.5, 'bold'), theme='gold', has_dot=True, pad_x=12, height=28)
     
     meta_txt = "서비스 기획 · UI/UX 디자인 · Android Live · Cosmic Design System"
     w_meta = draw.textlength(meta_txt, font=get_font(13.5, 'medium'))
@@ -134,8 +134,6 @@ def make_slide_01():
         base.paste(rot_front, (p_front_x, p_front_y), rot_front)
         
         draw = ImageDraw.Draw(base)
-        draw_pill_badge(draw, left_x=1340, cy=94, text="SCREEN 02 · 오행 레이더 & 케미스트리", font=get_font(10, 'bold'), theme='gold', has_dot=True, pad_x=10, height=22, solid=True)
-        draw_pill_badge(draw, left_x=1040, cy=148, text="SCREEN 01 · 감성 온보딩 & 우주 좌표 허브", font=get_font(10, 'bold'), theme='cyan', has_dot=True, pad_x=10, height=22, solid=True)
         
     # Bottom 4-Column Specification Strip (Spanning x=100 to 1820, y=840 to 956)
     bar_y = 840
@@ -145,7 +143,7 @@ def make_slide_01():
     col_w = 1720 // 4
     specs = [
         ("PROJECT ROLE", "서비스 기획 100% · UI/UX 디자인 100%", "페르소나 리서치 · 문제 정의 · IA 정보 설계 · 와이어프레임 · UI 디자인 총괄"),
-        ("PERIOD & TIMELINE", "2026.06 - 2026.10 (5개월 완결)", "사용자 인터뷰 -> 오행 UX 인터랙션 설계 -> 디자인 시스템 구축 -> 실기기 검증"),
+        ("PERIOD & TIMELINE", "2026.06 - 현재 (지속 고도화 진행)", "핵심 서비스 설계 및 실기기 검증 이후 사용자 피드백 기반 지속 고도화 중"),
         ("DESIGN SYSTEM", "Cosmic Luxury 토큰 · 컴포넌트 규격", "R8/R12/R16 라운딩 체계 · 8pt 베이스라인 · 다크 옵시디언 감성 테마 구축"),
         ("DELIVERY & RELEASE", "Google Play 비공개 테스트 & 프로토타입", "Android 실기기 인터랙션 검증 완료 · Web 60fps 인터랙티브 시뮬레이터 완성")
     ]
