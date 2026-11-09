@@ -27,7 +27,7 @@ def make_slide_01():
     draw.text((1820 - w_meta, 68), meta_txt, font=get_font(13.5, 'medium'), fill=C_TEXT_BODY)
     
     # Category Label
-    draw.text((100, 146), "FORTUNEMATCH · UX/UI CASE STUDY", font=get_font(14, 'bold'), fill=C_GOLD_HERO)
+    draw.text((100, 146), "FORTUNEMATCH · UX/UI", font=get_font(14, 'bold'), fill=C_GOLD_HERO)
     
     # Big Clean Headline (56pt Black)
     title_p1 = "우주의 주파수를 잇다, "
