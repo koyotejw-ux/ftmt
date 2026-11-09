@@ -520,142 +520,149 @@ def make_slide_04():
     draw_slide_header(
         draw,
         slide_num=4,
-        category_en="INFORMATION ARCHITECTURE | SERVICE STRUCTURE",
-        title_white="5개 코어 탭으로 완성한 ",
-        title_gold="직관적인 모듈 구조",
-        subtitle_kr="우주 좌표부터 5각형 오행 레이더, 정밀 궁합, 도파민 타로까지 이어지는 계층 설계"
+        category_en="INFORMATION ARCHITECTURE · SERVICE STRUCTURE",
+        title_white="복잡함을 덜어내고 직관성을 높인 ",
+        title_gold="5대 화면 메뉴 구조",
+        subtitle_kr="나의 사주부터 오행 분석, 인연 궁합, 힐링 타로까지 편안하게 둘러보는 직관적인 서비스 계층"
     )
     
-    # Legend Box on Top Right (1220 to 1820, w=600, h=80 - Matching Slide 05 Clean Grid)
-    leg_x, leg_y, leg_w, leg_h = 1220, 68, 600, 80
-    draw.rounded_rectangle([leg_x, leg_y, leg_x + leg_w, leg_y + leg_h], radius=10, fill=(14, 20, 36, 220), outline=(229, 192, 123, 50), width=1)
-    draw_pill_badge(draw, left_x=leg_x + 14, cy=leg_y + 18, text="IA NOTATION", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
-    draw.text((leg_x + 130, leg_y + 18), "화면 및 컴포넌트 표기 범례", font=get_font(11, 'bold'), fill=(244, 246, 252), anchor='lm')
+    # Top-Right Badge: Clean, Compact Overview (w=340, h=60, nicely proportioned)
+    top_badge_x = 1480
+    top_badge_y = 65
+    draw.rounded_rectangle([top_badge_x, top_badge_y, top_badge_x + 340, top_badge_y + 60], radius=10, fill=(14, 20, 36, 220), outline=(229, 192, 123, 60), width=1)
+    draw_pill_badge(draw, left_x=top_badge_x + 16, cy=top_badge_y + 30, text="서비스 구성", font=get_font(9.5, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
+    draw.text((top_badge_x + 110, top_badge_y + 20), "5대 메인 탭", font=get_font(12, 'bold'), fill=(244, 246, 252))
+    draw.text((top_badge_x + 110, top_badge_y + 39), "총 15개 직관적 화면 설계", font=get_font(10.5, 'medium'), fill=(163, 176, 204))
     
-    # 1. 기본 화면 (Page)
-    draw.rounded_rectangle([leg_x + 14, leg_y + 44, leg_x + 64, leg_y + 68], radius=4, fill=(24, 32, 54), outline=(100, 116, 139), width=1)
-    draw.text((leg_x + 39, leg_y + 56), "Page", font=get_font(8.5, 'bold'), fill=(203, 213, 225), anchor='mm')
-    draw.text((leg_x + 72, leg_y + 56), "기본 화면", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
-    
-    # 2. 바텀시트 (BottomSheet)
-    draw.rounded_rectangle([leg_x + 146, leg_y + 44, leg_x + 230, leg_y + 68], radius=4, fill=(35, 30, 15), outline=(229, 192, 123), width=1)
-    draw.text((leg_x + 188, leg_y + 56), "BottomSheet", font=get_font(8, 'bold'), fill=(255, 215, 0), anchor='mm')
-    draw.text((leg_x + 238, leg_y + 56), "액션 시트", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
-    
-    # 3. 팝업/모달 (Modal)
-    draw.rounded_rectangle([leg_x + 312, leg_y + 44, leg_x + 362, leg_y + 68], radius=4, fill=(24, 32, 54), outline=(100, 116, 139), width=1)
-    draw.text((leg_x + 337, leg_y + 56), "Modal", font=get_font(8.5, 'bold'), fill=(203, 213, 225), anchor='mm')
-    draw.text((leg_x + 370, leg_y + 56), "팝업/모달", font=get_font(9.5, 'medium'), fill=(163, 176, 204), anchor='lm')
-    
-    # 4. 혁신 기능 (NEW Badge - Zero Overlap)
-    b_new = draw_pill_badge(draw, left_x=leg_x + 450, cy=leg_y + 56, text="NEW", font=get_font(8, 'bold'), theme='gold', has_dot=True, pad_x=6, height=18)
-    draw.text((b_new[2] + 10, leg_y + 56), "혁신 기능", font=get_font(9.5, 'bold'), fill=(255, 215, 0), anchor='lm')
-    
-    # Root Node: Level 0 Master Hub (Balanced 500px width with comfortable margins)
-    root_x1, root_y1, root_x2, root_y2 = 710, 224, 1210, 280
+    # Level 0 Root Node: Compact, Centered, Clean Korean!
+    # Width: 460px (x: 730 to 1190) - NOT overly wide!
+    root_x1, root_y1, root_x2, root_y2 = 730, 226, 1190, 286
     draw.rounded_rectangle([root_x1, root_y1, root_x2, root_y2], radius=12, fill=(14, 20, 36), outline=(229, 192, 123), width=2)
-    b_root = draw_pill_badge(draw, left_x=root_x1 + 18, cy=root_y1 + 28, text="서비스 허브", font=get_font(9, 'bold'), theme='gold', has_dot=True, pad_x=8, height=24)
-    draw.text((b_root[2] + 16, root_y1 + 18), "포춘매치 모바일 앱 서비스 통합 허브", font=get_font(14, 'bold'), fill=(244, 246, 252), anchor='lm')
-    draw.text((b_root[2] + 16, root_y1 + 40), "하단 탭 내비게이션 기반 5대 핵심 도메인 구조", font=get_font(10.5, 'medium'), fill=(163, 176, 204), anchor='lm')
+    b_root = draw_pill_badge(draw, left_x=root_x1 + 18, cy=root_y1 + 30, text="시작 화면", font=get_font(10, 'bold'), theme='gold', has_dot=True, pad_x=10, height=26)
+    draw.text((b_root[2] + 16, root_y1 + 19), "포춘매치 전체 메뉴 구조", font=get_font(14.5, 'bold'), fill=(244, 246, 252))
+    draw.text((b_root[2] + 16, root_y1 + 41), "사주와 궁합, 타로를 쉽고 편안하게 탐색하는 5대 핵심 메뉴", font=get_font(10.5, 'medium'), fill=(163, 176, 204))
     
     cw = 328
     cgap = 20
     cols_x = [100 + i * (cw + cgap) for i in range(5)]
     col_centers = [cx + cw // 2 for cx in cols_x]
     
-    # Hub Connector Line with Center Indicator
-    draw.line([(960, root_y2), (960, 304)], fill=(229, 192, 123), width=2)
-    draw.ellipse([956, 300, 964, 308], fill=(255, 215, 0))
-    draw.line([(col_centers[0], 304), (col_centers[-1], 304)], fill=(229, 192, 123, 180), width=2)
+    draw.line([(960, root_y2), (960, 308)], fill=(229, 192, 123), width=2)
+    draw.ellipse([956, 304, 964, 312], fill=(255, 215, 0))
+    draw.line([(col_centers[0], 308), (col_centers[-1], 308)], fill=(229, 192, 123, 180), width=2)
     for cx in col_centers:
-        draw.ellipse([cx - 4, 304 - 4, cx + 4, 304 + 4], fill=(255, 215, 0))
-        draw_arrow(draw, (cx, 304), (cx, 326), col=(229, 192, 123), width=2, arrow_size=4)
+        draw.ellipse([cx - 4, 308 - 4, cx + 4, 308 + 4], fill=(255, 215, 0))
+        draw_arrow(draw, (cx, 308), (cx, 330), col=(229, 192, 123), width=2, arrow_size=4)
         
     domains_data = [
-        ("1.0 COSMIC HUB", "우주 사주 허브", "탄생 주파수 및 오늘의 길시 조망", [
-            ("SCR-HUB-01", "Page", "나의 고유 우주 좌표", "생년월일시 기반 4주 8글자 주파수 시각화", False),
-            ("SCR-HUB-02", "Widget", "24절기 천체 나침반", "일진 천간지지 및 계절 기운 궤도 렌더링", True),
-            ("SCR-HUB-03", "BottomSheet", "오늘의 금전운 길시", "도파민 골든 타임 및 행운의 컬러/방위", True)
+        ("01. 우주 사주", "나의 사주 좌표", "생년월일시로 알아보는 나만의 고유한 성향과 운세", [
+            ("기본 화면", "나의 우주 좌표", "생년월일시 4주 8글자를 세련된 우주 좌표로 시각화", False),
+            ("안내 화면", "오늘의 운세 나침반", "24절기와 오늘의 천간지지를 반영한 맞춤 운세", True),
+            ("상세 화면", "행운의 시간 & 방위", "오늘 나에게 좋은 기운이 들어오는 골든 타임 안내", True)
         ]),
-        ("2.0 FIVE ELEMENTS", "오행 레이더 분석", "목화토금수 에너지 밸런스 정량 분석", [
-            ("SCR-RAD-01", "Page", "5각형 실시간 레이더 뷰", "목·화·토·금·수 에너지 비율 0.1s 다각형 산출", True),
-            ("SCR-RAD-02", "Widget", "결핍 기운 보완 팁", "부족한 에너지를 채우는 패션/음식/행동 가이드", True),
-            ("SCR-RAD-03", "Modal", "상생상극 순환도", "오행 간 생(상생)과 극(상극)의 상호작용 피드백", False)
+        ("02. 오행 분석", "5가지 기운 밸런스", "목·화·토·금·수 오행 분포와 부족한 기운 보완 가이드", [
+            ("차트 화면", "5가지 오행 레이더", "목·화·토·금·수 에너지 비율을 5각형 차트로 쉽게 확인", True),
+            ("추천 화면", "부족한 기운 보완", "나에게 부족한 기운을 채워주는 색상과 음식, 행동 추천", True),
+            ("안내 팝업", "오행 상생상극 안내", "서로 돕고 견제하는 자연의 순환 원리를 알기 쉽게 설명", False)
         ]),
-        ("3.0 ZODIAC MATCH", "정밀 궁합 매칭", "사주 일주와 별자리의 융합 케미스트리", [
-            ("SCR-MAT-01", "Page", "92% 정밀 궁합 리포트", "두 사람의 성향 일치도 및 상호 보완성 종합 점수", True),
-            ("SCR-MAT-02", "Modal", "인연 추가 1-Tap 시트", "상대방 생년월일 간편 저장 및 프로필 관리", False),
-            ("SCR-MAT-03", "Widget", "오행 중첩 레이더", "두 사람의 레이더를 겹쳐 부족한 기운 상호 보충 확인", True)
+        ("03. 인연 궁합", "두 사람의 조화도", "사주와 별자리를 종합하여 서로 잘 맞는 시너지 분석", [
+            ("리포트", "정밀 인연 궁합", "두 사람의 생년월일을 비교하여 성향 일치도와 조화 점수 분석", True),
+            ("입력 창", "간편 인연 등록", "함께 보고 싶은 상대방 정보를 손쉽게 저장하고 관리", False),
+            ("비교 화면", "둘만의 오행 비교", "두 사람의 오행 차트를 겹쳐서 서로 채워주는 기운 확인", True)
         ]),
-        ("4.0 MYSTIC TAROT", "도파민 럭셔리 타로", "3D 물리 엔진 셔플 및 데일리 리추얼", [
-            ("SCR-TAR-01", "Page", "메이저 아르카나 22종", "고해상도 럭셔리 일러스트 및 키워드 해석", False),
-            ("SCR-TAR-02", "Widget", "3D 카드 셔플 캔버스", "손끝 제스처를 따라 움직이는 물리 카드 덱", True),
-            ("SCR-TAR-03", "Modal", "햅틱 카드 플립 피드백", "카드 선택 및 뒤집기 순간 60fps 햅틱 진동", True)
+        ("04. 힐링 타로", "오늘의 타로 리딩", "가볍게 카드를 뽑아 마음의 위로와 조언을 얻는 리추얼", [
+            ("기본 화면", "22종 메이저 타로", "아름다운 일러스트와 함께 읽는 키워드 중심의 명쾌한 해석", False),
+            ("체험 화면", "직관적인 카드 셔플", "손끝으로 카드를 섞고 펼치며 즐기는 편안한 인터랙션", True),
+            ("인터랙션", "실감나는 카드 뒤집기", "카드를 선택하고 넘기는 순간 부드러운 진동 피드백", True)
         ]),
-        ("5.0 SECRET VAULT", "시크릿 보관함 & 설정", "프라이빗 안심 보관함 및 환경 설정", [
-            ("SCR-VLT-01", "Page", "프라이빗 보관함", "나만의 타로 기록 및 인연 궁합 안심 보관", True),
-            ("SCR-VLT-02", "BottomSheet", "하트 충전 상점", "프리미엄 해석권 및 복채 하트 패키지 충전", False),
-            ("SCR-VLT-03", "Page", "다국어 & 프라이버시", "글로벌 10개국어 지원 및 개인정보 보호 안심 설정", True)
+        ("05. 맞춤 설정", "나의 기록 & 설정", "저장한 궁합과 타로 기록을 안전하게 보관하고 관리", [
+            ("기록 화면", "나만의 안심 보관함", "마음에 남는 타로 카드와 소중한 궁합 리포트를 안전 보관", True),
+            ("상점 화면", "프리미엄 복채 상점", "깊이 있는 상세 해석을 위한 이용권 충전", False),
+            ("보안 화면", "개인정보 안심 보관", "소중한 사주 정보는 외부 서버 없이 내 기기에만 안전 보관", True)
         ])
     ]
     
     for i, (dom_code, dom_name, dom_desc, containers) in enumerate(domains_data):
         cx = cols_x[i]
-        draw.rounded_rectangle([cx, 326, cx + cw, 398], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 180), width=1)
-        draw.text((cx + 18, 340), dom_code, font=get_font(9.5, 'bold'), fill=(255, 215, 0))
-        draw.text((cx + 18, 359), dom_name, font=get_font(13.5, 'bold'), fill=(244, 246, 252))
-        draw.text((cx + 18, 379), dom_desc, font=get_font(8.5, 'medium'), fill=(163, 176, 204))
+        draw.rounded_rectangle([cx, 330, cx + cw, 402], radius=10, fill=(35, 30, 15, 255), outline=(229, 192, 123, 180), width=1)
+        draw.text((cx + 18, 344), dom_code, font=get_font(10, 'bold'), fill=(255, 215, 0))
+        draw.text((cx + 18, 363), dom_name, font=get_font(13.5, 'bold'), fill=(244, 246, 252))
+        draw.text((cx + 18, 383), dom_desc, font=get_font(9, 'medium'), fill=(163, 176, 204))
         
         tree_x = cx + 16
-        draw.line([(tree_x, 398), (tree_x, 642)], fill=(229, 192, 123, 100), width=2)
+        draw.line([(tree_x, 402), (tree_x, 672)], fill=(229, 192, 123, 100), width=2)
         
         card_w = cw - 32
         card_x = cx + 32
-        cy = 410
-        card_h = 88
-        gap = 12
+        cy = 414
+        card_h = 82
+        gap = 10
         
-        for scr_id, view_type, title, desc, is_new in containers:
-            draw.line([(tree_x, cy + 22), (card_x, cy + 22)], fill=(229, 192, 123, 120), width=2)
-            draw.ellipse([tree_x - 3, cy + 22 - 3, tree_x + 3, cy + 22 + 3], fill=(255, 215, 0))
+        for scr_type, title, desc, is_new in containers:
+            draw.line([(tree_x, cy + 20), (card_x, cy + 20)], fill=(229, 192, 123, 120), width=2)
+            draw.ellipse([tree_x - 3, cy + 20 - 3, tree_x + 3, cy + 20 + 3], fill=(255, 215, 0))
             
             card_bg = (14, 20, 36, 230)
             card_bd = (229, 192, 123, 50)
             draw.rounded_rectangle([card_x, cy, card_x + card_w, cy + card_h], radius=8, fill=card_bg, outline=card_bd, width=1)
             
-            draw.text((card_x + 14, cy + 12), scr_id, font=get_font(8.5, 'bold'), fill=(163, 176, 204))
-            draw.rounded_rectangle([card_x + 92, cy + 10, card_x + 165, cy + 27], radius=4, fill=(35, 30, 15))
-            draw.text((card_x + 128, cy + 18), view_type, font=get_font(8, 'bold'), fill=(255, 215, 0), anchor='mm')
-            
+            draw_pill_badge(draw, left_x=card_x + 14, cy=cy + 15, text=scr_type, font=get_font(8.5, 'bold'), theme='gray', pad_x=6, height=18)
             if is_new:
-                draw_pill_badge(draw, left_x=card_x + card_w - 44, cy=cy + 18, text="NEW", font=get_font(7, 'bold'), theme='gold', pad_x=4, height=16)
+                draw_pill_badge(draw, left_x=card_x + card_w - 46, cy=cy + 15, text="핵심", font=get_font(8, 'bold'), theme='gold', pad_x=6, height=18, solid=True)
                 
-            draw.text((card_x + 14, cy + 37), title, font=get_font(12, 'bold'), fill=(244, 246, 252))
-            draw.text((card_x + 14, cy + 60), desc, font=get_font(9, 'regular'), fill=(163, 176, 204))
+            draw.text((card_x + 14, cy + 39), title, font=get_font(12, 'bold'), fill=(244, 246, 252), anchor='lm')
+            draw.text((card_x + 14, cy + 62), desc, font=get_font(9.5, 'regular'), fill=(163, 176, 204), anchor='lm')
             cy += card_h + gap
             
-    # Bottom: 4 IA Principles (Spacious, balanced height and comfortable padding)
-    bp_y = 750
-    bp_h = 185
+    # Bottom: 4 IA Principles (4 balanced cards with comfortable width!)
+    bar_y = 730
     bp_w = 415
     bp_gap = 20
-    principles = [
-        ("01", "0.3초 점진적 정보 노출 (Progressive Disclosure)", "생년월일시 입력 후 즉시 전체를 보여주지 않고 좌표 -> 오행 -> 궁합 순서로 단계적 이해도 제고", "gold"),
-        ("02", "1-Tap 상대방 전환 모달 (Thumb-Friendly)", "엄지 조작 반경 내 바텀시트 모달을 통해 복잡한 화면 이동 없이 인연 프로필 즉각 스위칭", "cyan"),
-        ("03", "오감 만족 60fps 햅틱 인터랙션 (Tactile Ritual)", "단순 스크롤 앱이 아닌 3D 카드 셔플과 플립 물리 엔진을 통해 살아있는 도파민 경험 전달", "purple"),
-        ("04", "개인정보 보호 안심 설계 (Privacy First)", "민감한 생년월일과 리딩 기록을 외부 서버로 전송하지 않고 내 기기에만 안전하게 보관", "green")
+    bp_h = 195
+    
+    pillars = [
+        ("01", "단계별 쉬운 정보 제공", "처음부터 어려운 내용을 쏟아내지 않고 사주, 오행, 궁합 순서로 차근차근 안내합니다.",
+         ["· 생년월일 입력 후 핵심 좌표부터 단계적 안내", "· 난해한 한자 대신 시각적 차트로 쉬운 이해"]),
+        ("02", "한 손 간편 전환", "복잡한 메뉴 이동 없이 한 번의 탭으로 상대방 궁합과 내 사주를 빠르게 오갑니다.",
+         ["· 엄지 영역 내 배치된 편안한 화면 전환", "· 저장된 인연 프로필을 터치 한 번으로 즉시 교체"]),
+        ("03", "생생한 손맛의 타로", "직접 카드를 섞고 뒤집는 듯한 부드러운 손끝 터치감과 진동으로 힐링을 줍니다.",
+         ["· 물리 엔진 기반의 실감나는 카드 셔플", "· 카드를 뽑는 순간 전해지는 기분 좋은 진동 피드백"]),
+        ("04", "100% 기기 내 안심 보관", "소중한 생년월일과 사주 기록을 외부 서버에 보내지 않고 내 기기에만 안전하게 보관합니다.",
+         ["· 회원가입이나 개인정보 입력 부담 제로", "· 내 기기 안에만 암호화 저장되는 프라이빗 안심 환경"])
     ]
-    for idx, (p_num, p_title, p_desc, p_theme) in enumerate(principles):
-        px = 100 + idx * (bp_w + bp_gap)
-        draw.rounded_rectangle([px, bp_y, px + bp_w, bp_y + bp_h], radius=12, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
-        draw_pill_badge(draw, left_x=px + 20, cy=bp_y + 26, text=f"PRINCIPLE {p_num}", font=get_font(8.5, 'bold'), theme=p_theme, has_dot=True, pad_x=8, height=20)
-        draw.text((px + 20, bp_y + 56), p_title, font=get_font(13, 'bold'), fill=C_TITLE_WHITE)
-        draw.line([(px + 20, bp_y + 78), (px + bp_w - 20, bp_y + 78)], fill=(229, 192, 123, 40), width=1)
-        b_lines = wrap_text_by_words(p_desc, get_font(10.5, 'medium'), bp_w - 40, draw)
-        by = bp_y + 94
-        for bl in b_lines:
-            draw.text((px + 20, by), bl, font=get_font(10.5, 'medium'), fill=C_TEXT_BODY)
-            by += 20
+    
+    for pidx, (pnum, ptitle, pdesc, psub_lines) in enumerate(pillars):
+        px = 100 + pidx * (bp_w + bp_gap)
+        draw.rounded_rectangle([px, bar_y, px + bp_w, bar_y + bp_h], radius=12, fill=(14, 20, 36, 230), outline=(229, 192, 123, 70), width=1)
+        
+        draw.rounded_rectangle([px + 18, bar_y + 18, px + 52, bar_y + 44], radius=6, fill=(35, 30, 15), outline=(229, 192, 123, 180), width=1)
+        draw.text((px + 35, bar_y + 31), pnum, font=get_font(11, 'bold'), fill=(255, 215, 0), anchor='mm')
+        
+        draw.text((px + 62, bar_y + 31), ptitle, font=get_font(13.5, 'bold'), fill=(244, 246, 252), anchor='lm')
+        draw.line([(px + 18, bar_y + 54), (px + bp_w - 18, bar_y + 54)], fill=(229, 192, 123, 40), width=1)
+        
+        words = pdesc.split(' ')
+        lines = []
+        cur_l = ""
+        for w in words:
+            test = (cur_l + ' ' + w).strip()
+            if draw.textlength(test, font=get_font(10.5, 'regular')) <= bp_w - 36:
+                cur_l = test
+            else:
+                lines.append(cur_l)
+                cur_l = w
+        if cur_l:
+            lines.append(cur_l)
+            
+        dy = bar_y + 70
+        for l in lines[:2]:
+            draw.text((px + 18, dy), l, font=get_font(10.5, 'regular'), fill=(203, 213, 225))
+            dy += 20
+            
+        dy += 6
+        for subl in psub_lines:
+            draw.text((px + 18, dy), subl, font=get_font(9.5, 'medium'), fill=(163, 176, 204))
+            dy += 18
             
     draw_slide_footer(draw, 4)
     save_slide(base, 4)
