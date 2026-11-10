@@ -448,3 +448,11 @@ body.fit-window .slide-frame img {
     padding: 0 14px;
   }
 }
+
+
+/* Global Badge Dot Removal - Simple & Clean Design Standard */
+.status-dot,
+.geo-dot,
+.pulse-dot {
+  display: none !important;
+}

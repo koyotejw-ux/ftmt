@@ -142,7 +142,7 @@ def draw_dashed_arrow(draw, p1, p2, col=(229, 192, 123), width=2, dash_len=4, ga
         else:
             draw.polygon([(x2 + arrow_size * 1.5, y2 - arrow_size), (x2 + arrow_size * 1.5, y2 + arrow_size), (x2, y2)], fill=col)
 
-def draw_pill_badge(draw, cx=None, cy=0, text="", font=None, theme='gold', has_dot=True, pad_x=12, height=28, left_x=None, solid=False):
+def draw_pill_badge(draw, cx=None, cy=0, text="", font=None, theme='gold', has_dot=False, pad_x=12, height=28, left_x=None, solid=False):
     if font is None:
         font = get_font(10.5, 'bold')
         
@@ -164,6 +164,7 @@ def draw_pill_badge(draw, cx=None, cy=0, text="", font=None, theme='gold', has_d
     }
     scheme = color_schemes_solid.get(theme, color_schemes_solid['gold']) if solid else color_schemes.get(theme, color_schemes['gold'])
     
+    has_dot = False  # Completely remove leading dot from all badges per user request
     tw = draw.textlength(text, font=font)
     dot_diameter = 7
     dot_gap = 8
