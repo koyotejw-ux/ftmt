@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
 import '../../../core/theme/glass_box.dart';
@@ -19,9 +20,83 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  static const String _keyTrueSolar = 'fm_setting_true_solar';
+  static const String _keyHaptic = 'fm_setting_haptic';
+  static const String _keySound = 'fm_setting_ambient_sound';
+
   bool _trueSolarTimeEnabled = true;
   bool _hapticEnabled = true;
   bool _ambientSoundEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _trueSolarTimeEnabled = prefs.getBool(_keyTrueSolar) ?? true;
+      _hapticEnabled = prefs.getBool(_keyHaptic) ?? true;
+      _ambientSoundEnabled = prefs.getBool(_keySound) ?? true;
+    });
+  }
+
+  Future<void> _updatePreference(String key, bool value, ValueSetter<bool> applyState) async {
+    setState(() => applyState(value));
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
+
+  void _showPrivacyDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        backgroundColor: const Color(0xFF0D1224),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: SpaceNavyTheme.goldBorder),
+        ),
+        title: Text(
+          AppI18n.tr('vault_legal_title', widget.currentRegion),
+          style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppI18n.tr('vault_legal_desc', widget.currentRegion),
+                style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                AppI18n.tr('privacy_desc', widget.currentRegion),
+                style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12, height: 1.45),
+              ),
+              const SizedBox(height: 14),
+              const Text(
+                'Developer: JWJ Studio\nContact: jwjentp@gmail.com',
+                style: TextStyle(color: SpaceNavyTheme.cyanNeon, fontSize: 12, height: 1.4),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: Text(
+              AppI18n.tr('close_btn', widget.currentRegion),
+              style: const TextStyle(color: SpaceNavyTheme.goldChampagne, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,9 +299,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // 2. Astrological Calculations & Precision Switches
           GlassBox(
             padding: const EdgeInsets.all(18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            child: Material(
+              type: MaterialType.transparency,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
                   activeTrackColor: SpaceNavyTheme.goldChampagne,
@@ -240,7 +317,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 11),
                   ),
                   value: _trueSolarTimeEnabled,
-                  onChanged: (val) => setState(() => _trueSolarTimeEnabled = val),
+                  onChanged: (val) => _updatePreference(_keyTrueSolar, val, (v) => _trueSolarTimeEnabled = v),
                 ),
                 const Divider(color: Colors.white10),
                 SwitchListTile(
@@ -252,7 +329,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   value: _hapticEnabled,
-                  onChanged: (val) => setState(() => _hapticEnabled = val),
+                  onChanged: (val) => _updatePreference(_keyHaptic, val, (v) => _hapticEnabled = v),
                 ),
                 const Divider(color: Colors.white10),
                 SwitchListTile(
@@ -264,9 +341,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   value: _ambientSoundEnabled,
-                  onChanged: (val) => setState(() => _ambientSoundEnabled = val),
+                  onChanged: (val) => _updatePreference(_keySound, val, (v) => _ambientSoundEnabled = v),
                 ),
-              ],
+                ],
+              ),
             ),
           ),
 
@@ -293,7 +371,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   AppI18n.tr('privacy_desc', widget.currentRegion),
                   style: const TextStyle(color: Color(0xFF9AA7C7), fontSize: 12, height: 1.4),
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      foregroundColor: SpaceNavyTheme.goldChampagne,
+                    ),
+                    onPressed: _showPrivacyDialog,
+                    icon: const Icon(Icons.description_outlined, size: 16),
+                    label: Text(
+                      AppI18n.tr('view_privacy_policy', widget.currentRegion),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -302,7 +396,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: const TextStyle(color: Colors.white60, fontSize: 12),
                     ),
                     const Text(
-                      'v1.0.1+2 (Local-First Pro)',
+                      'v1.0.2+3 (Local-First Pro)',
                       style: TextStyle(color: SpaceNavyTheme.cyanNeon, fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ],

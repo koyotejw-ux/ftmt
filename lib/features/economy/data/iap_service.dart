@@ -30,7 +30,8 @@ class IapService {
   static final IapService instance = IapService._();
   IapService._();
 
-  final InAppPurchase _iap = InAppPurchase.instance;
+  InAppPurchase? _iapInstance;
+  InAppPurchase get _iap => _iapInstance ??= InAppPurchase.instance;
   StreamSubscription<List<PurchaseDetails>>? _subscription;
   HeartWalletRepository? _wallet;
 
@@ -40,7 +41,15 @@ class IapService {
   final Map<String, ProductDetails> _products = {};
   Map<String, ProductDetails> get products => _products;
 
+  final _deliveredController = StreamController<String>.broadcast();
+  Stream<String> get onProductDelivered => _deliveredController.stream;
+
   bool _isInitialized = false;
+
+  /// Return localized Google Play store price if loaded, otherwise fallback label
+  String getDisplayPrice(String productId, String fallbackPrice) {
+    return _products[productId]?.price ?? fallbackPrice;
+  }
 
   /// Initialize Google Play Billing and setup purchase listener
   Future<void> initialize(HeartWalletRepository wallet) async {
@@ -107,22 +116,30 @@ class IapService {
     switch (productId) {
       case IapProductCatalog.heartPack10:
         await _wallet!.addHearts(10);
+        _deliveredController.add(productId);
         break;
       case IapProductCatalog.heartPack30:
         await _wallet!.addHearts(30);
+        _deliveredController.add(productId);
         break;
       case IapProductCatalog.noAdsLifetime:
         await _wallet!.unlockNoAds();
+        _deliveredController.add(productId);
         break;
       case IapProductCatalog.lifetimeVipMaster:
         await _wallet!.unlockVipMasterPass();
+        _deliveredController.add(productId);
         break;
     }
   }
 
-  /// Initiate in-app purchase flow with fallback for development testing
+  /// Initiate in-app purchase flow (debug-only fallback when products are not yet active)
   Future<bool> buyProduct(String productId) async {
     if (_wallet == null) return false;
+
+    if (_products.isEmpty && _isAvailable) {
+      await queryProducts();
+    }
 
     // 1. If Google Play Store product is loaded
     if (_products.containsKey(productId)) {
@@ -136,20 +153,30 @@ class IapService {
       }
     }
 
-    // 2. Fallback for testing when Play Store products are not yet active
-    debugPrint('[IapService] Product $productId not yet active in Console. Using dev fallback.');
+    // 2. Never grant free IAP items in release builds when store catalog is unavailable
+    if (!kDebugMode) {
+      debugPrint('[IapService] Product $productId unavailable in Play Console.');
+      return false;
+    }
+
+    // 3. Debug-only fallback for local development testing
+    debugPrint('[IapService] Product $productId not yet active in Console. Using debug fallback.');
     switch (productId) {
       case IapProductCatalog.heartPack10:
         await _wallet!.addHearts(10);
+        _deliveredController.add(productId);
         return true;
       case IapProductCatalog.heartPack30:
         await _wallet!.addHearts(30);
+        _deliveredController.add(productId);
         return true;
       case IapProductCatalog.noAdsLifetime:
         await _wallet!.unlockNoAds();
+        _deliveredController.add(productId);
         return true;
       case IapProductCatalog.lifetimeVipMaster:
         await _wallet!.unlockVipMasterPass();
+        _deliveredController.add(productId);
         return true;
       default:
         return false;
@@ -157,10 +184,12 @@ class IapService {
   }
 
   /// Restore purchases for non-consumable items (Google Play requirement)
-  Future<void> restorePurchases() async {
+  Future<bool> restorePurchases() async {
     if (_isAvailable) {
       await _iap.restorePurchases();
+      return true;
     }
+    return false;
   }
 
   void dispose() {

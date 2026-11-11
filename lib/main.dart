@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/localization/app_i18n.dart';
@@ -95,6 +96,37 @@ class FortuneMatchMainScaffold extends StatefulWidget {
 
 class _FortuneMatchMainScaffoldState extends State<FortuneMatchMainScaffold> {
   int _currentIndex = 0;
+  StreamSubscription<String>? _iapSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _iapSubscription = IapService.instance.onProductDelivered.listen((productId) {
+      if (!mounted) return;
+      String? message;
+      switch (productId) {
+        case IapProductCatalog.heartPack10:
+          message = AppI18n.tr('hearts_charged_snack', widget.currentRegion).replaceAll('{count}', '10');
+          break;
+        case IapProductCatalog.heartPack30:
+          message = AppI18n.tr('hearts_charged_snack', widget.currentRegion).replaceAll('{count}', '30');
+          break;
+        case IapProductCatalog.noAdsLifetime:
+        case IapProductCatalog.lifetimeVipMaster:
+          message = AppI18n.tr('vip_activated_snack', widget.currentRegion);
+          break;
+      }
+      if (message != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _iapSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

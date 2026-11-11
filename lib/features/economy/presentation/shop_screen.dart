@@ -6,6 +6,7 @@ import '../../../core/theme/space_navy_theme.dart';
 import '../../ads/ad_manager.dart';
 import '../data/heart_wallet_repository.dart';
 import '../data/iap_service.dart';
+import 'iap_shop_actions.dart';
 
 class ShopScreen extends StatelessWidget {
   final HeartWalletRepository wallet;
@@ -165,42 +166,34 @@ class ShopScreen extends StatelessWidget {
               Expanded(
                 child: _buildIapCard(
                   title: AppI18n.tr('heart_pack_10', currentRegion),
-                  price: '${currentRegion.currencySymbol} 1.5K (\$0.99)',
+                  price: IapService.instance.getDisplayPrice(
+                    IapProductCatalog.heartPack10,
+                    '${currentRegion.currencySymbol} 1.5K (\$0.99)',
+                  ),
                   isPopular: false,
                   currentRegion: currentRegion,
-                  onBuy: () async {
-                    final success = await IapService.instance.buyProduct(IapProductCatalog.heartPack10);
-                    if (success && context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '10'),
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                  onBuy: () => IapShopActions.launchPurchase(
+                    context,
+                    productId: IapProductCatalog.heartPack10,
+                    currentRegion: currentRegion,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _buildIapCard(
                   title: AppI18n.tr('heart_pack_30', currentRegion),
-                  price: '${currentRegion.currencySymbol} 3.3K (\$2.49)',
+                  price: IapService.instance.getDisplayPrice(
+                    IapProductCatalog.heartPack30,
+                    '${currentRegion.currencySymbol} 3.3K (\$2.49)',
+                  ),
                   isPopular: true,
                   currentRegion: currentRegion,
-                  onBuy: () async {
-                    final success = await IapService.instance.buyProduct(IapProductCatalog.heartPack30);
-                    if (success && context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '30'),
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                  onBuy: () => IapShopActions.launchPurchase(
+                    context,
+                    productId: IapProductCatalog.heartPack30,
+                    currentRegion: currentRegion,
+                  ),
                 ),
               ),
             ],
@@ -243,16 +236,13 @@ class ShopScreen extends StatelessWidget {
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    onPressed: () async {
-                      final success = await IapService.instance.buyProduct(IapProductCatalog.lifetimeVipMaster);
-                      if (success && context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('👑 VIP Master Pass Activated!')),
-                        );
-                      }
-                    },
+                    onPressed: () => IapShopActions.launchPurchase(
+                      context,
+                      productId: IapProductCatalog.lifetimeVipMaster,
+                      currentRegion: currentRegion,
+                    ),
                     child: Text(
-                      '${AppI18n.tr('buy_button', currentRegion)} (${currentRegion.currencySymbol} 9.99)',
+                      '${AppI18n.tr('buy_button', currentRegion)} (${IapService.instance.getDisplayPrice(IapProductCatalog.lifetimeVipMaster, '${currentRegion.currencySymbol} 9.99')})',
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                   ),
@@ -261,7 +251,9 @@ class ShopScreen extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 12),
+          IapShopActions.buildRestoreButton(context, currentRegion: currentRegion),
+          const SizedBox(height: 24),
         ],
       ),
     );

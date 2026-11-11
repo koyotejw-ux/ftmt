@@ -1,14 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fortunematch/core/astronomy/saju_engine.dart';
 import 'package:fortunematch/core/astronomy/solar_time_fixer.dart';
 import 'package:fortunematch/core/astronomy/ephemeris_math.dart';
+import 'package:fortunematch/core/localization/app_i18n.dart';
 import 'package:fortunematch/features/match/domain/sixteen_type_matrix.dart';
 import 'package:fortunematch/features/match/domain/match_item_engine.dart';
 import 'package:fortunematch/core/localization/geo_detector.dart';
 import 'package:fortunematch/core/astronomy/daily_transit_engine.dart';
 import 'package:fortunematch/features/profile/data/user_profile_repository.dart';
 import 'package:fortunematch/features/economy/data/heart_wallet_repository.dart';
+import 'package:fortunematch/features/economy/data/iap_service.dart';
+import 'package:fortunematch/features/settings/presentation/settings_screen.dart';
 
 void main() {
   group('FortuneMatch Core Engine Tests', () {
@@ -137,6 +141,72 @@ void main() {
 
       await repo.deleteVaultProfile(0);
       expect(repo.getSavedVaultProfiles().isEmpty, isTrue);
+    });
+
+    test('I18n includes localized IAP restore and privacy policy keys for all regions', () {
+      const requiredKeys = [
+        'restore_purchases',
+        'restore_purchases_snack',
+        'iap_unavailable_snack',
+        'vip_activated_snack',
+        'view_privacy_policy',
+        'close_btn',
+      ];
+      for (final region in SupportedRegion.values) {
+        for (final key in requiredKeys) {
+          final translated = AppI18n.tr(key, region);
+          expect(translated, isNotEmpty);
+          expect(translated, isNot(equals(key)));
+        }
+      }
+    });
+
+    test('IapService returns fallback display price when Play Store catalog is not loaded', () {
+      final fallback = IapService.instance.getDisplayPrice(
+        IapProductCatalog.heartPack10,
+        '₩ 1.5K (\$0.99)',
+      );
+      expect(fallback, '₩ 1.5K (\$0.99)');
+    });
+
+    testWidgets('SettingsScreen persists toggles and opens privacy policy dialog', (tester) async {
+      SharedPreferences.setMockInitialValues({
+        'fm_setting_true_solar': false,
+        'fm_setting_haptic': true,
+        'fm_setting_ambient_sound': true,
+      });
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SettingsScreen(
+              currentRegion: SupportedRegion.korea,
+              onRegionChanged: (_) {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final switches = tester.widgetList<SwitchListTile>(find.byType(SwitchListTile)).toList();
+      expect(switches.length, 3);
+      expect(switches[0].value, isFalse);
+      expect(switches[1].value, isTrue);
+
+      await tester.tap(find.byType(SwitchListTile).at(1));
+      await tester.pumpAndSettle();
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool('fm_setting_haptic'), isFalse);
+
+      await tester.ensureVisible(find.text(AppI18n.tr('view_privacy_policy', SupportedRegion.korea)));
+      await tester.tap(find.text(AppI18n.tr('view_privacy_policy', SupportedRegion.korea)));
+      await tester.pumpAndSettle();
+
+      expect(find.text(AppI18n.tr('vault_legal_title', SupportedRegion.korea)), findsOneWidget);
+      await tester.tap(find.text(AppI18n.tr('close_btn', SupportedRegion.korea)));
+      await tester.pumpAndSettle();
+      expect(find.text(AppI18n.tr('vault_legal_title', SupportedRegion.korea)), findsNothing);
     });
   });
 }

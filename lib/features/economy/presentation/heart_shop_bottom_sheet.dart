@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../core/localization/app_i18n.dart';
 import '../../../core/localization/geo_detector.dart';
@@ -6,8 +7,9 @@ import '../../../core/theme/space_navy_theme.dart';
 import '../../ads/ad_manager.dart';
 import '../data/heart_wallet_repository.dart';
 import '../data/iap_service.dart';
+import 'iap_shop_actions.dart';
 
-class HeartShopBottomSheet extends StatelessWidget {
+class HeartShopBottomSheet extends StatefulWidget {
   final HeartWalletRepository wallet;
   final SupportedRegion currentRegion;
 
@@ -30,6 +32,32 @@ class HeartShopBottomSheet extends StatelessWidget {
       builder: (ctx) => HeartShopBottomSheet(wallet: wallet, currentRegion: currentRegion),
     );
   }
+
+  @override
+  State<HeartShopBottomSheet> createState() => _HeartShopBottomSheetState();
+}
+
+class _HeartShopBottomSheetState extends State<HeartShopBottomSheet> {
+  StreamSubscription<String>? _iapSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _iapSubscription = IapService.instance.onProductDelivered.listen((_) {
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _iapSubscription?.cancel();
+    super.dispose();
+  }
+
+  HeartWalletRepository get wallet => widget.wallet;
+  SupportedRegion get currentRegion => widget.currentRegion;
 
   @override
   Widget build(BuildContext context) {
@@ -194,44 +222,34 @@ class HeartShopBottomSheet extends StatelessWidget {
                 Expanded(
                   child: _buildIapCard(
                     title: AppI18n.tr('heart_pack_10', currentRegion),
-                    price: '${currentRegion.currencySymbol} 1.5K (\$0.99)',
+                    price: IapService.instance.getDisplayPrice(
+                      IapProductCatalog.heartPack10,
+                      '${currentRegion.currencySymbol} 1.5K (\$0.99)',
+                    ),
                     isPopular: false,
                     currentRegion: currentRegion,
-                    onBuy: () async {
-                      final success = await IapService.instance.buyProduct(IapProductCatalog.heartPack10);
-                      if (success && context.mounted) {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '10'),
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                    onBuy: () => IapShopActions.launchPurchase(
+                      context,
+                      productId: IapProductCatalog.heartPack10,
+                      currentRegion: currentRegion,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildIapCard(
                     title: AppI18n.tr('heart_pack_30', currentRegion),
-                    price: '${currentRegion.currencySymbol} 3.3K (\$2.49)',
+                    price: IapService.instance.getDisplayPrice(
+                      IapProductCatalog.heartPack30,
+                      '${currentRegion.currencySymbol} 3.3K (\$2.49)',
+                    ),
                     isPopular: true,
                     currentRegion: currentRegion,
-                    onBuy: () async {
-                      final success = await IapService.instance.buyProduct(IapProductCatalog.heartPack30);
-                      if (success && context.mounted) {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              AppI18n.tr('hearts_charged_snack', currentRegion).replaceAll('{count}', '30'),
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                    onBuy: () => IapShopActions.launchPurchase(
+                      context,
+                      productId: IapProductCatalog.heartPack30,
+                      currentRegion: currentRegion,
+                    ),
                   ),
                 ),
               ],
@@ -271,21 +289,19 @@ class HeartShopBottomSheet extends StatelessWidget {
                       foregroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     ),
-                    onPressed: () async {
-                      final success = await IapService.instance.buyProduct(IapProductCatalog.lifetimeVipMaster);
-                      if (success && context.mounted) {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('👑 VIP Master Pass Activated!')),
-                        );
-                      }
-                    },
+                    onPressed: () => IapShopActions.launchPurchase(
+                      context,
+                      productId: IapProductCatalog.lifetimeVipMaster,
+                      currentRegion: currentRegion,
+                    ),
                     child: Text(AppI18n.tr('buy_button', currentRegion), style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
+            IapShopActions.buildRestoreButton(context, currentRegion: currentRegion),
+            const SizedBox(height: 8),
           ],
         ),
       ),
